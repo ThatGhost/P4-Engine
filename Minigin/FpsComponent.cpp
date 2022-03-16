@@ -13,6 +13,11 @@ dae::FpsComponent::FpsComponent(GameObject* Owner)
 	m_Font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 }
 
+dae::FpsComponent::~FpsComponent()
+{
+	delete m_TextTexture;
+}
+
 void dae::FpsComponent::Update(float deltaTime)
 {
 	const SDL_Color color = { 255,255,255 }; // only white text is supported now
@@ -30,7 +35,9 @@ void dae::FpsComponent::Update(float deltaTime)
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surf);
-	m_TextTexture = std::make_shared<Texture2D>(texture);
+	delete m_TextTexture;
+	m_TextTexture = nullptr;
+	m_TextTexture = new Texture2D(texture);
 }
 
 void dae::FpsComponent::Render() const
