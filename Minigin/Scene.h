@@ -3,12 +3,15 @@
 
 namespace dae
 {
-	class SceneObject;
+	class GameObject;
+	class Collider;
 	class Scene
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
-		void Add(const std::shared_ptr<SceneObject>& object);
+		void Add(GameObject* object);
+		void GetCollisions();
+		std::vector<Collider*>* GetColliderVector() { return &m_colliders; }
 
 		void Update(float);
 		void Render() const;
@@ -23,7 +26,8 @@ namespace dae
 		explicit Scene(const std::string& name);
 
 		std::string m_Name;
-		std::vector <std::shared_ptr<SceneObject>> m_Objects{};
+		std::vector <GameObject*> m_Objects{};
+		std::vector<Collider*> m_colliders{};
 
 		static unsigned int m_IdCounter; 
 	};

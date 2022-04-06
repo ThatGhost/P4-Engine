@@ -4,18 +4,26 @@
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
+#include "EventManager.h"
 #include <SDL_ttf.h>
 
 
 dae::FpsComponent::FpsComponent(GameObject* Owner)
-	: Component(Owner)
+	: Component(Owner), m_TextTexture{nullptr}
 {
 	m_Font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	EventManager::AddEvent("PressedX",std::bind(&dae::FpsComponent::PressedX,this,1));
+}
+
+void dae::FpsComponent::PressedX(int)
+{
+	std::cout << "PRESSED X EVENT \n\n\n\n";
 }
 
 dae::FpsComponent::~FpsComponent()
 {
 	delete m_TextTexture;
+	delete m_Font;
 }
 
 void dae::FpsComponent::Update(float deltaTime)
@@ -35,8 +43,10 @@ void dae::FpsComponent::Update(float deltaTime)
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surf);
+
 	delete m_TextTexture;
 	m_TextTexture = nullptr;
+
 	m_TextTexture = new Texture2D(texture);
 }
 

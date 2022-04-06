@@ -1,10 +1,14 @@
 #pragma once
 #include <XInput.h>
 #include <vector>
+#include <map>
 #include "Singleton.h"
 
 namespace dae
 {
+	class Command;
+	class GameObject;
+
 	enum class ControllerButton
 	{
 		ButtonA = XINPUT_GAMEPAD_A,
@@ -17,20 +21,47 @@ namespace dae
 		ButtonDown = XINPUT_GAMEPAD_DPAD_DOWN,
 		ButtonLeft = XINPUT_GAMEPAD_DPAD_LEFT,
 		ButtonRight = XINPUT_GAMEPAD_DPAD_RIGHT,
+		ButtonLeftThumb = XINPUT_GAMEPAD_LEFT_THUMB,
+		ButtonRightThumb = XINPUT_GAMEPAD_RIGHT_THUMB,
+		ButtonStart = XINPUT_GAMEPAD_START,
+		ButtonBack = XINPUT_GAMEPAD_BACK
 	};
+
+	static const ControllerButton All[]{
+	ControllerButton::ButtonA,
+	ControllerButton::ButtonB,
+	ControllerButton::ButtonX,
+	ControllerButton::ButtonY,
+	ControllerButton::ButtonLeftShoulder,
+	ControllerButton::ButtonRightShoulder,
+	ControllerButton::ButtonUp,
+	ControllerButton::ButtonDown,
+	ControllerButton::ButtonLeft,
+	ControllerButton::ButtonRight,
+	ControllerButton::ButtonLeftThumb,
+	ControllerButton::ButtonRightThumb,
+	ControllerButton::ButtonStart,
+	ControllerButton::ButtonBack
+	};
+
+
 
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+		void InsertCommand(dae::ControllerButton button, const std::string& eventName)
+		{
+			m_Commands.insert(std::pair<int, std::string>((int)button, eventName));
+		}
 		bool ProcessInput();
-		bool IsDown(int player,ControllerButton button) const;
-		bool IsPressed(int player,ControllerButton button) const;
-		bool IsReleased(int player,ControllerButton button) const;
 	private:
-		std::vector<XINPUT_STATE> m_CurrentControllerState{};
-		std::vector<XINPUT_STATE> m_PrevControllerState{};
-		XINPUT_STATE m_CurrentKeyBoardState{};
-		XINPUT_STATE m_PrevKeyBoardState{};
+		XINPUT_STATE m_CurrentControllerState{};
+		std::map<int,std::string> m_Commands;
+		const float DEAD_ZONE{ 0.4f };
+
+		void ButtonPress(const ControllerButton, int);
+		void LeftStick(glm::vec2);
+		void RightStick(glm::vec2);
 	};
 
 }

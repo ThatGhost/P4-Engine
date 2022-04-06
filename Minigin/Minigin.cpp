@@ -8,7 +8,10 @@
 #include "ResourceManager.h"
 #include "GameObject.h"
 #include "Scene.h"
-#include "FpsComponent.h"
+
+#include "Comd_TestCommand.h"
+#include "EventManager.h"
+#include "SceneConstructor.h"
 
 using namespace std;
 
@@ -55,20 +58,24 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame()
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Main");
+	SceneConstructor::ConstructScene("JsonFileLvl1.json");
 
-	auto gm = std::make_shared<dae::GameObject>();
-	gm.get()->AddComponent<dae::FpsComponent>();
-	scene.Add(gm);
-
+	//InputManager::GetInstance().AddPlayer(gm.get());
+	//InputManager::GetInstance().InsertCommand<dae::Comd_TestCommand>(dae::ControllerButton::ButtonX);
 }
 
 void dae::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
+
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();
+}
+
+void CollisionThread()
+{
+	dae::SceneManager::GetInstance().GetActiveScene().get()->GetCollisions();
 }
 
 void dae::Minigin::Run()
@@ -94,8 +101,17 @@ void dae::Minigin::Run()
 			float deltaTime = chrono::duration<float>(start - lastTime).count();
 
 			doContinue = input.ProcessInput();
+
+			EventManager::ClearQueue();
+
 			sceneManager.Update(deltaTime);
+
+			//render and calculate collisions
+
+			std::thread collisionThread(CollisionThread);
 			renderer.Render();
+			collisionThread.join();
+
 
 			const auto sleeptime = start + chrono::milliseconds(MsPerFrame) - chrono::high_resolution_clock::now();
 			this_thread::sleep_for(sleeptime);

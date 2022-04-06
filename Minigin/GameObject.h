@@ -1,6 +1,5 @@
 #pragma once
 #include "Transform.h"
-#include "SceneObject.h"
 #include "Component.h"
 #include <vector>
 
@@ -10,24 +9,26 @@ namespace dae
 	class Component;
 	class RenderComponent;
 
-	class GameObject final : public SceneObject
+	class GameObject final 
 	{
 	public:
-		void Update(float) override;
-		void Render() const override;
+		void Update(float);
+		void Render() const;
+		void Move(const glm::vec3& pos);
+		dae::Transform GetPosition();
 
 		template <typename T> dae::Component* AddComponent()
 		{
 			m_Components.push_back(std::make_unique<T>(this));
-			return m_Components[m_Components.size() - 1].get();
+			return m_Components[m_Components.size()-1].get();
 		}
 		template <typename T> dae::Component* GetComponent() const
 		{
 			for (auto comp : m_Components)
 			{
-				if (typeid(comp) == typeid(T))
+				if (typeid(*comp.get()) == typeid(T))
 				{
-					return comp;
+					return comp.get();
 				}
 			}
 			return NULL;
@@ -36,7 +37,7 @@ namespace dae
 		{
 			for (auto comp : m_Components)
 			{
-				if (typeid(comp) == typeid(T))
+				if (typeid(*comp.get()) == typeid(T))
 				{
 					m_Components.erase(comp);
 					return true;
@@ -51,12 +52,15 @@ namespace dae
 		size_t GetChildCount() const;
 		GameObject* GetChildAt(int index) const;
 
+		bool IsStatic() const { return m_Static; }
+		void SetStatic(bool isStatic) { m_Static = isStatic; }
+
 		GameObject() = default;
 		~GameObject();
-		GameObject(const GameObject & other) = delete;
-		GameObject(GameObject && other) = delete;
-		GameObject& operator=(const GameObject & other) = delete;
-		GameObject& operator=(GameObject && other) = delete;
+		GameObject(const GameObject& other) = delete;
+		GameObject(GameObject&& other) = delete;
+		GameObject& operator=(const GameObject& other) = delete;
+		GameObject& operator=(GameObject&& other) = delete;
 
 	protected:
 		void RemoveChild(int index);
@@ -66,7 +70,12 @@ namespace dae
 	private:
 		std::vector<std::unique_ptr<Component>> m_Components{};
 		std::vector<GameObject*> m_Children{};
-		GameObject* m_Parent{};
+		GameObject* m_Parent{nullptr};
+
+		bool m_PositionDirty{false};
 		dae::Transform m_Transform{};
+		bool m_Static{true};
+
+		dae::Transform CalculatePosition(dae::Transform transform);
 	};
 }

@@ -12,6 +12,7 @@ namespace dae {
 		virtual void Render() const {};
 
 		Component(GameObject* Owner);
+		virtual ~Component() {};
 
 		GameObject* GetOwner() const;
 

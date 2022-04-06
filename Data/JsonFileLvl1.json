@@ -1,0 +1,66 @@
+{
+"name": "Level1",
+"gameObjects": 
+	[{
+	"name" : "TestObject",
+	"x" : "10f",
+	"y" : "20f",
+	"z" : "0f",
+	"static" : "true",
+	"components" : 
+		[{
+			"name" : "TestComponent"
+		},
+		{
+			"name" : "RenderComponent",
+			"animated" : "false",
+			"image" : "Bean.png"
+		},
+		{
+			"name" : "Collider",
+			"x" : "0",
+			"y" : "0",
+			"width": "200",
+			"height": "200",
+			"enter": "NULL",
+			"exit" : "NULL"
+		}],
+	"children": 
+	[{
+		"name" : "ChildOfTest",
+		"x" : "100f",
+		"y" : "100f",
+		"z" : "0f",
+		"static" : "true",
+		"components" : 
+		[{
+			"name" : "RenderComponent",
+			"animated" : "false",
+			"image" : "Stairs.png"
+		}],
+		"children" : []
+	}]
+	},
+	{
+	"name" : "Player",
+	"x" : "15f",
+	"y" : "50f",
+	"z" : "0f",
+	"static" : "false",
+	"components" : 
+		[{
+			"name" : "RenderComponent",
+			"image" : "Player.png",
+			"animated" : "false"
+		},
+		{
+			"name" : "Collider",
+			"x" : "0",
+			"y" : "0",
+			"width": "200",
+			"height": "200",
+			"enter": "TESTCOLLIDER1",
+			"exit" : "NULL"
+		}]
+	}]
+}

@@ -5,17 +5,19 @@ namespace dae {
 	class Font;
 	class Texture2D;
 
-	class FpsComponent : public Component
+	class FpsComponent final: public Component
 	{
 	public:
 		FpsComponent(GameObject* Owner);
-		~FpsComponent();
+		virtual ~FpsComponent() override;
 
 		virtual void Update(float deltaTime) override;
 		virtual void Render() const override;
 
+		void PressedX(int);
+
 	private:
-		std::shared_ptr<Font> m_Font;
+		Font* m_Font;
 		Texture2D* m_TextTexture;
 	};
 }

@@ -7,7 +7,9 @@ namespace dae
 	class Command
 	{
 	public:
-		virtual void invoke(GameObject*) = 0;
+		Command() = default;
+		virtual ~Command() = default;
+		virtual void Invoke(dae::GameObject*) = 0;
 	};
 }
 
