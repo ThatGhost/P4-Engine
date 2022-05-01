@@ -1,0 +1,25 @@
+{
+  "name": "Stairs",
+  "x": "0",
+  "y": "0",
+  "z": "0",
+  "static": "true",
+  "components": [
+    {
+      "name": "RenderComponent",
+      "animated": "false",
+      "image": "Stairs.png"
+    },
+    {
+      "name": "Collider",
+      "x": "8",
+      "y": "0",
+      "width": "16",
+      "height": "32",
+      "event": "NULL",
+      "id": "1",
+      "lookAt": "NULL"
+    }
+  ],
+  "children": []
+}

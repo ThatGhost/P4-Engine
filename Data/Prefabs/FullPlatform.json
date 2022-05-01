@@ -1,0 +1,34 @@
+{
+  "name": "FullPlatform",
+  "x": "0",
+  "y": "0",
+  "z": "0",
+  "static": "true",
+  "components": [],
+  "children": [
+    {
+      "name": "Platform.json",
+      "x": "0",
+      "y": "0",
+      "z": "0"
+    },
+    {
+      "name": "Platform.json",
+      "x": "32",
+      "y": "0",
+      "z": "0"
+    },
+    {
+      "name": "Platform.json",
+      "x": "64",
+      "y": "0",
+      "z": "0"
+    },
+    {
+      "name": "Platform.json",
+      "x": "96",
+      "y": "0",
+      "z": "0"
+    }
+  ]
+}

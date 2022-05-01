@@ -10,84 +10,146 @@
 #include "Collider.h"
 #include "TestComponent.h"
 #include "RenderComponent.h"
+#include "PlayerController.h"
 
 using json = nlohmann::json;
+bool m_canRecreate = false;
 
 std::string dae::SceneConstructor::TrimJson(const std::string& string)
 {
 	return string.substr(0, string.size());
 }
 
+void dae::SceneConstructor::OnReCreateScene(float)
+{
+	std::cout << "recreate scene\n";
+	if (!m_canRecreate)
+		return;
+
+	m_canRecreate = false;
+	ConstructScene("JsonFileLvl1.json");
+}
+
+float g_arg;
+
+void dae::SceneConstructor::Init()
+{
+	std::cout << "init\n";
+	EventManager::AddEvent("0LSHOULDER", std::bind(&dae::SceneConstructor::OnReCreateScene, g_arg));
+	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonLeftShoulder, "LSHOULDER");
+	m_canRecreate = true;
+}
+
 void dae::SceneConstructor::ConstructScene(const std::string& nameScene)
 {
-	std::ifstream SceneFile("..\\Data\\"+nameScene, std::ifstream::binary);
+	SceneManager::GetInstance().ClearScenes();
+
+	//read file
+	std::ifstream SceneFile("..\\Data\\Levels\\"+nameScene, std::ifstream::binary);
 	json sceneData;
 	sceneData = json::parse(SceneFile);
+	SceneFile.close();
+
+	//make scene
 	auto& scene = SceneManager::GetInstance().CreateScene(TrimJson(sceneData["name"]));
 	std::vector<dae::Collider*>* colliders = scene.GetColliderVector();
 
-	for (auto it = sceneData["gameObjects"].begin(); it != sceneData["gameObjects"].end(); ++it)
+	//construct the gameobjects
+	//for (auto it = sceneData["gameObjects"].begin(); it != sceneData["gameObjects"].end(); ++it)
+	//{
+	//	std::cout << it.value();
+	//	json j{ it.value()};
+	//	scene.Add(ConstructGO(j, colliders));
+	//}
+
+	for (auto it = sceneData["prefabs"].begin(); it != sceneData["prefabs"].end(); ++it)
 	{
-		scene.Add(ConstructGO(it,colliders));
+		std::ifstream prefabFile("..\\Data\\Prefabs\\" + TrimJson(it.value()["name"]), std::ifstream::binary);
+		json j = json::parse(prefabFile);
+		prefabFile.close();
+		j["x"] = it.value()["x"];
+		j["y"] = it.value()["y"];
+		j["z"] = it.value()["z"];
+		scene.Add(ConstructGO(j,colliders));
 	}
 
-	//add all colliders to each other 
+
+
+	//add all neccesairy colliders to each other:
+
 	for (auto coll : *colliders)
 	{
-		for (auto colltoadd : *colliders)
+		if (coll->GetLookId() != -1)
 		{
-			if (coll != colltoadd)
+			for (auto colltoadd : *colliders)
 			{
-				if (!colltoadd->GetOwner()->IsStatic())
+				if (coll->GetOwner() != colltoadd->GetOwner() && coll->GetLookId() == colltoadd->GetId())
 				{
-					coll->AddCollider(colltoadd);
-				}
-				else if (!coll->GetOwner()->IsStatic())
-				{
-					coll->AddCollider(colltoadd);
+					if (!colltoadd->GetOwner()->IsStatic())
+					{
+						coll->AddCollider(colltoadd);
+					}
+					else if (!coll->GetOwner()->IsStatic())
+					{
+						coll->AddCollider(colltoadd);
+					}
 				}
 			}
 		}
 	}
+
+	m_canRecreate = true;
 }
 
-dae::GameObject* dae::SceneConstructor::ConstructGO(const nlohmann::json::iterator& it, std::vector<dae::Collider*>* colliders)
+dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<dae::Collider*>* colliders)
 {
 	auto gameObject = new dae::GameObject();
 
-	float x = std::stof(TrimJson(it.value()["x"]));
-	float y = std::stof(TrimJson(it.value()["y"]));
-	float z = std::stof(TrimJson(it.value()["z"]));
+	//position
+	float x = std::stof(TrimJson(it["x"]));
+	float y = std::stof(TrimJson(it["y"]));
+	float z = std::stof(TrimJson(it["z"]));
 
-	gameObject->Move(glm::vec3(x, y, z));
-	gameObject->SetStatic(TrimJson(it.value()["static"]) == "true");
+	gameObject->SetPosition(glm::vec3(x, y, z));
 
-	std::cout << "construct gameobject -> Name : " << TrimJson(it.value()["name"]) << std::endl;
+	//static
+	gameObject->SetStatic(TrimJson(it["static"]) == "true");
 
-	for (auto compIt = it.value()["components"].begin(); compIt != it.value()["components"].end(); ++compIt)
+	std::cout << "construct gameobject -> Name : " << TrimJson(it["name"]) << " -> (" << x << ", " << y << ")" << std::endl;
+
+	//components 
+	for (auto compIt = it["components"].begin(); compIt != it["components"].end(); ++compIt)
 	{
-		std::string NameComponent{ TrimJson(compIt.value()["name"]) };
+		std::string NameComponent{ TrimJson(compIt.value()["name"])};
 		Components c = StringToType.at(NameComponent);
+
 		switch (c)
 		{
 		case Components::collider:
 		{
 			dae::Collider* coll = static_cast<dae::Collider*>(gameObject->AddComponent<dae::Collider>());
 
+			//position of collider
 			std::string xs = TrimJson(compIt.value()["x"]);
-			float cx = (xs == "0") ? std::stof(xs) : x;
+			float cx = std::stof(xs);
 			std::string ys = TrimJson(compIt.value()["y"]);
-			float cy = (ys == "0") ? std::stof(ys) : y;
+			float cy = std::stof(ys);
 			coll->SetPosition(glm::vec3(cx, cy, 0));
 
+			//dimensions of collider
 			int cw = std::stoi(TrimJson(compIt.value()["width"]));
 			int ch = std::stoi(TrimJson(compIt.value()["height"]));
 			coll->SetDimensions(glm::vec2(cw, ch));
 
-			if (TrimJson(compIt.value()["enter"]) != "NULL")
-				coll->PassEventEnter(TrimJson(compIt.value()["enter"]));
-			if (TrimJson(compIt.value()["exit"]) != "NULL")
-				coll->PassEventEnter(TrimJson(compIt.value()["exit"]));
+			//triggers of collider
+			std::string enter{ TrimJson(compIt.value()["event"]) };
+			if (enter != "NULL")
+				coll->PassEvent(enter);
+
+			bool empty{ TrimJson(compIt.value()["lookAt"])  == "NULL"};
+			int lookAtValue{empty ? -1 : std::stoi(TrimJson(compIt.value()["lookAt"])) };
+			coll->SetId(std::stoi(TrimJson(compIt.value()["id"])), lookAtValue);
+			//put collider in the big list
 			colliders->push_back(coll);
 		}
 		break;
@@ -105,6 +167,12 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const nlohmann::json::iterat
 			test;
 		}
 		break;
+		case Components::playerController:
+		{
+			dae::PlayerController* playerController = static_cast<dae::PlayerController*>(gameObject->AddComponent<dae::PlayerController>());
+			playerController->Init(std::stoi(TrimJson(compIt.value()["player"])));
+		}
+		break;
 		default:
 			std::cout << "NO KNOWN COMPONENT TYPE \n";
 			break;
@@ -112,9 +180,15 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const nlohmann::json::iterat
 	}
 
 	//children
-	for (auto childIt = it.value()["children"].begin(); childIt != it.value()["children"].end(); ++childIt)
+	for (auto childIt = it["children"].begin(); childIt != it["children"].end(); ++childIt)
 	{
-		ConstructGO(childIt,colliders)->SetParent(gameObject);
+		std::ifstream prefabFile("..\\Data\\Prefabs\\" + TrimJson(childIt.value()["name"]), std::ifstream::binary);
+		json j = json::parse(prefabFile);
+		prefabFile.close();
+		j["x"] = childIt.value()["x"];
+		j["y"] = childIt.value()["y"];
+		j["z"] = childIt.value()["z"];
+		ConstructGO(j, colliders)->SetParent(gameObject);
 	}
 
 	return gameObject;

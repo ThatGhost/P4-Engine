@@ -1,0 +1,25 @@
+{
+  "name": "Platform",
+  "x": "0",
+  "y": "0",
+  "z": "0",
+  "static": "true",
+  "components": [
+    {
+      "name": "RenderComponent",
+      "animated": "false",
+      "image": "Platform.png"
+    },
+    {
+      "name": "Collider",
+      "x": "0",
+      "y": "16",
+      "width": "32",
+      "height": "5",
+      "event": "NULL",
+      "id": "2",
+      "lookAt": "NULL"
+    }
+  ],
+  "children": []
+}

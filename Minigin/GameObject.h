@@ -14,8 +14,10 @@ namespace dae
 	public:
 		void Update(float);
 		void Render() const;
+
 		void Move(const glm::vec3& pos);
 		dae::Transform GetPosition();
+		void SetPosition(const glm::vec3& pos) { m_RelativeTransform.SetPosition(pos.x, pos.y, pos.z); m_PositionDirty = true; }
 
 		template <typename T> dae::Component* AddComponent()
 		{
@@ -66,6 +68,7 @@ namespace dae
 		void RemoveChild(int index);
 		void RemoveChild(GameObject*);
 		GameObject* AddChild(GameObject* child);
+		void SetDirty(bool dirty = true) { m_PositionDirty = dirty; }
 
 	private:
 		std::vector<std::unique_ptr<Component>> m_Components{};
@@ -73,9 +76,10 @@ namespace dae
 		GameObject* m_Parent{nullptr};
 
 		bool m_PositionDirty{false};
-		dae::Transform m_Transform{};
-		bool m_Static{true};
+		dae::Transform m_RelativeTransform{};
+		dae::Transform m_TrueTransform{};
+		bool m_Static{ false };
 
-		dae::Transform CalculatePosition(dae::Transform transform);
+		dae::Transform CalculatePosition();
 	};
 }

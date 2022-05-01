@@ -41,31 +41,41 @@ void dae::GameObject::Render() const
 
 void dae::GameObject::Move(const glm::vec3& pos)
 {
+	if (m_Static) return;
+
+	glm::vec3 current = m_RelativeTransform.GetPosition();
+	m_RelativeTransform.SetPosition(current.x + pos.x,current.y + pos.y, current.z + pos.z);
+
 	m_PositionDirty = true;
-	glm::vec3 current = m_Transform.GetPosition();
-	m_Transform.SetPosition(current.x + pos.x,current.y + pos.y, current.z + pos.z);
+	for (auto child : m_Children)
+	{
+		child->SetDirty();
+	}
 }
 
 dae::Transform dae::GameObject::GetPosition()
 {
 	if (m_PositionDirty)
 	{
-		m_Transform = CalculatePosition(m_Transform);
+		m_TrueTransform = CalculatePosition();
 		m_PositionDirty = false;
 	}
 	
-	return m_Transform;
+	return m_TrueTransform;
 }
 
-dae::Transform dae::GameObject::CalculatePosition(dae::Transform transform)
+dae::Transform dae::GameObject::CalculatePosition()
 {
 	if (m_Parent != nullptr)
 	{
-		glm::vec3 tr = m_Parent->GetPosition().GetPosition();
-		glm::vec3 mytr = transform.GetPosition();
-		transform.SetPosition(mytr.x + tr.x,mytr.y + tr.y,mytr.z + tr.z);
+		glm::vec3 parentTrueTransform = m_Parent->GetPosition().GetPosition();
+		glm::vec3 relativeTransform = m_RelativeTransform.GetPosition();
+		m_TrueTransform.SetPosition(relativeTransform.x + parentTrueTransform.x, 
+									relativeTransform.y + parentTrueTransform.y, 
+									relativeTransform.z + parentTrueTransform.z);
+		return m_TrueTransform;
 	}
-	return transform;
+	return m_RelativeTransform;
 }
 
 dae::GameObject* dae::GameObject::SetParent(GameObject* parent)

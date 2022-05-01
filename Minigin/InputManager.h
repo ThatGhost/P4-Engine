@@ -44,14 +44,13 @@ namespace dae
 	ControllerButton::ButtonBack
 	};
 
-
-
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
 		void InsertCommand(dae::ControllerButton button, const std::string& eventName)
 		{
-			m_Commands.insert(std::pair<int, std::string>((int)button, eventName));
+			if(!m_Commands.contains((int)button))
+				m_Commands.insert(std::pair<int, std::string>((int)button, eventName));
 		}
 		bool ProcessInput();
 	private:
@@ -60,8 +59,5 @@ namespace dae
 		const float DEAD_ZONE{ 0.4f };
 
 		void ButtonPress(const ControllerButton, int);
-		void LeftStick(glm::vec2);
-		void RightStick(glm::vec2);
 	};
-
 }

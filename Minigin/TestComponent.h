@@ -11,7 +11,6 @@ namespace dae
 
 	private:
 		void Test(float);
-		void OnInputX(float);
 		float m_Test;
 	};
 	

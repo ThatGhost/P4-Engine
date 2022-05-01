@@ -16,9 +16,6 @@ bool dae::InputManager::ProcessInput()
 		{
 			for (auto c : All)
 				ButtonPress(c, i);
-
-			LeftStick(glm::vec2(m_CurrentControllerState.Gamepad.sThumbLX,m_CurrentControllerState.Gamepad.sThumbLY));
-			RightStick(glm::vec2(m_CurrentControllerState.Gamepad.sThumbLX,m_CurrentControllerState.Gamepad.sThumbLY));
 		}
 	}
 
@@ -53,23 +50,4 @@ void dae::InputManager::ButtonPress(const ControllerButton b, int player)
 			EventManager::SendEvent(eventName, 0.f);
 		}
 	}
-}
-
-void dae::InputManager::LeftStick(glm::vec2 lean)
-{
-	float magnitude = sqrt(lean.x*lean.x + lean.y*lean.y);
-	if (magnitude > 32767) magnitude = 32767;
-
-	glm::vec2 normilized{lean.x / magnitude, lean.y / magnitude};
-	float normilizedMagnitude = magnitude / (32767);
-	if (normilizedMagnitude > DEAD_ZONE)
-	{
-		magnitude -= DEAD_ZONE;
-		std::cout << "INPUT:: " << "Magnitude: " << normilizedMagnitude << "x leftstick: " << normilized.x << ", y leftstick" << normilized.y << std::endl;
-	}
-}
-
-void dae::InputManager::RightStick(glm::vec2)
-{
-
 }

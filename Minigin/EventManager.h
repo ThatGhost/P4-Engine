@@ -2,6 +2,7 @@
 #include <map>
 #include <queue>
 #include <functional>
+#include <vector>
 
 namespace dae
 {
@@ -10,11 +11,12 @@ namespace dae
 	public:
 
 		static void AddEvent(const std::string& EventName, std::function<void (float)> func);
+		static void AddEvent(const std::string& EventName, void(*func)(float));
 		static void SendEvent(const std::string& EventName, float args);
 		static void ClearQueue();
 
 	private:
 		static std::queue<std::pair<std::string, float>> m_EventQue;
-		static std::map<std::string, std::function<void(float)>> m_Events;
+		static std::map<std::string, std::vector<std::function<void(float)>>> m_Events;
 	};
 }

@@ -1,0 +1,21 @@
+{
+  "name": "2Stairs",
+  "x": "0",
+  "y": "0",
+  "z": "0",
+  "static": "true",
+  "components": [],
+  "children": [
+    {
+      "name": "Stair.json",
+      "x": "0",
+      "y": "0",
+      "z": "0"
+    },
+    {
+      "name": "Stair.json",
+      "x": "0",
+      "y": "30",
+      "z": "0"
+    }]
+}

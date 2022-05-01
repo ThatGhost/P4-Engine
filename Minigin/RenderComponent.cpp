@@ -9,7 +9,7 @@ dae::RenderComponent::RenderComponent(GameObject* owner) : Component(owner)
 void dae::RenderComponent::SetImage(const std::string& Image, bool IsAnimated)
 {
 	m_IsAnimated = IsAnimated;
-	m_Image = ResourceManager::GetInstance().LoadTexture("..\\Data\\"+Image);
+	m_Image = ResourceManager::GetInstance().LoadTexture("..\\Data\\Sprites\\"+Image);
 }
 
 void dae::RenderComponent::SetAnimationDetails(int MaxFrames, float FrameTime, float scale)

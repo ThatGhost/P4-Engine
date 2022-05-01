@@ -23,7 +23,9 @@ void dae::FpsComponent::PressedX(int)
 dae::FpsComponent::~FpsComponent()
 {
 	delete m_TextTexture;
+	m_TextTexture = nullptr;
 	delete m_Font;
+	m_Font = nullptr;
 }
 
 void dae::FpsComponent::Update(float deltaTime)
@@ -43,9 +45,6 @@ void dae::FpsComponent::Update(float deltaTime)
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surf);
-
-	delete m_TextTexture;
-	m_TextTexture = nullptr;
 
 	m_TextTexture = new Texture2D(texture);
 }
