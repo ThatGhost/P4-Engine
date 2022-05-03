@@ -12,6 +12,8 @@ namespace dae
 		collider,
 		renderComponent,
 		playerController,
+		burgerComponent,
+		burgerHolder,
 	};
 
 	const std::map<std::string, Components> StringToType{
@@ -19,6 +21,8 @@ namespace dae
 		{"RenderComponent", Components::renderComponent},
 		{"TestComponent", Components::testComponent},
 		{"PlayerController", Components::playerController},
+		{"BurgerComponent", Components::burgerComponent},
+		{"BurgerHolder", Components::burgerHolder},
 	};
 
 	class Scene;

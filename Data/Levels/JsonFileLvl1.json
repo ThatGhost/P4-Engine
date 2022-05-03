@@ -11,6 +11,13 @@
 		},
 
 		{
+			"name": "BurgerHolderTop.json",
+			"x": "88f",
+			"y": "100f",
+			"z": "2f"
+		},
+
+		{
 			"name": "Stair.json",
 			"x": "40f",
 			"y": "100f",

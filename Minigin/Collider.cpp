@@ -58,6 +58,6 @@ void dae::Collider::Render() const
 void dae::Collider::EnableDebug(float)
 {
 	if(m_Image == nullptr)
-		m_Image = ResourceManager::GetInstance().LoadTexture("..\\Data\\DebugRectangle.png");
+		m_Image = ResourceManager::GetInstance().LoadTexture("..\\Data\\Sprites\\DebugRectangle.png");
 	m_DebugEnabled = !m_DebugEnabled;
 }

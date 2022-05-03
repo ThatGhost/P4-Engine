@@ -32,7 +32,7 @@ void dae::EventManager::ClearQueue()
 		std::string e = m_EventQue.front().first;
 		if (m_Events.contains(e))
 		{
-			for (int i{}; i < m_Events[e].size(); i++)
+			for (size_t i{}; i < m_Events[e].size(); i++)
 			{
 				m_Events[e][i](m_EventQue.front().second);
 			}

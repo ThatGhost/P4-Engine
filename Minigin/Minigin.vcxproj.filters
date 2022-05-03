@@ -25,6 +25,9 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{f551f1ce-9d4c-4362-8073-f448a1c6a191}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dll%27s">
+      <UniqueIdentifier>{b77daedb-c97d-4ac0-9151-4fa974f36a1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -123,6 +126,12 @@
     <ClInclude Include="dirent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerHolder.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -212,5 +221,25 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerHolder.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SDL2.dll">
+      <Filter>Dll%27s</Filter>
+    </None>
+    <None Include="ikpFlac.dll">
+      <Filter>Dll%27s</Filter>
+    </None>
+    <None Include="ikpMP3.dll">
+      <Filter>Dll%27s</Filter>
+    </None>
+    <None Include="irrKlang.dll">
+      <Filter>Dll%27s</Filter>
+    </None>
   </ItemGroup>
 </Project>

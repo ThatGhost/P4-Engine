@@ -104,7 +104,7 @@ dae::GameObject* dae::GameObject::GetChildAt(int index) const
 
 void dae::GameObject::RemoveChild(int index)
 {
-	if(index < m_Children.size())
+	if(index < (int)m_Children.size())
 		m_Children.erase(std::next(m_Children.begin(), index));
 }
 
@@ -112,7 +112,7 @@ void dae::GameObject::RemoveChild(GameObject* obj)
 {
 	if (m_Children.size() > 0)
 	{
-		for (int i = 0; i < m_Children.size(); i++) {
+		for (size_t i = 0; i < m_Children.size(); i++) {
 			if (m_Children[i] == obj) {
 				m_Children.erase(m_Children.begin() + i);
 				break;

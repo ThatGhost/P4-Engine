@@ -11,7 +11,7 @@ namespace dae
 		virtual void Update(float deltaTime) override;
 		virtual void Render() const override;
 
-		void SetImage(const std::string& Image, bool isAnimated = false);
+		void SetImage(const std::string& Image, bool isAnimated = false, float Scale = 1.f);
 		void SetAnimationDetails(int frames, float frameTime, float Scale);
 
 	private:

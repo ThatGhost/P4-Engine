@@ -1,14 +1,14 @@
 #pragma once
 #include "Singleton.h"
+#include "irrKlang.h"
 
-class Mix_Chunk;
 namespace dae
 {
 	class SoundManager : public Singleton<SoundManager>
 	{
 	public:
 		void Init();
-		void PlaySound();
+		void PlaySound(const std::string& nameSound);
 
 	private:
 		friend class Singleton<SoundManager>;
@@ -16,9 +16,7 @@ namespace dae
 		~SoundManager();
 
 		const int m_Channels = 2;
-		Mix_Chunk* m_TestSound;
-
-		void LoadFiles();
+		irrklang::ISoundEngine* m_engine;
 	};
 }
 

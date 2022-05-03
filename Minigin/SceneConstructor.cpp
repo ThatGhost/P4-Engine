@@ -11,6 +11,8 @@
 #include "TestComponent.h"
 #include "RenderComponent.h"
 #include "PlayerController.h"
+#include "BurgerComponent.h"
+#include "BurgerHolder.h"
 
 using json = nlohmann::json;
 bool m_canRecreate = false;
@@ -34,7 +36,6 @@ float g_arg;
 
 void dae::SceneConstructor::Init()
 {
-	std::cout << "init\n";
 	EventManager::AddEvent("0LSHOULDER", std::bind(&dae::SceneConstructor::OnReCreateScene, g_arg));
 	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonLeftShoulder, "LSHOULDER");
 	m_canRecreate = true;
@@ -115,7 +116,7 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 	//static
 	gameObject->SetStatic(TrimJson(it["static"]) == "true");
 
-	std::cout << "construct gameobject -> Name : " << TrimJson(it["name"]) << " -> (" << x << ", " << y << ")" << std::endl;
+	//std::cout << "construct gameobject -> Name : " << TrimJson(it["name"]) << " -> (" << x << ", " << y << ")" << std::endl;
 
 	//components 
 	for (auto compIt = it["components"].begin(); compIt != it["components"].end(); ++compIt)
@@ -142,9 +143,9 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 			coll->SetDimensions(glm::vec2(cw, ch));
 
 			//triggers of collider
-			std::string enter{ TrimJson(compIt.value()["event"]) };
-			if (enter != "NULL")
-				coll->PassEvent(enter);
+			std::string event{ TrimJson(compIt.value()["event"]) };
+			if (event != "NULL")
+				coll->PassEvent(event);
 
 			bool empty{ TrimJson(compIt.value()["lookAt"])  == "NULL"};
 			int lookAtValue{empty ? -1 : std::stoi(TrimJson(compIt.value()["lookAt"])) };
@@ -163,7 +164,6 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 		case Components::testComponent:
 		{
 			dae::TestComponent* test = static_cast<dae::TestComponent*>(gameObject->AddComponent<dae::TestComponent>());
-			
 			test;
 		}
 		break;
@@ -171,6 +171,12 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 		{
 			dae::PlayerController* playerController = static_cast<dae::PlayerController*>(gameObject->AddComponent<dae::PlayerController>());
 			playerController->Init(std::stoi(TrimJson(compIt.value()["player"])));
+		}
+		break;
+		case Components::burgerHolder:
+		{
+			dae::BurgerHolder* burgerHolder = static_cast<dae::BurgerHolder*>(gameObject->AddComponent<dae::BurgerHolder>());
+			burgerHolder->Init(TrimJson(compIt.value()["type"]),colliders);
 		}
 		break;
 		default:
