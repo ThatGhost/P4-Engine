@@ -8,7 +8,8 @@
 		[{
 			"name" : "RenderComponent",
 			"image" : "Player.png",
-			"animated" : "false"
+			"animated": "false",
+			"scale": "1"
 		},
 		{
 			"name" : "Collider",
@@ -16,8 +17,8 @@
 			"y" : "30",
 			"width": "5",
 			"height": "5",
-			"event": "STAIRB",
-			"id" : "0",
+			"tag": "BOTTOM",
+			"id" : "-1",
 			"lookAt" : "1"
 		},
 		{
@@ -26,8 +27,8 @@
 			"y" : "0",
 			"width": "5",
 			"height": "5",
-			"event": "STAIRT",
-			"id" : "0",
+			"tag": "TOP",
+			"id" : "-1",
 			"lookAt" : "1"
 		},
 		{
@@ -36,8 +37,8 @@
 			"y" : "30",
 			"width": "5",
 			"height": "5",
-			"event": "PLATFORMR",
-			"id" : "0",
+			"tag": "RIGHT",
+			"id" : "-1",
 			"lookAt" : "2"
 		},
 		{
@@ -46,9 +47,19 @@
 			"y" : "30",
 			"width": "5",
 			"height": "5",
-			"event": "PLATFORML",
-			"id" : "0",
+			"tag": "LEFT",
+			"id" : "-1",
 			"lookAt" : "2"
+		},
+		{
+			"name" : "Collider",
+			"x" : "5",
+			"y" : "0",
+			"width": "22",
+			"height": "32",
+			"tag": "PLAYER",
+			"id" : "1",
+			"lookAt" : "-1"
 		},
 		{
 			"name" : "PlayerController",

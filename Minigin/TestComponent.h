@@ -3,6 +3,8 @@
 
 namespace dae
 {
+	class Texture2D;
+	using byte = unsigned char;
 	class TestComponent : public Component
 	{
 	public:
@@ -10,8 +12,10 @@ namespace dae
 		virtual ~TestComponent() override;
 
 	private:
-		void Test(float);
-		float m_Test;
+		void Test(byte*);
+		byte* m_Argument;
+		std::shared_ptr<Texture2D> m_UIImage;
+		std::string m_Sting{"first string"};
 	};
 	
 }

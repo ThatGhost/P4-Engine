@@ -12,6 +12,7 @@
 #include "EventManager.h"
 #include "SceneConstructor.h"
 #include "SoundManager.h"
+#include "UIManager.h"
 
 using namespace std;
 
@@ -41,8 +42,8 @@ void dae::Minigin::Initialize()
 		"Programming 4 Game Engine",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		740,
-		680,
+		500,
+		580,
 		SDL_WINDOW_OPENGL
 	);
 	if (m_Window == nullptr) 
@@ -59,9 +60,12 @@ void dae::Minigin::Initialize()
 void dae::Minigin::LoadGame()
 {
 	SoundManager::GetInstance().Init();
+	UIManager::GetInstance().Init();
+
 	SceneConstructor::Init();
 	SceneConstructor::ConstructScene("JsonFileLvl1.json");
 
+	UIManager::GetInstance().UpdateUI();
 	//InputManager::GetInstance().AddPlayer(gm.get());
 	//InputManager::GetInstance().InsertCommand<dae::Comd_TestCommand>(dae::ControllerButton::ButtonX);
 }
@@ -112,6 +116,7 @@ void dae::Minigin::Run()
 			//render and calculate collisions
 			std::thread collisionThread(CollisionThread);
 			renderer.Render();
+
 			collisionThread.join();
 
 			const auto sleeptime = start + chrono::milliseconds(MsPerFrame) - chrono::high_resolution_clock::now();

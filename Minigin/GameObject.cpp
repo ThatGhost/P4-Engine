@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
+#include "Collider.h"
 #include <memory>
 
 
@@ -125,4 +126,31 @@ dae::GameObject* dae::GameObject::AddChild(GameObject* child)
 {
 	m_Children.push_back(child);
 	return m_Children[m_Children.size() - 1];
+}
+
+void dae::GameObject::Collision(Collider* c, Collider* mine)
+{
+	for (int i{}; i < (int)m_Components.size(); i++)
+	{
+		if(typeid(m_Components[i].get()) != typeid(Collider))
+			m_Components[i].get()->OnCollision(c,mine);
+	}
+}
+
+void dae::GameObject::CollisionEnter(Collider* c, Collider* mine)
+{
+	for (int i{}; i < (int)m_Components.size(); i++)
+	{
+		if (typeid(m_Components[i].get()) != typeid(Collider))
+			m_Components[i].get()->OnCollisionEnter(c, mine);
+	}
+}
+
+void dae::GameObject::CollisionExit(Collider* c, Collider* mine)
+{
+	for (int i{}; i < (int)m_Components.size(); i++)
+	{
+		if (typeid(m_Components[i].get()) != typeid(Collider))
+			m_Components[i].get()->OnCollisionExit(c, mine);
+	}
 }

@@ -14,23 +14,32 @@ dae::Collider::Collider(dae::GameObject* gameobject) : Component(gameobject)
 void dae::Collider::CheckCollisions()
 {
 	GetPosition();
-	if (m_EventName == "")
-		return;
-	for (Collider* coll : m_CollidersToCheck)
+	for (int i = 0; i < (int)m_CollidersToCheck.size(); i++)
 	{
-		coll->GetPosition();
-		bool isColliding = (m_RealPos.x < coll->m_RealPos.x + coll->m_Dimensions.x &&
-							m_RealPos.x + m_Dimensions.x > coll->m_RealPos.x &&
-							m_RealPos.y < coll->m_RealPos.y + coll->m_Dimensions.y &&
-							m_RealPos.y + m_Dimensions.y > coll->m_RealPos.y);
+		m_CollidersToCheck[i]->GetPosition();
+		bool isColliding = (m_RealPos.x < m_CollidersToCheck[i]->m_RealPos.x + m_CollidersToCheck[i]->m_Dimensions.x &&
+							m_RealPos.x + m_Dimensions.x > m_CollidersToCheck[i]->m_RealPos.x &&
+							m_RealPos.y < m_CollidersToCheck[i]->m_RealPos.y + m_CollidersToCheck[i]->m_Dimensions.y &&
+							m_RealPos.y + m_Dimensions.y > m_CollidersToCheck[i]->m_RealPos.y);
 
 		//check if colliding
 		if (isColliding)
 		{
-			EventManager::SendEvent(m_EventName, 0.f);
+			if (m_Colliding[i] == false)
+			{
+				GetOwner()->CollisionEnter(m_CollidersToCheck[i],this);
+			}
+			GetOwner()->Collision(m_CollidersToCheck[i],this);
+		}
+		else
+		{
+			if (m_Colliding[i] == true)
+			{
+				GetOwner()->CollisionExit(m_CollidersToCheck[i], this);
+			}
 		}
 
-		m_WasColliding = isColliding;
+		m_Colliding[i] = isColliding;
 	}
 }
 
@@ -57,7 +66,10 @@ void dae::Collider::Render() const
 
 void dae::Collider::EnableDebug(float)
 {
-	if(m_Image == nullptr)
+	if (m_Image == nullptr)
+	{
 		m_Image = ResourceManager::GetInstance().LoadTexture("..\\Data\\Sprites\\DebugRectangle.png");
-	m_DebugEnabled = !m_DebugEnabled;
+		 
+		if(m_Image != nullptr) m_DebugEnabled = !m_DebugEnabled;
+	}
 }

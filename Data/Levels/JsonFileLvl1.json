@@ -6,16 +6,113 @@
 		{
 			"name": "Player.json",
 			"x": "40f",
-			"y": "90f",
+			"y": "100f",
 			"z": "5f"
 		},
 
 		{
-			"name": "BurgerHolderTop.json",
-			"x": "88f",
-			"y": "100f",
+			"name": "BurgerTop.json",
+			"x": "72f",
+			"y": "155f",
 			"z": "2f"
 		},
+		{
+			"name": "BurgerSalad.json",
+			"x": "72f",
+			"y": "220f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMeat.json",
+			"x": "72f",
+			"y": "335f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerBot.json",
+			"x": "72f",
+			"y": "400f",
+			"z": "2f"
+		},
+
+
+		{
+			"name": "BurgerTop.json",
+			"x": "168f",
+			"y": "90f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerSalad.json",
+			"x": "168f",
+			"y": "252f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMeat.json",
+			"x": "168f",
+			"y": "335f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerBot.json",
+			"x": "168f",
+			"y": "400f",
+			"z": "2f"
+		},
+
+
+		{
+			"name": "BurgerTop.json",
+			"x": "264f",
+			"y": "90f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerSalad.json",
+			"x": "264f",
+			"y": "155f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMeat.json",
+			"x": "264f",
+			"y": "252f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerBot.json",
+			"x": "264f",
+			"y": "400f",
+			"z": "2f"
+		},
+
+
+		{
+			"name": "BurgerTop.json",
+			"x": "360f",
+			"y": "90f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerSalad.json",
+			"x": "360f",
+			"y": "155f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMeat.json",
+			"x": "360f",
+			"y": "215f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerBot.json",
+			"x": "360f",
+			"y": "280f",
+			"z": "2f"
+		},
+
 
 		{
 			"name": "Stair.json",
@@ -425,6 +522,32 @@
 			"x": "376f",
 			"y": "375f",
 			"z": "0f"
+		},
+
+		{
+			"name": "BurgerHolder.json",
+			"x": "72f",
+			"y": "520f",
+			"z": "0f"
+		},
+		{
+			"name": "BurgerHolder.json",
+			"x": "168f",
+			"y": "520f",
+			"z": "0f"
+		},
+		{
+			"name": "BurgerHolder.json",
+			"x": "264f",
+			"y": "520f",
+			"z": "0f"
+		},
+		{
+			"name": "BurgerHolder.json",
+			"x": "360f",
+			"y": "520f",
+			"z": "0f"
 		}
+
 	]
 }

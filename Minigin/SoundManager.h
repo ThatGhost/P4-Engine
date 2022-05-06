@@ -16,7 +16,7 @@ namespace dae
 		~SoundManager();
 
 		const int m_Channels = 2;
-		irrklang::ISoundEngine* m_engine;
+		irrklang::ISoundEngine* m_engine = nullptr;
 	};
 }
 

@@ -11,30 +11,23 @@
 dae::FpsComponent::FpsComponent(GameObject* Owner)
 	: Component(Owner), m_TextTexture{nullptr}
 {
-	m_Font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	EventManager::AddEvent("PressedX",std::bind(&dae::FpsComponent::PressedX,this,1));
-}
-
-void dae::FpsComponent::PressedX(int)
-{
-	std::cout << "PRESSED X EVENT \n\n\n\n";
+	m_Font = std::make_shared<Font>("../Data/Gameplay.ttf", 36);
 }
 
 dae::FpsComponent::~FpsComponent()
 {
 	delete m_TextTexture;
 	m_TextTexture = nullptr;
-	delete m_Font;
-	m_Font = nullptr;
 }
 
 void dae::FpsComponent::Update(float deltaTime)
 {
+	delete m_TextTexture;
 	const SDL_Color color = { 255,255,255 }; // only white text is supported now
 	float fps = 1 / deltaTime;
 	const std::string text = std::to_string(fps);
 
-	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), text.c_str(), color);
+	const auto surf = TTF_RenderText_Blended(m_Font.get()->GetFont(), text.c_str(), color);
 	if (surf == nullptr)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());

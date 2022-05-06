@@ -14,10 +14,10 @@ namespace dae {
 		virtual void Update(float deltaTime) override;
 		virtual void Render() const override;
 
-		void PressedX(int);
+		//void PressedX(int);
 
 	private:
-		Font* m_Font;
+		std::shared_ptr<Font> m_Font;
 		Texture2D* m_TextTexture;
 	};
 }

@@ -45,9 +45,9 @@ void dae::InputManager::ButtonPress(const ControllerButton b, int player)
 		if (e != 0)
 		{
 			//eventmanager
-			std::string eventName = ""+std::to_string(player);
+			std::string eventName = std::to_string(player);
 			eventName += m_Commands[e];
-			EventManager::SendEvent(eventName, 0.f);
+			EventManager::SendEvent(eventName, 0);
 		}
 	}
 }

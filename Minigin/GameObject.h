@@ -8,6 +8,7 @@ namespace dae
 	class Texture2D;
 	class Component;
 	class RenderComponent;
+	class Collider;
 
 	class GameObject final 
 	{
@@ -26,7 +27,7 @@ namespace dae
 		}
 		template <typename T> dae::Component* GetComponent() const
 		{
-			for (auto comp : m_Components)
+			for (auto& comp : m_Components)
 			{
 				if (typeid(*comp.get()) == typeid(T))
 				{
@@ -56,6 +57,9 @@ namespace dae
 
 		bool IsStatic() const { return m_Static; }
 		void SetStatic(bool isStatic) { m_Static = isStatic; }
+		void Collision(Collider*,Collider*);
+		void CollisionEnter(Collider*,Collider*);
+		void CollisionExit(Collider*,Collider*);
 
 		GameObject() = default;
 		~GameObject();

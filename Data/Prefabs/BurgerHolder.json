@@ -1,0 +1,26 @@
+{
+  "name": "BurgerHolder",
+  "x": "0",
+  "y": "0",
+  "z": "0",
+  "static": "true",
+  "components": [
+    {
+      "name": "RenderComponent",
+      "animated": "false",
+      "image": "BurgerHolder.png",
+      "scale": "2"
+    },
+    {
+      "name": "Collider",
+      "x": "0",
+      "y": "0",
+      "width": "64",
+      "height": "12",
+      "tag": "HOLDER",
+      "id": "2",
+      "lookAt": "NULL"
+    }
+  ],
+  "children": []
+}

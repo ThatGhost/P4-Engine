@@ -3,9 +3,11 @@
 #include "json.hpp"
 #include "EventManager.h"
 #include "InputManager.h"
+#include "json.hpp"
 
 namespace dae
 {
+	using json = nlohmann::json;
 	enum class Components
 	{
 		testComponent,
@@ -13,7 +15,7 @@ namespace dae
 		renderComponent,
 		playerController,
 		burgerComponent,
-		burgerHolder,
+		MainMenu,
 	};
 
 	const std::map<std::string, Components> StringToType{
@@ -21,8 +23,8 @@ namespace dae
 		{"RenderComponent", Components::renderComponent},
 		{"TestComponent", Components::testComponent},
 		{"PlayerController", Components::playerController},
-		{"BurgerComponent", Components::burgerComponent},
-		{"BurgerHolder", Components::burgerHolder},
+		{"BurgerPart", Components::burgerComponent},
+		{"MainMenu", Components::MainMenu},
 	};
 
 	class Scene;
@@ -39,6 +41,7 @@ namespace dae
 	private:
 		static std::string TrimJson(const std::string& string);
 		static dae::GameObject* ConstructGO(const nlohmann::json& it, std::vector<dae::Collider*>* colliders);
+		static void AddComponent(const json::const_iterator&, GameObject*, std::vector<dae::Collider*>*);
 	};
 }
 

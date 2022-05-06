@@ -8,7 +8,8 @@
     {
       "name": "RenderComponent",
       "animated": "false",
-      "image": "Platform.png"
+      "image": "Platform.png",
+      "scale": "1"
     },
     {
       "name": "Collider",
@@ -16,7 +17,7 @@
       "y": "16",
       "width": "32",
       "height": "5",
-      "event": "NULL",
+      "tag": "PLATFORM",
       "id": "2",
       "lookAt": "NULL"
     }

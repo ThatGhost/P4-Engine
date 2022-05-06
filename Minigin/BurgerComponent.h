@@ -2,6 +2,7 @@
 #include "Component.h"
 namespace dae
 {
+	using byte = unsigned char;
 	class BurgerComponent : public Component
 	{
 	public:
@@ -9,13 +10,17 @@ namespace dae
 		virtual ~BurgerComponent() override;
 
 		virtual void Update(float deltaTime) override;
+		virtual void OnCollisionEnter(Collider*, Collider*) override;
 
 		void SetIsFalling(bool isFalling) { m_isFalling = isFalling; }
-		int GetId() { return m_BurgerId; }
+		bool IsDone() { return m_done; }
 	private:
-		const float m_FallSpeed{20};
-		bool m_isFalling{false};
-		int m_BurgerId;
+		const float m_fallSpeed{8};
+		const float m_MaxSpeed{40};
+
+		float m_fallVelocity{};
+		bool m_isFalling{true};
+		bool m_done{ false };
 	};
 }
 

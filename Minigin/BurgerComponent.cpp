@@ -1,11 +1,10 @@
 #include "MiniginPCH.h"
 #include "BurgerComponent.h"
+#include "EventManager.h"
+#include "Collider.h"
 
 dae::BurgerComponent::BurgerComponent(GameObject* Owner) : Component(Owner)
-{
-	static int id = 0;
-	m_BurgerId = id++;
-}
+{}
 
 dae::BurgerComponent::~BurgerComponent()
 {
@@ -16,6 +15,44 @@ void dae::BurgerComponent::Update(float deltaTime)
 {
 	if (m_isFalling)
 	{
-		GetOwner()->Move(glm::vec3(0, m_FallSpeed * deltaTime,0));
+		GetOwner()->Move(glm::vec3(0, m_fallVelocity,0));
+		m_fallVelocity += m_fallSpeed * deltaTime;
+		if (m_fallVelocity > m_MaxSpeed)m_fallVelocity = m_MaxSpeed;
+	}
+}
+
+void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
+{
+	std::string otherTag{ other->GetTag() };
+	if (otherTag == "PLAYER")
+	{
+		m_isFalling = true;
+		return;
+	}
+	else if (otherTag == "PLATFORM")
+	{
+		m_fallVelocity = 0;
+		m_isFalling = false;
+		return;
+	}
+	else if (otherTag == "HOLDER")
+	{
+		m_fallVelocity = 0;
+		m_isFalling = false;
+		m_done = true;
+		return;
+	}
+	else if (otherTag == "BURGER")
+	{
+		m_isFalling = true;
+
+		bool done = static_cast<dae::BurgerComponent*>(other->GetOwner()->GetComponent<dae::BurgerComponent>())->IsDone();
+		if (done || m_done)
+		{
+			m_isFalling = false;
+			m_fallVelocity = 0;
+			m_done = true;
+		}
+		return;
 	}
 }

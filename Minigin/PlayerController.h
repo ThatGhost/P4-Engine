@@ -2,25 +2,27 @@
 #include "Component.h"
 namespace dae
 {
+	using byte = unsigned char;
 	class PlayerController : public Component
 	{
 	public:
 		PlayerController(GameObject*);
 		virtual void Update(float) override;
+		virtual void OnCollision(Collider*,Collider*) override;
 		void Init(int player) { m_Player = player; }
 
 	private:
-		void Left(float);
-		void Right(float);
-		void Up(float);
-		void Down(float);
-		void OnCollisionPlatformL(float);
-		void OnCollisionPlatformR(float);
-		void OnCollisionStairsT(float);
-		void OnCollisionStairsB(float);
+		void Left(byte*);
+		void Right(byte*);
+		void Up(byte*);
+		void Down(byte*);
+		//void OnCollisionPlatformL(byte*);
+		//void OnCollisionPlatformR(byte*);
+		//void OnCollisionStairsT(byte*);
+		//void OnCollisionStairsB(byte*);
 
 		int m_Player{};
-		float m_Argument{};
+		byte* m_Argument;
 		glm::vec2 m_Movement{};
 		bool m_OnStairsTop{};
 		bool m_OnStairsBottom{};

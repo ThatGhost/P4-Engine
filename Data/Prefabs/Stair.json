@@ -8,7 +8,8 @@
     {
       "name": "RenderComponent",
       "animated": "false",
-      "image": "Stairs.png"
+      "image": "Stairs.png",
+      "scale": "1"
     },
     {
       "name": "Collider",
@@ -16,7 +17,7 @@
       "y": "0",
       "width": "16",
       "height": "32",
-      "event": "NULL",
+      "tag": "STAIR",
       "id": "1",
       "lookAt": "NULL"
     }

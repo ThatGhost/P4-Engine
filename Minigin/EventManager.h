@@ -2,21 +2,62 @@
 #include <map>
 #include <queue>
 #include <functional>
-#include <vector>
 
 namespace dae
 {
+	using byte = unsigned char;
 	class EventManager
 	{
 	public:
 
-		static void AddEvent(const std::string& EventName, std::function<void (float)> func);
-		static void AddEvent(const std::string& EventName, void(*func)(float));
-		static void SendEvent(const std::string& EventName, float args);
-		static void ClearQueue();
+		static void AddEvent(const std::string& EventName, std::function<void(byte*)> func)
+		{
+			if (!m_Events.contains(EventName))
+				m_Events.emplace(EventName, std::vector<std::function<void(byte*)>>{});
+			else
+				m_Events[EventName].push_back(func);
 
+			m_Events[EventName].push_back(func);
+		}
+		static void AddEvent(const std::string& EventName, void(*func)(byte*))
+		{
+			if (!m_Events.contains(EventName))
+				m_Events.emplace(EventName, std::vector<std::function<void(byte*)>>{});
+			else
+				m_Events[EventName].push_back(func);
+
+			m_Events[EventName].push_back(func);
+		}
+		template<class T> static void SendEvent(const std::string& EventName, const T& args)
+		{
+			m_EventQue.push(std::make_pair(EventName, ConvertToCharArray(args)));
+		}
+		static void ClearQueue()
+		{
+			while (!m_EventQue.empty())
+			{
+				std::string e = m_EventQue.front().first;
+				if (m_Events.contains(e))
+				{
+					for (size_t i{}; i < m_Events[e].size(); i++)
+					{
+						m_Events[e][i](m_EventQue.front().second);
+					}
+				}
+				delete m_EventQue.front().second;
+				m_EventQue.pop();
+			}
+		}
 	private:
-		static std::queue<std::pair<std::string, float>> m_EventQue;
-		static std::map<std::string, std::vector<std::function<void(float)>>> m_Events;
+		template<class T> static byte* ConvertToCharArray(const T& obj)
+		{
+			int bytesize{ sizeof(obj) };
+			byte* c_array = new byte[bytesize];
+			memcpy(c_array, &obj, bytesize);
+			return c_array;
+		}
+
+		static std::queue<std::pair<std::string, byte*>> m_EventQue;
+		static std::map<std::string, std::vector<std::function<void(byte*)>>> m_Events;
 	};
 }

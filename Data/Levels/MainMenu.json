@@ -1,0 +1,12 @@
+{
+  "name": "Level1",
+  "gameObjects": [],
+  "prefabs": [
+    {
+      "name": "Player.json",
+      "x": "40f",
+      "y": "100f",
+      "z": "5f"
+    }
+  ]
+}

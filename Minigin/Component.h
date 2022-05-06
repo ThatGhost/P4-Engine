@@ -3,6 +3,7 @@
 
 namespace dae {
 	class GameObject;
+	class Collider;
 
 	class Component
 	{
@@ -10,6 +11,9 @@ namespace dae {
 		virtual void Init() {};
 		virtual void Update(float) {};
 		virtual void Render() const {};
+		virtual void OnCollision(Collider*,Collider*) {};
+		virtual void OnCollisionEnter(Collider*,Collider*) {};
+		virtual void OnCollisionExit(Collider*,Collider*) {};
 
 		Component(GameObject* Owner);
 		virtual ~Component() {};

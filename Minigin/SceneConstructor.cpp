@@ -2,7 +2,6 @@
 #include "SceneConstructor.h"
 #include <fstream>
 #include <map>
-#include "json.hpp"
 #include "SceneManager.h"
 #include "GameObject.h"
 #include "Scene.h"
@@ -12,7 +11,7 @@
 #include "RenderComponent.h"
 #include "PlayerController.h"
 #include "BurgerComponent.h"
-#include "BurgerHolder.h"
+#include "MainMenu.h"
 
 using json = nlohmann::json;
 bool m_canRecreate = false;
@@ -22,6 +21,8 @@ std::string dae::SceneConstructor::TrimJson(const std::string& string)
 	return string.substr(0, string.size());
 }
 
+//debug--------------
+float g_arg;
 void dae::SceneConstructor::OnReCreateScene(float)
 {
 	std::cout << "recreate scene\n";
@@ -31,8 +32,7 @@ void dae::SceneConstructor::OnReCreateScene(float)
 	m_canRecreate = false;
 	ConstructScene("JsonFileLvl1.json");
 }
-
-float g_arg;
+//-------------------
 
 void dae::SceneConstructor::Init()
 {
@@ -56,12 +56,12 @@ void dae::SceneConstructor::ConstructScene(const std::string& nameScene)
 	std::vector<dae::Collider*>* colliders = scene.GetColliderVector();
 
 	//construct the gameobjects
-	//for (auto it = sceneData["gameObjects"].begin(); it != sceneData["gameObjects"].end(); ++it)
-	//{
-	//	std::cout << it.value();
-	//	json j{ it.value()};
-	//	scene.Add(ConstructGO(j, colliders));
-	//}
+	for (auto it = sceneData["gameObjects"].begin(); it != sceneData["gameObjects"].end(); ++it)
+	{
+		std::cout << it.value();
+		json j{ it.value()};
+		scene.Add(ConstructGO(j, colliders));
+	}
 
 	for (auto it = sceneData["prefabs"].begin(); it != sceneData["prefabs"].end(); ++it)
 	{
@@ -74,25 +74,30 @@ void dae::SceneConstructor::ConstructScene(const std::string& nameScene)
 		scene.Add(ConstructGO(j,colliders));
 	}
 
-
+	//test comp
+	//GameObject* go = new GameObject();
+	//go->AddComponent<TestComponent>();
+	//scene.Add(go);
 
 	//add all neccesairy colliders to each other:
-
 	for (auto coll : *colliders)
 	{
 		if (coll->GetLookId() != -1)
 		{
 			for (auto colltoadd : *colliders)
 			{
-				if (coll->GetOwner() != colltoadd->GetOwner() && coll->GetLookId() == colltoadd->GetId())
+				if (colltoadd->GetId() != -1)
 				{
-					if (!colltoadd->GetOwner()->IsStatic())
+					if (coll->GetOwner() != colltoadd->GetOwner() && coll->GetLookId() == colltoadd->GetId())
 					{
-						coll->AddCollider(colltoadd);
-					}
-					else if (!coll->GetOwner()->IsStatic())
-					{
-						coll->AddCollider(colltoadd);
+						if (!colltoadd->GetOwner()->IsStatic())
+						{
+							coll->AddCollider(colltoadd);
+						}
+						else if (!coll->GetOwner()->IsStatic())
+						{
+							coll->AddCollider(colltoadd);
+						}
 					}
 				}
 			}
@@ -116,73 +121,12 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 	//static
 	gameObject->SetStatic(TrimJson(it["static"]) == "true");
 
-	//std::cout << "construct gameobject -> Name : " << TrimJson(it["name"]) << " -> (" << x << ", " << y << ")" << std::endl;
+	std::cout << "construct gameobject -> Name : " << TrimJson(it["name"]) << " -> (" << x << ", " << y << ")" << std::endl;
 
 	//components 
 	for (auto compIt = it["components"].begin(); compIt != it["components"].end(); ++compIt)
 	{
-		std::string NameComponent{ TrimJson(compIt.value()["name"])};
-		Components c = StringToType.at(NameComponent);
-
-		switch (c)
-		{
-		case Components::collider:
-		{
-			dae::Collider* coll = static_cast<dae::Collider*>(gameObject->AddComponent<dae::Collider>());
-
-			//position of collider
-			std::string xs = TrimJson(compIt.value()["x"]);
-			float cx = std::stof(xs);
-			std::string ys = TrimJson(compIt.value()["y"]);
-			float cy = std::stof(ys);
-			coll->SetPosition(glm::vec3(cx, cy, 0));
-
-			//dimensions of collider
-			int cw = std::stoi(TrimJson(compIt.value()["width"]));
-			int ch = std::stoi(TrimJson(compIt.value()["height"]));
-			coll->SetDimensions(glm::vec2(cw, ch));
-
-			//triggers of collider
-			std::string event{ TrimJson(compIt.value()["event"]) };
-			if (event != "NULL")
-				coll->PassEvent(event);
-
-			bool empty{ TrimJson(compIt.value()["lookAt"])  == "NULL"};
-			int lookAtValue{empty ? -1 : std::stoi(TrimJson(compIt.value()["lookAt"])) };
-			coll->SetId(std::stoi(TrimJson(compIt.value()["id"])), lookAtValue);
-			//put collider in the big list
-			colliders->push_back(coll);
-		}
-		break;
-		case Components::renderComponent:
-		{
-			dae::RenderComponent* render = static_cast<dae::RenderComponent*>(gameObject->AddComponent<dae::RenderComponent>());
-			bool animated = TrimJson(compIt.value()["animated"]) == "true";
-			render->SetImage(TrimJson(compIt.value()["image"]), animated);
-		}
-		break;
-		case Components::testComponent:
-		{
-			dae::TestComponent* test = static_cast<dae::TestComponent*>(gameObject->AddComponent<dae::TestComponent>());
-			test;
-		}
-		break;
-		case Components::playerController:
-		{
-			dae::PlayerController* playerController = static_cast<dae::PlayerController*>(gameObject->AddComponent<dae::PlayerController>());
-			playerController->Init(std::stoi(TrimJson(compIt.value()["player"])));
-		}
-		break;
-		case Components::burgerHolder:
-		{
-			dae::BurgerHolder* burgerHolder = static_cast<dae::BurgerHolder*>(gameObject->AddComponent<dae::BurgerHolder>());
-			burgerHolder->Init(TrimJson(compIt.value()["type"]),colliders);
-		}
-		break;
-		default:
-			std::cout << "NO KNOWN COMPONENT TYPE \n";
-			break;
-		}
+		AddComponent(compIt,gameObject,colliders);
 	}
 
 	//children
@@ -198,4 +142,78 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 	}
 
 	return gameObject;
+}
+
+void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, GameObject* gameObject, std::vector<dae::Collider*>* colliders)
+{
+	std::string NameComponent{ TrimJson(compIt.value()["name"]) };
+	Components c = StringToType.at(NameComponent);
+
+	switch (c)
+	{
+	case Components::collider:
+	{
+		dae::Collider* coll = static_cast<dae::Collider*>(gameObject->AddComponent<dae::Collider>());
+
+		//position of collider
+		std::string xs = TrimJson(compIt.value()["x"]);
+		float cx = std::stof(xs);
+		std::string ys = TrimJson(compIt.value()["y"]);
+		float cy = std::stof(ys);
+		coll->SetPosition(glm::vec3(cx, cy, 0));
+
+		//dimensions of collider
+		int cw = std::stoi(TrimJson(compIt.value()["width"]));
+		int ch = std::stoi(TrimJson(compIt.value()["height"]));
+		coll->SetDimensions(glm::vec2(cw, ch));
+
+		//tag of collider
+		std::string tag{ TrimJson(compIt.value()["tag"]) };
+		if (tag != "NULL")
+			coll->SetTag(tag);
+
+		//id of collider
+		bool empty{ TrimJson(compIt.value()["lookAt"]) == "NULL" };
+		int lookAtValue{ empty ? -1 : std::stoi(TrimJson(compIt.value()["lookAt"])) };
+		coll->SetId(std::stoi(TrimJson(compIt.value()["id"])), lookAtValue);
+
+		//put collider in the big list
+		colliders->push_back(coll);
+	}
+	break;
+	case Components::renderComponent:
+	{
+		dae::RenderComponent* render = static_cast<dae::RenderComponent*>(gameObject->AddComponent<dae::RenderComponent>());
+		bool animated = TrimJson(compIt.value()["animated"]) == "true";
+		float scale = std::stof(TrimJson(compIt.value()["scale"]));
+
+		render->SetImage(TrimJson(compIt.value()["image"]), animated, scale);
+	}
+	break;
+	case Components::testComponent:
+	{
+		dae::TestComponent* test = static_cast<dae::TestComponent*>(gameObject->AddComponent<dae::TestComponent>());
+		test;
+	}
+	break;
+	case Components::playerController:
+	{
+		dae::PlayerController* playerController = static_cast<dae::PlayerController*>(gameObject->AddComponent<dae::PlayerController>());
+		playerController->Init(std::stoi(TrimJson(compIt.value()["player"])));
+	}
+	break;
+	case Components::burgerComponent:
+	{
+		gameObject->AddComponent<dae::BurgerComponent>();
+	}
+	break;
+	case Components::MainMenu:
+	{
+		gameObject->AddComponent<dae::MainMenu>();
+	}
+	break;
+	default:
+		std::cout << "NO KNOWN COMPONENT TYPE \n";
+		break;
+	}
 }

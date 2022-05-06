@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "InputManager.h"
 #include "EventManager.h"
+#include "SceneConstructor.h"
 
 void dae::SceneManager::Update(float deltaTime)
 {
@@ -30,4 +31,9 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 void dae::SceneManager::ClearScenes()
 {
 	m_Scenes.clear();
+}
+
+void dae::SceneManager::SwitchScene(const std::string& scenename)
+{
+	SceneConstructor::ConstructScene(scenename);
 }
