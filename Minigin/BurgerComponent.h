@@ -15,8 +15,10 @@ namespace dae
 		void SetIsFalling(bool isFalling) { m_isFalling = isFalling; }
 		bool IsDone() { return m_done; }
 	private:
-		const float m_fallSpeed{8};
+		const float m_FallSpeed{8};
 		const float m_MaxSpeed{40};
+
+		bool m_walkSpots[5]{false};
 
 		float m_fallVelocity{};
 		bool m_isFalling{true};

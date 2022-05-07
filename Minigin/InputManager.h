@@ -47,6 +47,7 @@ namespace dae
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+		void Init();
 		void InsertCommand(dae::ControllerButton button, const std::string& eventName)
 		{
 			if(!m_Commands.contains((int)button))

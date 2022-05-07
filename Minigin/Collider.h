@@ -17,13 +17,14 @@ namespace dae
 
 		void SetDimensions(const glm::vec2& dimension) { m_Dimensions = dimension; }
 		void SetPosition(const glm::vec3& position) { m_Position = position; }
-		void SetId(int id, int lookat) { m_Id = id; m_LookAtId = lookat; }
+		void SetId(int id) { m_Id = id; }
+		void AddLookId(int id) { m_LookAtIds.push_back(id); };
 		void AddCollider(Collider* other) { m_CollidersToCheck.push_back(other); m_Colliding.push_back(false); }
 		void SetTag(const std::string& tag) { m_tag = tag; }
 
 		glm::vec2 GetPosition();
 		int GetId() const { return m_Id; }
-		int GetLookId() const { return m_LookAtId; }
+		std::vector<int> GetLookId() const { return m_LookAtIds; }
 		std::string GetTag() { return m_tag; }
 	private:
 		glm::vec3 m_Position;
@@ -32,9 +33,9 @@ namespace dae
 
 		std::vector<Collider*> m_CollidersToCheck{};
 		std::vector<bool> m_Colliding{};
+		std::vector<int> m_LookAtIds{};
 
 		int m_Id{};
-		int m_LookAtId{-1};
 		std::string m_tag{"NULL"};
 
 		//debug

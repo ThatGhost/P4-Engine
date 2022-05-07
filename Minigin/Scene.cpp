@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "Collider.h"
+#include <algorithm>
 
 using namespace dae;
 
@@ -26,7 +27,10 @@ void Scene::Update(float deltaTime)
 {
 	for(auto& object : m_Objects)
 	{
-		object->Update(deltaTime);
+		if (!object->IsMarkedForDeletion())
+			object->Update(deltaTime);
+		else 
+			DeleteGameObject(object);
 	}
 }
 
@@ -47,10 +51,6 @@ void Scene::Render() const
 		}
 		layer++;
 	}
-	//for (const auto& object : m_Objects)
-	//{
-	//	object->Render();
-	//}
 }
 
 void Scene::GetCollisions()
@@ -61,3 +61,19 @@ void Scene::GetCollisions()
 	}
 }
 
+void dae::Scene::DeleteGameObject(GameObject* obj)
+{
+	if (std::find(m_Objects.begin(), m_Objects.end(), obj) == m_Objects.end()) //if vector doesnt contain pointer
+	{
+		obj->SetParent(nullptr);
+		delete obj;
+		obj = nullptr;
+	}
+	else
+	{
+		int idx = m_Objects.begin() - std::find(m_Objects.begin(), m_Objects.end(), obj);
+		delete obj;
+		obj = nullptr;
+		m_Objects.erase(m_Objects.begin() + idx);
+	}
+}

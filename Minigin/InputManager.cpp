@@ -2,9 +2,30 @@
 #include <algorithm>
 #include "InputManager.h"
 #include "imgui_impl_sdl.h"
-#include "Command.h"
 #include "GameObject.h"
 #include "EventManager.h"
+
+void dae::InputManager::Init()
+{
+	InsertCommand(ControllerButton::ButtonA,"BUTTON_A");
+	InsertCommand(ControllerButton::ButtonB,"BUTTON_B");
+	InsertCommand(ControllerButton::ButtonX,"BUTTON_X");
+	InsertCommand(ControllerButton::ButtonY,"BUTTON_Y");
+
+	InsertCommand(ControllerButton::ButtonUp,"BUTTON_UP");
+	InsertCommand(ControllerButton::ButtonDown,"BUTTON_DOWN");
+	InsertCommand(ControllerButton::ButtonLeft,"BUTTON_LEFT");
+	InsertCommand(ControllerButton::ButtonRight,"BUTTON_RIGHT");
+
+	InsertCommand(ControllerButton::ButtonLeftShoulder,"L_SHOULDER");
+	InsertCommand(ControllerButton::ButtonRightShoulder,"R_SHOULDER");
+
+	InsertCommand(ControllerButton::ButtonLeftThumb,"L_THUMB");
+	InsertCommand(ControllerButton::ButtonRightThumb,"R_THUMB");
+
+	InsertCommand(ControllerButton::ButtonStart,"BUTTON_START");
+	InsertCommand(ControllerButton::ButtonBack,"BUTTON_BACK");
+}
 
 bool dae::InputManager::ProcessInput()
 {

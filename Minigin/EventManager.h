@@ -10,6 +10,10 @@ namespace dae
 	{
 	public:
 
+		template<class T> static void SendEvent(const std::string& EventName, const T& args)
+		{
+			m_EventQue.push(std::make_pair(EventName, ConvertToCharArray(args)));
+		}
 		static void AddEvent(const std::string& EventName, std::function<void(byte*)> func)
 		{
 			if (!m_Events.contains(EventName))
@@ -28,9 +32,13 @@ namespace dae
 
 			m_Events[EventName].push_back(func);
 		}
-		template<class T> static void SendEvent(const std::string& EventName, const T& args)
+		static void ClearEvents()
 		{
-			m_EventQue.push(std::make_pair(EventName, ConvertToCharArray(args)));
+			m_Events.clear();
+		}
+		static void RemoveEvent(const std::string& EventName)
+		{
+			m_Events.erase(EventName);
 		}
 		static void ClearQueue()
 		{
@@ -58,6 +66,7 @@ namespace dae
 		}
 
 		static std::queue<std::pair<std::string, byte*>> m_EventQue;
+
 		static std::map<std::string, std::vector<std::function<void(byte*)>>> m_Events;
 	};
 }

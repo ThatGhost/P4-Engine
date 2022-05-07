@@ -23,7 +23,10 @@ void dae::GameObject::Update(float deltaTime)
 
 	for (auto child : m_Children)
 	{
-		child->Update(deltaTime);
+		if (!child->IsMarkedForDeletion())
+			child->Update(deltaTime);
+		else
+			DeleteChild(child);
 	}
 }
 
@@ -84,7 +87,8 @@ dae::GameObject* dae::GameObject::SetParent(GameObject* parent)
 	if(m_Parent!= nullptr)
 		m_Parent->RemoveChild(this);
 	m_Parent = parent;
-	m_Parent->AddChild(this);
+	if (m_Parent != nullptr)
+		m_Parent->AddChild(this);
 	return m_Parent;
 }
 
@@ -120,6 +124,13 @@ void dae::GameObject::RemoveChild(GameObject* obj)
 			}
 		}
 	}
+}
+
+void dae::GameObject::DeleteChild(GameObject* child)
+{
+	RemoveChild(child);
+	delete child;
+	child = nullptr;
 }
 
 dae::GameObject* dae::GameObject::AddChild(GameObject* child)

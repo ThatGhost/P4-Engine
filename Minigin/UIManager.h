@@ -16,6 +16,7 @@ namespace dae
 		void Init();
 		void Render() const;
 		//void DeleteUI(int);
+		void ClearUI() { m_UIElements.clear(); }
 		void UpdateUI();
 		int AddTextElement(std::string*, float, glm::vec2);
 		int AddImageElement(std::shared_ptr<Texture2D>*, float, glm::vec2);

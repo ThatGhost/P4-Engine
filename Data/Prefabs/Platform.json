@@ -19,7 +19,7 @@
       "height": "5",
       "tag": "PLATFORM",
       "id": "2",
-      "lookAt": "NULL"
+      "lookAt": ["-1"]
     }
   ],
   "children": []

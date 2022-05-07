@@ -63,7 +63,7 @@ void dae::Minigin::LoadGame()
 	UIManager::GetInstance().Init();
 
 	SceneConstructor::Init();
-	SceneConstructor::ConstructScene("JsonFileLvl1.json");
+	SceneConstructor::ConstructScene("MainMenu.json");
 
 	UIManager::GetInstance().UpdateUI();
 	//InputManager::GetInstance().AddPlayer(gm.get());
@@ -97,6 +97,7 @@ void dae::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
+		input.Init();
 
 		// todo: this update loop could use some work.
 		bool doContinue = true;

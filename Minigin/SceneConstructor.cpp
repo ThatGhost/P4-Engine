@@ -12,6 +12,7 @@
 #include "PlayerController.h"
 #include "BurgerComponent.h"
 #include "MainMenu.h"
+#include "EnemySpawner.h"
 
 using json = nlohmann::json;
 bool m_canRecreate = false;
@@ -30,7 +31,7 @@ void dae::SceneConstructor::OnReCreateScene(float)
 		return;
 
 	m_canRecreate = false;
-	ConstructScene("JsonFileLvl1.json");
+	ConstructScene("MainMenu.json");
 }
 //-------------------
 
@@ -58,7 +59,7 @@ void dae::SceneConstructor::ConstructScene(const std::string& nameScene)
 	//construct the gameobjects
 	for (auto it = sceneData["gameObjects"].begin(); it != sceneData["gameObjects"].end(); ++it)
 	{
-		std::cout << it.value();
+		//std::cout << it.value();
 		json j{ it.value()};
 		scene.Add(ConstructGO(j, colliders));
 	}
@@ -82,21 +83,24 @@ void dae::SceneConstructor::ConstructScene(const std::string& nameScene)
 	//add all neccesairy colliders to each other:
 	for (auto coll : *colliders)
 	{
-		if (coll->GetLookId() != -1)
+		for (auto lookId : coll->GetLookId())
 		{
-			for (auto colltoadd : *colliders)
+			if (lookId != -1)
 			{
-				if (colltoadd->GetId() != -1)
+				for (auto colltoadd : *colliders)
 				{
-					if (coll->GetOwner() != colltoadd->GetOwner() && coll->GetLookId() == colltoadd->GetId())
+					if (colltoadd->GetId() != -1)
 					{
-						if (!colltoadd->GetOwner()->IsStatic())
+						if (coll->GetOwner() != colltoadd->GetOwner() && lookId == colltoadd->GetId())
 						{
-							coll->AddCollider(colltoadd);
-						}
-						else if (!coll->GetOwner()->IsStatic())
-						{
-							coll->AddCollider(colltoadd);
+							if (!colltoadd->GetOwner()->IsStatic())
+							{
+								coll->AddCollider(colltoadd);
+							}
+							else if (!coll->GetOwner()->IsStatic())
+							{
+								coll->AddCollider(colltoadd);
+							}
 						}
 					}
 				}
@@ -121,7 +125,7 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 	//static
 	gameObject->SetStatic(TrimJson(it["static"]) == "true");
 
-	std::cout << "construct gameobject -> Name : " << TrimJson(it["name"]) << " -> (" << x << ", " << y << ")" << std::endl;
+	//std::cout << "construct gameobject -> Name : " << TrimJson(it["name"]) << " -> (" << x << ", " << y << ")" << std::endl;
 
 	//components 
 	for (auto compIt = it["components"].begin(); compIt != it["components"].end(); ++compIt)
@@ -173,9 +177,14 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 			coll->SetTag(tag);
 
 		//id of collider
-		bool empty{ TrimJson(compIt.value()["lookAt"]) == "NULL" };
-		int lookAtValue{ empty ? -1 : std::stoi(TrimJson(compIt.value()["lookAt"])) };
-		coll->SetId(std::stoi(TrimJson(compIt.value()["id"])), lookAtValue);
+		coll->SetId(std::stoi(TrimJson(compIt.value()["id"])));
+
+		json j{ compIt.value() };
+		for (auto it = j["lookAt"].begin(); it != j["lookAt"].end(); ++it)
+		{
+			int lookAtValue{ std::stoi(TrimJson(it.value())) };
+			coll->AddLookId(lookAtValue);
+		}
 
 		//put collider in the big list
 		colliders->push_back(coll);
@@ -210,6 +219,11 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 	case Components::MainMenu:
 	{
 		gameObject->AddComponent<dae::MainMenu>();
+	}
+	break;
+	case Components::EnemySpawner:
+	{
+		gameObject->AddComponent<dae::EnemySpawner>();
 	}
 	break;
 	default:

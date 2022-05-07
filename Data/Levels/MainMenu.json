@@ -3,10 +3,10 @@
   "gameObjects": [],
   "prefabs": [
     {
-      "name": "Player.json",
-      "x": "40f",
-      "y": "100f",
-      "z": "5f"
+      "name": "MainMenu.json",
+      "x": "0f",
+      "y": "0f",
+      "z": "0f"
     }
   ]
 }

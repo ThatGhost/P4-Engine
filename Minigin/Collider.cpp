@@ -7,8 +7,7 @@
 
 dae::Collider::Collider(dae::GameObject* gameobject) : Component(gameobject)
 {
-	EventManager::AddEvent("0STARTBUTTON", std::bind(&dae::Collider::EnableDebug, this, m_Argument));
-	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonStart, "STARTBUTTON");
+	EventManager::AddEvent("0BUTTON_START", std::bind(&dae::Collider::EnableDebug, this, m_Argument));
 }
 
 void dae::Collider::CheckCollisions()

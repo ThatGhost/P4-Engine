@@ -4,6 +4,9 @@
 namespace dae
 {
 	class Texture2D;
+	class UIElement;
+	using byte = unsigned char;
+
 	class MainMenu : public Component
 	{
 	public:
@@ -12,11 +15,23 @@ namespace dae
 
 
 	private:
-		//logo
-		//player 1
-		//player 2
-		//logo
-		//HI
+		const std::string basePath{"..\\Data\\UI\\"};
+
+		std::shared_ptr<Texture2D> m_Logo;
+		std::shared_ptr<Texture2D> m_Arrow;
+		std::string m_Player1{"1    PLAYER"};
+		std::string m_Player2{"2    PLAYERS"};
+
+		UIElement* m_Arrow1;
+		UIElement* m_Arrow2;
+
+		byte* m_Argument;
+
+		bool m_firstPos{ true };
+		//callbacks
+		void OnDown(byte*);
+		void OnUp(byte*);
+		void OnA(byte*);
 	};
 }
 

@@ -13,16 +13,10 @@ dae::PlayerController::PlayerController(GameObject* owner) : Component(owner)
 	//GetOwner()->AddComponent<dae::FpsComponent>();
 
 	//input
-	EventManager::AddEvent(std::to_string(m_Player) + "LEFTBUTTON", std::bind(&dae::PlayerController::Left, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "RIGHTBUTTON", std::bind(&dae::PlayerController::Right, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "UPBUTTON", std::bind(&dae::PlayerController::Up, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "DOWNBUTTON", std::bind(&dae::PlayerController::Down, this, m_Argument));
-
-	//InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonLeft, std::bind(&dae::PlayerController::Left, this, m_Argument));
-	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonLeft, "LEFTBUTTON");
-	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonRight, "RIGHTBUTTON");
-	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonUp, "UPBUTTON");
-	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonDown, "DOWNBUTTON");
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::PlayerController::Left, this, m_Argument));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::PlayerController::Right, this, m_Argument));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::PlayerController::Up, this, m_Argument));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::PlayerController::Down, this, m_Argument));
 }
 
 void dae::PlayerController::Update(float deltaTime)

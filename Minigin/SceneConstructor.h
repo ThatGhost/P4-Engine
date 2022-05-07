@@ -16,6 +16,7 @@ namespace dae
 		playerController,
 		burgerComponent,
 		MainMenu,
+		EnemySpawner,
 	};
 
 	const std::map<std::string, Components> StringToType{
@@ -25,6 +26,7 @@ namespace dae
 		{"PlayerController", Components::playerController},
 		{"BurgerPart", Components::burgerComponent},
 		{"MainMenu", Components::MainMenu},
+		{"EnemySpawner", Components::EnemySpawner},
 	};
 
 	class Scene;
@@ -38,9 +40,9 @@ namespace dae
 		static void Init();
 
 		static void ConstructScene(const std::string&);
+		static dae::GameObject* ConstructGO(const nlohmann::json& it, std::vector<dae::Collider*>* colliders);
 	private:
 		static std::string TrimJson(const std::string& string);
-		static dae::GameObject* ConstructGO(const nlohmann::json& it, std::vector<dae::Collider*>* colliders);
 		static void AddComponent(const json::const_iterator&, GameObject*, std::vector<dae::Collider*>*);
 	};
 }

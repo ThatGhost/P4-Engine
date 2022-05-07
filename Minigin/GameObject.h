@@ -56,7 +56,9 @@ namespace dae
 		GameObject* GetChildAt(int index) const;
 
 		bool IsStatic() const { return m_Static; }
+		bool IsMarkedForDeletion() const { return m_DestroyMark; }
 		void SetStatic(bool isStatic) { m_Static = isStatic; }
+		void Destroy() { m_DestroyMark = true; }
 		void Collision(Collider*,Collider*);
 		void CollisionEnter(Collider*,Collider*);
 		void CollisionExit(Collider*,Collider*);
@@ -67,10 +69,12 @@ namespace dae
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
-
+		bool operator == (const GameObject& g) const { return m_Parent == g.m_Parent && &m_Children == &g.m_Children; }
+		bool operator != (const GameObject& g) const { return !operator==(g); }
 	protected:
 		void RemoveChild(int index);
 		void RemoveChild(GameObject*);
+		void DeleteChild(GameObject*);
 		GameObject* AddChild(GameObject* child);
 		void SetDirty(bool dirty = true) { m_PositionDirty = dirty; }
 
@@ -83,6 +87,7 @@ namespace dae
 		dae::Transform m_RelativeTransform{};
 		dae::Transform m_TrueTransform{};
 		bool m_Static{ false };
+		bool m_DestroyMark{false};
 
 		dae::Transform CalculatePosition();
 	};

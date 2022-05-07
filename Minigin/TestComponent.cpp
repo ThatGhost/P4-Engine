@@ -7,10 +7,9 @@
 
 dae::TestComponent::TestComponent(GameObject* Owner) : Component(Owner)
 {
-	EventManager::AddEvent("0BUTTONA", std::bind(&dae::TestComponent::Test, this, m_Argument));
-	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonA, "BUTTONA");
+	//EventManager::AddEvent("0BUTTON_A", std::bind(&dae::TestComponent::Test, this, m_Argument));
 	//m_UIImage = ResourceManager::GetInstance().LoadTexture("..\\Data\\UI\\Hello.png");
-	UIManager::GetInstance().AddTextElement(&m_Sting,25,glm::vec2(100,100));
+	//UIManager::GetInstance().AddTextElement(&m_Sting,25,glm::vec2(100,100));
 }
 
 dae::TestComponent::~TestComponent()
@@ -19,7 +18,7 @@ dae::TestComponent::~TestComponent()
 
 void dae::TestComponent::Test(byte*)
 {
-	m_Sting = "hahahhahaha";
-	UIManager::GetInstance().UpdateUI();
+	//m_Sting = "hahahhahaha";
+	//UIManager::GetInstance().UpdateUI();
 	//m_UIImage = ResourceManager::GetInstance().LoadTexture("..\\Data\\UI\\Hello2.png");
 }

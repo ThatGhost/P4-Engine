@@ -39,9 +39,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Command.h">
-      <Filter>Engine\headers</Filter>
-    </ClInclude>
     <ClInclude Include="dirent.h">
       <Filter>Engine\headers</Filter>
     </ClInclude>
@@ -99,12 +96,6 @@
     <ClInclude Include="BurgerComponent.h">
       <Filter>Game\headers</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
     <ClInclude Include="FpsComponent.h">
       <Filter>Game\headers</Filter>
     </ClInclude>
@@ -118,9 +109,6 @@
       <Filter>Game\headers</Filter>
     </ClInclude>
     <ClInclude Include="TestComponent.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
       <Filter>Game\headers</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\ImGui\imconfig.h">
@@ -146,6 +134,21 @@
     </ClInclude>
     <ClInclude Include="..\3rdParty\ImGui\imstb_truetype.h">
       <Filter>Engine\ImGui\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.h">
+      <Filter>Game\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Engine\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
+      <Filter>Game\headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -173,13 +176,7 @@
     <ClCompile Include="FpsComponent.cpp">
       <Filter>Game\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="TestComponent.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
       <Filter>Game\cpp</Filter>
     </ClCompile>
     <ClCompile Include="PlayerController.cpp">
@@ -191,14 +188,8 @@
     <ClCompile Include="BurgerComponent.cpp">
       <Filter>Game\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Game\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Engine\cpp</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Engine\cpp</Filter>
@@ -244,6 +235,21 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
+      <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp">
+      <Filter>Game\cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -79,6 +79,8 @@ int dae::UIManager::AddImageElement(std::shared_ptr<Texture2D>* texture, float s
 	return m_UIElements.size() - 1;
 }
 
+
+
 void dae::UIElement::Render() const
 {
 	if (!m_IsActive)

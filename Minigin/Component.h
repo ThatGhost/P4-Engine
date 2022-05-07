@@ -8,9 +8,9 @@ namespace dae {
 	class Component
 	{
 	public:
-		virtual void Init() {};
 		virtual void Update(float) {};
 		virtual void Render() const {};
+
 		virtual void OnCollision(Collider*,Collider*) {};
 		virtual void OnCollisionEnter(Collider*,Collider*) {};
 		virtual void OnCollisionExit(Collider*,Collider*) {};

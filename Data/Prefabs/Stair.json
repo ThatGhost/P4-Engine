@@ -19,7 +19,7 @@
       "height": "32",
       "tag": "STAIR",
       "id": "1",
-      "lookAt": "NULL"
+      "lookAt": [ "-1" ]
     }
   ],
   "children": []

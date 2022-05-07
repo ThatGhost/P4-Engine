@@ -13,9 +13,9 @@ namespace dae
 
 	private:
 		void Test(byte*);
-		byte* m_Argument;
-		std::shared_ptr<Texture2D> m_UIImage;
-		std::string m_Sting{"first string"};
+		//byte* m_Argument;
+		//std::shared_ptr<Texture2D> m_UIImage;
+		//std::string m_Sting{"first string"};
 	};
 	
 }
