@@ -12,13 +12,15 @@ namespace dae
 		virtual void Render() const override;
 
 		void SetImage(const std::string& Image, bool isAnimated = false, float Scale = 1.f);
-		void SetAnimationDetails(int frames, float frameTime, float Scale);
+		void SetAnimationDetails(int frames, float frameTime);
+		void SetRow(int row, int Frames = -1);
 
 	private:
 		bool m_IsAnimated = false;
 		std::shared_ptr<Texture2D> m_Image;
 		int m_Frame = 0;
 		int m_MaxFrames = 1;
+		int m_Row = 0;
 		float m_Scale = 1;
 		float m_Timer = 0;
 		float m_FrameTime = 0.5f;

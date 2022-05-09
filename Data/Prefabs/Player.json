@@ -8,8 +8,10 @@
 		[{
 			"name" : "RenderComponent",
 			"image" : "Player.png",
-			"animated": "false",
-			"scale": "1"
+			"animated": "true",
+			"scale": "1",
+			"frames": "3",
+			"frameTime": "0.3f"
 		},
 		{
 			"name": "Collider",
@@ -18,8 +20,8 @@
 			"width": "5",
 			"height": "5",
 			"tag": "BOTTOM",
-			"id": "-1",
-			"lookAt": [ "1" ]
+			"seen": "false",
+			"look": "true"
 		},
 		{
 			"name": "Collider",
@@ -28,8 +30,8 @@
 			"width": "5",
 			"height": "5",
 			"tag": "TOP",
-			"id": "-1",
-			"lookAt": [ "1" ]
+			"seen": "false",
+			"look": "true"
 		},
 		{
 			"name": "Collider",
@@ -38,8 +40,8 @@
 			"width": "5",
 			"height": "5",
 			"tag": "RIGHT",
-			"id": "-1",
-			"lookAt": [ "2" ]
+			"seen": "false",
+			"look": "true"
 		},
 		{
 			"name" : "Collider",
@@ -48,18 +50,18 @@
 			"width": "5",
 			"height": "5",
 			"tag": "LEFT",
-			"id" : "-1",
-			"lookAt": [ "2" ]
+			"seen": "false",
+			"look": "true"
 		},
 		{
-			"name" : "Collider",
-			"x" : "5",
-			"y" : "0",
+			"name": "Collider",
+			"x": "5",
+			"y": "0",
 			"width": "22",
 			"height": "32",
 			"tag": "PLAYER",
-			"id" : "0",
-			"lookAt": [ "-1" ]
+			"seen": "true",
+			"look": "false"
 		},
 		{
 			"name" : "PlayerController",

@@ -150,6 +150,12 @@
     <ClInclude Include="EnemyComponent.h">
       <Filter>Game\headers</Filter>
     </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Game\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyEntry.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\ImGui\imgui.cpp">
@@ -250,6 +256,12 @@
     </ClCompile>
     <ClCompile Include="EnemyComponent.cpp">
       <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyEntry.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

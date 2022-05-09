@@ -17,11 +17,13 @@ namespace dae
 		static void AddEvent(const std::string& EventName, std::function<void(byte*)> func)
 		{
 			if (!m_Events.contains(EventName))
+			{
 				m_Events.emplace(EventName, std::vector<std::function<void(byte*)>>{});
+				m_Events[EventName].push_back(func);
+			}
 			else
 				m_Events[EventName].push_back(func);
 
-			m_Events[EventName].push_back(func);
 		}
 		static void AddEvent(const std::string& EventName, void(*func)(byte*))
 		{
@@ -47,6 +49,7 @@ namespace dae
 				std::string e = m_EventQue.front().first;
 				if (m_Events.contains(e))
 				{
+					//std::cout << "event triggered:  " << e << '\n';
 					for (size_t i{}; i < m_Events[e].size(); i++)
 					{
 						m_Events[e][i](m_EventQue.front().second);
@@ -66,7 +69,6 @@ namespace dae
 		}
 
 		static std::queue<std::pair<std::string, byte*>> m_EventQue;
-
 		static std::map<std::string, std::vector<std::function<void(byte*)>>> m_Events;
 	};
 }

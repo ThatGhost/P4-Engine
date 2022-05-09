@@ -7,8 +7,6 @@
 
 dae::EnemyComponent::EnemyComponent(GameObject* owner) : Component(owner)
 {
-	EventManager::AddEvent("0BUTTON_Y",std::bind(&dae::EnemyComponent::OnY,this,m_Argument));
-
 	m_spawner = static_cast<EnemySpawner*>(GetOwner()->GetParent()->GetComponent<EnemySpawner>());
 	m_renderer = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
 }
@@ -39,12 +37,10 @@ void dae::EnemyComponent::Salt()
 
 }
 
-void dae::EnemyComponent::OnY(byte*)
+void dae::EnemyComponent::OnCollisionEnter(Collider* other, Collider*)
 {
-	Die();
-}
-
-void dae::EnemyComponent::OnCollisionEnter(Collider*, Collider*)
-{
-
+	if (other->GetTag() == "PLAYER")
+	{
+		EventManager::SendEvent("DIE",0);
+	}
 }

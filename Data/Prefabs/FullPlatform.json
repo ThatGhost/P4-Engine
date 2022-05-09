@@ -4,7 +4,18 @@
   "y": "0",
   "z": "0",
   "static": "true",
-  "components": [],
+  "components": [
+    {
+      "name": "Collider",
+      "x": "0",
+      "y": "16",
+      "width": "128",
+      "height": "5",
+      "tag": "PLATFORM",
+      "seen": "true",
+      "look": "false"
+    }
+  ],
   "children": [
     {
       "name": "Platform.json",

@@ -10,35 +10,47 @@ dae::Collider::Collider(dae::GameObject* gameobject) : Component(gameobject)
 	EventManager::AddEvent("0BUTTON_START", std::bind(&dae::Collider::EnableDebug, this, m_Argument));
 }
 
-void dae::Collider::CheckCollisions()
+void dae::Collider::CheckCollisions(std::vector<dae::Collider*>* colliders)
 {
-	GetPosition();
-	for (int i = 0; i < (int)m_CollidersToCheck.size(); i++)
+	if (!m_look)
+		return;
+
+	glm::vec2 pos = GetPosition();
+	for (int i = 0; i < (int)colliders->size(); i++)
 	{
-		m_CollidersToCheck[i]->GetPosition();
-		bool isColliding = (m_RealPos.x < m_CollidersToCheck[i]->m_RealPos.x + m_CollidersToCheck[i]->m_Dimensions.x &&
-							m_RealPos.x + m_Dimensions.x > m_CollidersToCheck[i]->m_RealPos.x &&
-							m_RealPos.y < m_CollidersToCheck[i]->m_RealPos.y + m_CollidersToCheck[i]->m_Dimensions.y &&
-							m_RealPos.y + m_Dimensions.y > m_CollidersToCheck[i]->m_RealPos.y);
-
-		//check if colliding
-		if (isColliding)
+		Collider* coll = colliders->at(i);
+		if (coll->GetSeen() && coll->GetOwner() != GetOwner())//can be looked at and has things to look at
 		{
-			if (m_Colliding[i] == false)
-			{
-				GetOwner()->CollisionEnter(m_CollidersToCheck[i],this);
-			}
-			GetOwner()->Collision(m_CollidersToCheck[i],this);
-		}
-		else
-		{
-			if (m_Colliding[i] == true)
-			{
-				GetOwner()->CollisionExit(m_CollidersToCheck[i], this);
-			}
-		}
+			coll->GetPosition();
+			bool isColliding = (m_RealPos.x < coll->m_RealPos.x + coll->m_Dimensions.x &&
+				m_RealPos.x + m_Dimensions.x > coll->m_RealPos.x &&
+				m_RealPos.y < coll->m_RealPos.y + coll->m_Dimensions.y &&
+				m_RealPos.y + m_Dimensions.y > coll->m_RealPos.y);
 
-		m_Colliding[i] = isColliding;
+			//check if colliding
+			if (isColliding)
+			{
+				if (!m_WasColliding.contains(coll))
+				{
+					m_WasColliding.emplace(coll, false);
+				}
+
+				if (m_WasColliding[coll] == false)
+				{
+					GetOwner()->CollisionEnter(coll, this);
+				}
+				GetOwner()->Collision(coll, this);
+			}
+			else
+			{
+				if (m_WasColliding.contains(coll) && m_WasColliding[coll] == true)
+				{
+					GetOwner()->CollisionExit(coll, this);
+				}
+			}
+
+			m_WasColliding[coll] = isColliding;
+		}
 	}
 }
 

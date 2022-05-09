@@ -17,22 +17,21 @@ void dae::UIManager::Init()
 
 void dae::UIManager::Render() const
 {
-	for (auto element : m_UIElements)
+	for (size_t i = 0; i < m_UIElements.size(); i++)
 	{
-		element.get()->Render();
+		m_UIElements[i].get()->Render();
 	}
 }
 
 void dae::UIManager::UpdateUI()
 {
-	for (auto element : m_UIElements)
+	for (size_t i = 0; i < m_UIElements.size(); i++)
 	{
-		if (element.get()->getTextptr() != nullptr)
+		if (m_UIElements[i].get()->getTextptr() != nullptr)
 		{
-			const SDL_Color color = { 255,255,255 }; // only white text is supported now]
-			//delete element.get();
-			delete element.get()->getTextTexture();
-			element.get()->setTextTexture(MakeTextTexture(color, element.get()->getTextptr()));
+			const SDL_Color color = { 255,255,255 }; // only white text is supported now
+			delete m_UIElements[i].get()->getTextTexture();
+			m_UIElements[i].get()->setTextTexture(MakeTextTexture(color, m_UIElements[i].get()->getTextptr()));
 		}
 	}
 }
@@ -66,20 +65,18 @@ dae::Texture2D* dae::UIManager::MakeTextTexture(SDL_Color color, std::string* te
 
 int dae::UIManager::AddTextElement(std::string* sptr, float scale, glm::vec2 pos)
 {
-	m_UIElements.push_back(std::make_shared<UIElement>(sptr,scale,pos));
+	m_UIElements.push_back(std::make_unique<UIElement>(sptr,scale,pos));
 	return m_UIElements.size()-1;
 }
 
 int dae::UIManager::AddImageElement(std::shared_ptr<Texture2D>* texture, float scale, glm::vec2 pos)
 {
-	m_UIElements.push_back(std::make_shared<UIElement>(
+	m_UIElements.push_back(std::make_unique<UIElement>(
 		texture
 		,scale
 		,pos));
 	return m_UIElements.size() - 1;
 }
-
-
 
 void dae::UIElement::Render() const
 {

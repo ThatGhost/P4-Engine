@@ -28,7 +28,7 @@ namespace dae
 		Texture2D* MakeTextTexture(SDL_Color color, std::string* text);
 
 		std::shared_ptr<Font> m_Font;
-		std::vector<std::shared_ptr<UIElement>> m_UIElements;
+		std::vector<std::unique_ptr<UIElement>> m_UIElements;
 
 		byte* m_Argument = nullptr;
 	};

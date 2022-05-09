@@ -28,12 +28,16 @@ dae::MainMenu::MainMenu(GameObject* owner) : Component(owner)
 	EventManager::AddEvent("0BUTTON_A",std::bind(&dae::MainMenu::OnA,this,m_Argument));
 	EventManager::AddEvent("0BUTTON_UP",std::bind(&dae::MainMenu::OnUp,this,m_Argument));
 	EventManager::AddEvent("0BUTTON_DOWN",std::bind(&dae::MainMenu::OnDown,this,m_Argument));
+
+	UIManager::GetInstance().UpdateUI();
 }
 
 dae::MainMenu::~MainMenu()
 {
-	EventManager::ClearEvents();
-	std::cout << "delete mainMenu\n";
+	//EventManager::ClearEvents();
+	EventManager::RemoveEvent("0BUTTON_A");
+	EventManager::RemoveEvent("0BUTTON_UP");
+	EventManager::RemoveEvent("0BUTTON_DOWN");
 }
 
 void dae::MainMenu::OnDown(byte*)

@@ -63,6 +63,7 @@ void dae::Minigin::LoadGame()
 	UIManager::GetInstance().Init();
 
 	SceneConstructor::Init();
+	SceneConstructor::ConstructScene("DontDestroyOnLoad.json", false);
 	SceneConstructor::ConstructScene("MainMenu.json");
 
 	UIManager::GetInstance().UpdateUI();
@@ -112,17 +113,17 @@ void dae::Minigin::Run()
 			EventManager::ClearQueue();
 
 			sceneManager.Update(deltaTime);
+			std::thread collisionThread(CollisionThread);
 
 			//CollisionThread();
 			//render and calculate collisions
-			std::thread collisionThread(CollisionThread);
+
 			renderer.Render();
-
-			collisionThread.join();
-
 			const auto sleeptime = start + chrono::milliseconds(MsPerFrame) - chrono::high_resolution_clock::now();
 			this_thread::sleep_for(sleeptime);
 			lastTime = start;
+
+			collisionThread.join();
 		}
 	}
 

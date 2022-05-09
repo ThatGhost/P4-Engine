@@ -16,11 +16,10 @@ dae::GameObject::~GameObject()
 
 void dae::GameObject::Update(float deltaTime)
 {
-	for (auto& comp : m_Components)
+	for (size_t i = 0; i < m_Components.size(); i++)
 	{
-		comp->Update(deltaTime);
+		m_Components[i].get()->Update(deltaTime);
 	}
-
 	for (auto child : m_Children)
 	{
 		if (!child->IsMarkedForDeletion())
@@ -40,6 +39,14 @@ void dae::GameObject::Render() const
 	for (auto child : m_Children)
 	{
 		child->Render();
+	}
+}
+
+void dae::GameObject::Start()
+{
+	for (size_t i = 0; i < m_Components.size(); i++)
+	{
+		m_Components[i].get()->Start();
 	}
 }
 

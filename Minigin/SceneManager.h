@@ -1,26 +1,40 @@
 #pragma once
 #include "Singleton.h"
+#include "Scene.h"
 
 namespace dae
 {
-	class Scene;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
 		Scene& CreateScene(const std::string& name);
-		void SetActiveScene(int index) { m_ActiveScene = index; }
-		std::shared_ptr<Scene> GetActiveScene() { return m_Scenes[m_ActiveScene]; }
+		std::shared_ptr<dae::Scene> GetActiveScene() { return m_Scenes[m_ActiveScene]; }
 
 		void Update(float);
 		void Render();
-		void ClearScenes();
+		void KillMainScene();
+		void KillAllScenes();
 		void SwitchScene(const std::string& scenename);
+		void AddColliderToMain(Collider*);
+
+		template<class T> Component* FindComponent() const
+		{
+			for (auto scene : m_Scenes)
+			{
+				Component* comp = scene.get()->GetComponent<T>();
+				if (comp != nullptr)
+				{
+					return comp;
+				}
+			}
+			return nullptr;
+		}
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 		~SceneManager() = default;
 
-		std::vector<std::shared_ptr<Scene>> m_Scenes;
-		int m_ActiveScene{0};
+		std::vector<std::shared_ptr<dae::Scene>> m_Scenes;
+		int m_ActiveScene{1};
 	};
 }

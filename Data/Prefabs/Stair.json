@@ -10,16 +10,6 @@
       "animated": "false",
       "image": "Stairs.png",
       "scale": "1"
-    },
-    {
-      "name": "Collider",
-      "x": "8",
-      "y": "0",
-      "width": "16",
-      "height": "32",
-      "tag": "STAIR",
-      "id": "1",
-      "lookAt": [ "-1" ]
     }
   ],
   "children": []

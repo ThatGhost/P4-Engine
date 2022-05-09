@@ -53,11 +53,19 @@ void Scene::Render() const
 	}
 }
 
+void dae::Scene::Start()
+{
+	for (size_t i = 0; i < m_Objects.size(); i++)
+	{
+		m_Objects[i]->Start();
+	}
+}
+
 void Scene::GetCollisions()
 {
 	for (auto coll : m_colliders)
 	{
-		coll->CheckCollisions();
+		coll->CheckCollisions(&m_colliders);
 	}
 }
 

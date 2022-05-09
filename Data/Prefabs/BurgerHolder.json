@@ -18,8 +18,8 @@
       "width": "64",
       "height": "12",
       "tag": "HOLDER",
-      "id": "2",
-      "lookAt": ["-1"]
+      "seen": "true",
+      "look": "false"
     }
   ],
   "children": []

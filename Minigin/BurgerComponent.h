@@ -11,6 +11,7 @@ namespace dae
 
 		virtual void Update(float deltaTime) override;
 		virtual void OnCollisionEnter(Collider*, Collider*) override;
+		virtual void OnCollision(Collider*, Collider*) override;
 
 		void SetIsFalling(bool isFalling) { m_isFalling = isFalling; }
 		bool IsDone() { return m_done; }

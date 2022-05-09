@@ -21,25 +21,10 @@ void dae::BurgerComponent::Update(float deltaTime)
 	}
 }
 
-void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider* mine)
+void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
 {
 	std::string otherTag{ other->GetTag() };
-	if (otherTag == "PLAYER")
-	{
-		int i = std::stoi(mine->GetTag());
-		m_walkSpots[i] = true;
-
-		//check if it ran over everything
-		bool canFall = true;
-		for (size_t j = 0; j < sizeof(m_walkSpots); j++)
-		{
-			if (m_walkSpots[j] == false)
-				canFall = false;
-		}
-		m_isFalling = canFall;
-		return;
-	}
-	else if (otherTag == "PLATFORM")
+	if (otherTag == "PLATFORM")
 	{
 		m_fallVelocity = 0;
 		m_isFalling = false;
@@ -68,5 +53,32 @@ void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider* mine)
 			m_done = true;
 		}
 		return;
+	}
+}
+
+void dae::BurgerComponent::OnCollision(Collider* other, Collider* mine)
+{
+	if (other->GetTag() == "PLAYER")
+	{
+		//position to [0,1]
+		glm::vec2 myPos = mine->GetOwner()->GetPosition().GetPosition();
+		glm::vec2 otherPos = other->GetOwner()->GetPosition().GetPosition();
+		glm::vec2 myDimensions = mine->GetDimensions();
+		glm::vec2 otherDimensions = other->GetDimensions();
+
+		otherPos.x += otherDimensions.x / 2;
+		float percentage = (otherPos.x-myPos.x) / myDimensions.x;
+		int index = (int)(percentage * 5);
+		index = glm::clamp(index,0,4);
+
+		m_walkSpots[index] = true;
+		//check if it ran over everything
+		bool canFall = true;
+		for (size_t j = 0; j < sizeof(m_walkSpots); j++)
+		{
+			if (m_walkSpots[j] == false)
+				canFall = false;
+		}
+		m_isFalling = canFall;
 	}
 }

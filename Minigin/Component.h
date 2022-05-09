@@ -8,6 +8,7 @@ namespace dae {
 	class Component
 	{
 	public:
+		virtual void Start() {};
 		virtual void Update(float) {};
 		virtual void Render() const {};
 

@@ -15,6 +15,7 @@ namespace dae
 	public:
 		void Update(float);
 		void Render() const;
+		void Start();
 
 		void Move(const glm::vec3& pos);
 		dae::Transform GetPosition();
@@ -34,15 +35,30 @@ namespace dae
 					return comp.get();
 				}
 			}
-			return NULL;
+			return nullptr;
+		}
+		template <typename T> dae::Component* FindComponent() const
+		{
+			for (auto& child : m_Children)
+			{
+				Component* ptr = child->FindComponent<T>();
+				if (ptr != nullptr)
+					return ptr;
+			}
+
+			Component* ptr = GetComponent<T>();
+			if (ptr != nullptr)
+				return ptr;
+
+			return nullptr;
 		}
 		template <typename T> bool RemoveComponent()
 		{
-			for (auto comp : m_Components)
+			for (size_t i = 0; i < m_Components.size(); i++)
 			{
-				if (typeid(*comp.get()) == typeid(T))
+				if (typeid(*m_Components[i].get()) == typeid(T))
 				{
-					m_Components.erase(comp);
+					m_Components.erase(m_Components.begin() + i);
 					return true;
 				}
 			}

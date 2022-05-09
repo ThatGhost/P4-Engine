@@ -1,0 +1,26 @@
+{
+  "name": "Stairs",
+  "x": "0",
+  "y": "0",
+  "z": "0",
+  "static": "true",
+  "components": [
+    {
+      "name": "RenderComponent",
+      "animated": "false",
+      "image": "Stairs.png",
+      "scale": "1"
+    },
+    {
+      "name": "Collider",
+      "x": "8",
+      "y": "0",
+      "width": "16",
+      "height": "32",
+      "tag": "STAIR",
+      "seen": "true",
+      "look": "false"
+    }
+  ],
+  "children": []
+}

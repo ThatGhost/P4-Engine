@@ -13,6 +13,7 @@
 #include "BurgerComponent.h"
 #include "MainMenu.h"
 #include "EnemySpawner.h"
+#include "GameManager.h"
 
 using json = nlohmann::json;
 bool m_canRecreate = false;
@@ -42,9 +43,10 @@ void dae::SceneConstructor::Init()
 	m_canRecreate = true;
 }
 
-void dae::SceneConstructor::ConstructScene(const std::string& nameScene)
+void dae::SceneConstructor::ConstructScene(const std::string& nameScene, bool kill)
 {
-	SceneManager::GetInstance().ClearScenes();
+	if(kill)
+		SceneManager::GetInstance().KillMainScene();
 
 	//read file
 	std::ifstream SceneFile("..\\Data\\Levels\\"+nameScene, std::ifstream::binary);
@@ -59,11 +61,11 @@ void dae::SceneConstructor::ConstructScene(const std::string& nameScene)
 	//construct the gameobjects
 	for (auto it = sceneData["gameObjects"].begin(); it != sceneData["gameObjects"].end(); ++it)
 	{
-		//std::cout << it.value();
 		json j{ it.value()};
 		scene.Add(ConstructGO(j, colliders));
 	}
 
+	//construct the prefabs
 	for (auto it = sceneData["prefabs"].begin(); it != sceneData["prefabs"].end(); ++it)
 	{
 		std::ifstream prefabFile("..\\Data\\Prefabs\\" + TrimJson(it.value()["name"]), std::ifstream::binary);
@@ -79,34 +81,6 @@ void dae::SceneConstructor::ConstructScene(const std::string& nameScene)
 	//GameObject* go = new GameObject();
 	//go->AddComponent<TestComponent>();
 	//scene.Add(go);
-
-	//add all neccesairy colliders to each other:
-	for (auto coll : *colliders)
-	{
-		for (auto lookId : coll->GetLookId())
-		{
-			if (lookId != -1)
-			{
-				for (auto colltoadd : *colliders)
-				{
-					if (colltoadd->GetId() != -1)
-					{
-						if (coll->GetOwner() != colltoadd->GetOwner() && lookId == colltoadd->GetId())
-						{
-							if (!colltoadd->GetOwner()->IsStatic())
-							{
-								coll->AddCollider(colltoadd);
-							}
-							else if (!coll->GetOwner()->IsStatic())
-							{
-								coll->AddCollider(colltoadd);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 
 	m_canRecreate = true;
 }
@@ -176,15 +150,10 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 		if (tag != "NULL")
 			coll->SetTag(tag);
 
-		//id of collider
-		coll->SetId(std::stoi(TrimJson(compIt.value()["id"])));
-
-		json j{ compIt.value() };
-		for (auto it = j["lookAt"].begin(); it != j["lookAt"].end(); ++it)
-		{
-			int lookAtValue{ std::stoi(TrimJson(it.value())) };
-			coll->AddLookId(lookAtValue);
-		}
+		//to look or be looked at
+		bool seen{ TrimJson(compIt.value()["seen"]) == "true"};
+		bool look{ TrimJson(compIt.value()["look"]) == "true"};
+		coll->Setlookers(seen,look);
 
 		//put collider in the big list
 		colliders->push_back(coll);
@@ -196,7 +165,14 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 		bool animated = TrimJson(compIt.value()["animated"]) == "true";
 		float scale = std::stof(TrimJson(compIt.value()["scale"]));
 
-		render->SetImage(TrimJson(compIt.value()["image"]), animated, scale);
+		render->SetImage(TrimJson(compIt.value()["image"]), animated,scale);
+
+		if (animated)
+		{
+			int frames = std::stoi(TrimJson(compIt.value()["frames"]));
+			float frameTime = std::stof(TrimJson(compIt.value()["frameTime"]));
+			render->SetAnimationDetails(frames,frameTime);
+		}
 	}
 	break;
 	case Components::testComponent:
@@ -224,6 +200,11 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 	case Components::EnemySpawner:
 	{
 		gameObject->AddComponent<dae::EnemySpawner>();
+	}
+	break;
+	case Components::GameManager:
+	{
+		gameObject->AddComponent<GameManager>();
 	}
 	break;
 	default:

@@ -13,11 +13,17 @@ void dae::RenderComponent::SetImage(const std::string& Image, bool IsAnimated, f
 	m_Scale = scale;
 }
 
-void dae::RenderComponent::SetAnimationDetails(int MaxFrames, float FrameTime, float scale)
+void dae::RenderComponent::SetAnimationDetails(int MaxFrames, float FrameTime)
 {
 	m_FrameTime = FrameTime;
 	m_MaxFrames = MaxFrames;
-	m_Scale = scale;
+}
+
+void dae::RenderComponent::SetRow(int row, int Frames)
+{
+	m_Row = row;
+	if (Frames != -1)
+		m_MaxFrames = Frames;
 }
 
 void dae::RenderComponent::Update(float deltaTime)
@@ -26,7 +32,7 @@ void dae::RenderComponent::Update(float deltaTime)
 	{
 		if (m_Timer >= m_FrameTime)
 		{
-			m_Timer = 0;
+			m_Timer -= m_FrameTime;
 			m_Frame++;
 			if (m_Frame == m_MaxFrames)
 				m_Frame = 0;
@@ -41,5 +47,23 @@ void dae::RenderComponent::Render() const
 	const int ImageSize = 32;
 
 	glm::vec3 position = GetOwner()->GetPosition().GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_Image.get(), position.x, position.y, ImageSize * m_Scale, ImageSize * m_Scale);
+
+	if(!m_IsAnimated)
+		Renderer::GetInstance().RenderTexture(*m_Image.get(), position.x, position.y, ImageSize * m_Scale, ImageSize * m_Scale);
+	else
+	{
+		SDL_Rect src{};
+		src.x = (int)(ImageSize * m_Frame);
+		src.y = (int)(ImageSize * m_Row);
+		src.w = (int)(ImageSize);
+		src.h = (int)(ImageSize);
+
+		SDL_Rect dst{};
+		dst.x = (int)(position.x);
+		dst.y = (int)(position.y);
+		dst.w = (int)(ImageSize * m_Scale);
+		dst.h = (int)(ImageSize * m_Scale);
+
+		Renderer::GetInstance().RenderTexture(*m_Image.get(),src,dst);
+	}
 }

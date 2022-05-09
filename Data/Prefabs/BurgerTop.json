@@ -12,58 +12,8 @@
       "width": "64",
       "height": "20",
       "tag": "BURGER",
-      "id": "4",
-      "lookAt": [ "2", "4" ]
-    },
-    {
-      "name": "Collider",
-      "x": "0",
-      "y": "20",
-      "width": "12",
-      "height": "20",
-      "tag": "0",
-      "id": "-1",
-      "lookAt": [ "0" ]
-    },
-    {
-      "name": "Collider",
-      "x": "13",
-      "y": "20",
-      "width": "12",
-      "height": "20",
-      "tag": "1",
-      "id": "-1",
-      "lookAt": [ "0" ]
-    },
-    {
-      "name": "Collider",
-      "x": "26",
-      "y": "20",
-      "width": "12",
-      "height": "20",
-      "tag": "2",
-      "id": "-1",
-      "lookAt": [ "0" ]
-    },
-    {
-      "name": "Collider",
-      "x": "39",
-      "y": "20",
-      "width": "12",
-      "height": "20",
-      "tag": "3",
-      "id": "-1",
-      "lookAt": [ "0" ]
-    },
-    {
-      "name": "Collider",
-      "x": "52",
-      "y": "20",
-      "width": "12",
-      "height": "20",
-      "tag": "4",
-      "id": "-1",
-      "lookAt": [ "0" ]
+      "seen": "true",
+      "look": "true"
     },
     {
       "name": "BurgerPart"

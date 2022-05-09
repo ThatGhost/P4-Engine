@@ -1,21 +1,33 @@
 #pragma once
-#include "SceneManager.h"
+#include "GameObject.h"
 
 namespace dae
 {
-	class GameObject;
 	class Collider;
+	class Component;
 	class Scene
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(GameObject* object);
 		void GetCollisions();
 		std::vector<Collider*>* GetColliderVector() { return &m_colliders; }
+		template<class T> Component* GetComponent() const
+		{
+			for (auto g : m_Objects)
+			{
+				Component* ptr = g->FindComponent<T>();
+				if (ptr != nullptr)
+					return ptr;
+			}
+			return nullptr;
+		}
+		void AddCollider(Collider* coll) { m_colliders.push_back(coll); }
 
 		void Update(float);
 		void Render() const;
+		void Start();
 
+		Scene(const std::string& name);
 		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
@@ -23,7 +35,6 @@ namespace dae
 		Scene& operator=(Scene&& other) = delete;
 
 	private: 
-		explicit Scene(const std::string& name);
 		void DeleteGameObject(GameObject*);
 
 		std::string m_Name;

@@ -1,6 +1,5 @@
 #include "MiniginPCH.h"
 #include "SceneManager.h"
-#include "Scene.h"
 #include "InputManager.h"
 #include "EventManager.h"
 #include "SceneConstructor.h"
@@ -28,7 +27,13 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 	return *scene;
 }
 
-void dae::SceneManager::ClearScenes()
+void dae::SceneManager::KillMainScene()
+{
+	if(m_Scenes.size() > 1)
+		m_Scenes.erase(m_Scenes.end()-1);
+}
+
+void dae::SceneManager::KillAllScenes()
 {
 	m_Scenes.clear();
 }
@@ -36,4 +41,10 @@ void dae::SceneManager::ClearScenes()
 void dae::SceneManager::SwitchScene(const std::string& scenename)
 {
 	SceneConstructor::ConstructScene(scenename);
+	m_Scenes[m_ActiveScene].get()->Start();
+}
+
+void dae::SceneManager::AddColliderToMain(Collider* coll)
+{
+	m_Scenes[m_ActiveScene].get()->AddCollider(coll);
 }

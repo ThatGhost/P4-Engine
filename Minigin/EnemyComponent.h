@@ -22,9 +22,6 @@ namespace dae
 		void Die();
 		void Salt();
 
-		void OnY(byte*);
-		byte* m_Argument{ nullptr };
-
 		enum class state{
 			init,
 			normal,

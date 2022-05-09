@@ -5,21 +5,46 @@
 			"name": "EnemySpawner",
 			"x": "0",
 			"y": "0",
-			"z": "0",
+			"z": "4",
 			"static": "true",
 			"components": [
 				{
 					"name": "EnemySpawner"
 				}
 			],
-			"children": []
+			"children": [
+				{
+					"name": "SpawnPoint.json",
+					"x": "-32",
+					"y": "95",
+					"z": "7"
+				},
+				{
+					"name": "SpawnPoint.json",
+					"x": "532",
+					"y": "95",
+					"z": "7"
+				},
+				{
+					"name": "SpawnPoint.json",
+					"x": "-32",
+					"y": "405",
+					"z": "7"
+				},
+				{
+					"name": "SpawnPoint.json",
+					"x": "532",
+					"y": "405",
+					"z": "7"
+				}
+			]
 		}
 	],
 	"prefabs": [
 		{
 			"name": "Player.json",
-			"x": "40f",
-			"y": "100f",
+			"x": "232f",
+			"y": "340f",
 			"z": "5f"
 		},
 
@@ -128,7 +153,7 @@
 
 
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "40f",
 			"y": "100f",
 			"z": "0f"
@@ -141,7 +166,7 @@
 		},
 
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "136f",
 			"y": "100f",
 			"z": "0f"
@@ -187,7 +212,7 @@
 			"z": "0f"
 		},
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "40f",
 			"y": "232f",
 			"z": "0f"
@@ -240,7 +265,7 @@
 		},
 
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "88f",
 			"y": "166f",
 			"z": "0f"
@@ -279,32 +304,32 @@
 			"z": "1f"
 		},
 		{
-			"name": "Platform.json",
+			"name": "PlatformColl.json",
 			"x": "424f",
 			"y": "110f",
 			"z": "1f"
 		},
 
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "184f",
 			"y": "100f",
 			"z": "0f"
 		},
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "232f",
 			"y": "100f",
 			"z": "0f"
 		},
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "328f",
 			"y": "100f",
 			"z": "0f"
 		},
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "424f",
 			"y": "100f",
 			"z": "0f"
@@ -317,7 +342,7 @@
 			"z": "0f"
 		},
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "184f",
 			"y": "190f",
 			"z": "0f"
@@ -443,13 +468,13 @@
 			"z": "0f"
 		},
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "280f",
 			"y": "252f",
 			"z": "0f"
 		},
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "280f",
 			"y": "168f",
 			"z": "0f"
@@ -470,7 +495,7 @@
 			"z": "0f"
 		},
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "424f",
 			"y": "294f",
 			"z": "0f"
@@ -513,7 +538,7 @@
 			"z": "1f"
 		},
 		{
-			"name": "Stair.json",
+			"name": "StairColl.json",
 			"x": "376f",
 			"y": "227f",
 			"z": "0f"
