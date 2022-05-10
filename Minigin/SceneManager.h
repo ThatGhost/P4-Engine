@@ -15,7 +15,8 @@ namespace dae
 		void KillMainScene();
 		void KillAllScenes();
 		void SwitchScene(const std::string& scenename);
-		void AddColliderToMain(Collider*);
+		void AddCollider(Collider*);
+		void RemoveCollider(Collider*);
 
 		template<class T> Component* FindComponent() const
 		{

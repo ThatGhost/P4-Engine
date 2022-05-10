@@ -4,6 +4,9 @@
 #include "EventManager.h"
 #include "Collider.h"
 #include "RenderComponent.h"
+#include "DestroyComponent.h"
+#include "SceneManager.h"
+#include "SoundManager.h"
 
 //TEMP
 #include "FpsComponent.h"
@@ -11,13 +14,15 @@
 dae::PlayerController::PlayerController(GameObject* owner) : Component(owner)
 {
 	//TEMP
-	GetOwner()->AddComponent<dae::FpsComponent>();
+	//GetOwner()->AddComponent<dae::FpsComponent>();
 
 	//input
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::PlayerController::Left, this, m_Argument));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::PlayerController::Right, this, m_Argument));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::PlayerController::Up, this, m_Argument));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::PlayerController::Down, this, m_Argument));
+	EventManager::AddEvent("PEPPER", std::bind(&dae::PlayerController::Pepper, this, m_Argument));
+	SoundManager::GetInstance().PlaySound(m_WalkingSound, true);
 }
 dae::PlayerController::~PlayerController()
 {
@@ -25,6 +30,9 @@ dae::PlayerController::~PlayerController()
 	EventManager::RemoveEvent(std::to_string(m_Player) + "BUTTON_RIGHT");
 	EventManager::RemoveEvent(std::to_string(m_Player) + "BUTTON_UP");
 	EventManager::RemoveEvent(std::to_string(m_Player) + "BUTTON_DOWN");
+	EventManager::RemoveEvent("PEPPER");
+
+	SoundManager::GetInstance().RemoveSound("Footstep.wav");
 }
 
 void dae::PlayerController::Update(float deltaTime)
@@ -59,7 +67,17 @@ void dae::PlayerController::Update(float deltaTime)
 		m_renderer->SetRow(0);
 	}
 
-	//polish
+	//sound
+	if (m_Movement.x != 0 || m_Movement.y != 0)
+	{
+		SoundManager::GetInstance().PauseSound(m_WalkingSound, false);
+	}
+	else
+	{
+		SoundManager::GetInstance().PauseSound(m_WalkingSound, true);
+	}
+
+	//snap to correct place
 	if (m_Movement.x != 0)
 	{
 		glm::vec3 position = GetOwner()->GetPosition().GetPosition();
@@ -109,7 +127,6 @@ void dae::PlayerController::OnCollision(Collider* other, Collider* mine)
 		}
 		break;
 	}
-	//std::cout << m_platformHeight << '\n';
 }
 void dae::PlayerController::Init(int player)
 {
@@ -133,4 +150,31 @@ void dae::PlayerController::Up(byte*)
 void dae::PlayerController::Down(byte*)
 {
 	m_Movement.y += 1;
+}
+void dae::PlayerController::Pepper(byte*)
+{
+	GameObject* go = new GameObject();
+	go->SetParent(GetOwner());
+	go->SetStatic(false);
+
+	glm::vec3 myPos{GetOwner()->GetPosition().GetPosition()};
+	float pepperpos{ m_Movement.x * 28 };
+	glm::vec3 pos{pepperpos, 0, 2};
+	go->SetPosition(pos);
+
+	Collider* coll = static_cast<Collider*>(go->AddComponent<Collider>());
+	coll->Setlookers(true, false);
+	coll->SetPosition(glm::vec3(0, 0, 0));
+	coll->SetDimensions(glm::vec2(20, 20));
+	coll->SetTag("PEPPER");
+	SceneManager::GetInstance().AddCollider(coll);
+
+	DestroyComponent* destroy = static_cast<DestroyComponent*>(go->AddComponent<DestroyComponent>());
+	destroy->Init(0.5f);
+
+	RenderComponent* renderer = static_cast<RenderComponent*>(go->AddComponent<RenderComponent>());
+	renderer->SetImage("pepper.png");
+
+	//sound
+	SoundManager::GetInstance().PlaySound("Shoot.wav");
 }

@@ -12,6 +12,8 @@ namespace dae
 	public:
 
 		Collider(dae::GameObject* gameobject);
+		~Collider() override;
+
 		virtual void Render() const override;
 		virtual void Update(float) override;
 		void CheckCollisions(std::vector<Collider*>* colliders);
@@ -37,7 +39,7 @@ namespace dae
 		std::string m_tag{"NULL"};
 
 		//debug
-		std::shared_ptr<Texture2D> m_Image;
+		Texture2D* m_Image;
 		void EnableDebug(float);
 		float m_Argument{};
 		bool m_DebugEnabled{false};

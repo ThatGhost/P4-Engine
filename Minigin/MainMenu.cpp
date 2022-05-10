@@ -11,11 +11,11 @@ dae::MainMenu::MainMenu(GameObject* owner) : Component(owner)
 {
 	//UI
 	m_Logo = ResourceManager::GetInstance().LoadTexture(basePath + "Logo.png");
-	UIManager::GetInstance().AddImageElement(&m_Logo, 1, glm::vec2(85, 50));
+	UIManager::GetInstance().AddImageElement(&m_Logo, glm::vec2(320,148), glm::vec2(85, 50));
 
 	m_Arrow = ResourceManager::GetInstance().LoadTexture(basePath + "Arrow.png");
-	int i1 = UIManager::GetInstance().AddImageElement(&m_Arrow, 1, glm::vec2(120, 250));
-	int i2 = UIManager::GetInstance().AddImageElement(&m_Arrow, 1, glm::vec2(120, 300));
+	int i1 = UIManager::GetInstance().AddImageElement(&m_Arrow, glm::vec2(32, 32), glm::vec2(120, 250));
+	int i2 = UIManager::GetInstance().AddImageElement(&m_Arrow, glm::vec2(32, 32), glm::vec2(120, 300));
 
 	m_Arrow1 = UIManager::GetInstance().getElement(i1);
 	m_Arrow2 = UIManager::GetInstance().getElement(i2);
@@ -61,6 +61,6 @@ void dae::MainMenu::OnA(byte*)
 	}
 	else
 	{
-		SceneManager::GetInstance().SwitchScene("Level1.json");
+		SceneManager::GetInstance().SwitchScene("2Level1.json");
 	}
 }

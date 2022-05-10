@@ -17,7 +17,7 @@ namespace dae
 
 	private:
 		bool m_IsAnimated = false;
-		std::shared_ptr<Texture2D> m_Image;
+		Texture2D* m_Image;
 		int m_Frame = 0;
 		int m_MaxFrames = 1;
 		int m_Row = 0;

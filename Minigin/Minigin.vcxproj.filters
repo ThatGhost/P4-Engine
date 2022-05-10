@@ -153,8 +153,11 @@
     <ClInclude Include="GameManager.h">
       <Filter>Game\headers</Filter>
     </ClInclude>
+    <ClInclude Include="DestroyComponent.h">
+      <Filter>Game\headers</Filter>
+    </ClInclude>
     <ClInclude Include="EnemyEntry.h">
-      <Filter>Engine</Filter>
+      <Filter>Game\headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -261,7 +264,10 @@
       <Filter>Game\cpp</Filter>
     </ClCompile>
     <ClCompile Include="EnemyEntry.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="DestroyComponent.cpp">
+      <Filter>Game\cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

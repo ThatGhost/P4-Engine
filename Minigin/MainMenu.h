@@ -17,8 +17,8 @@ namespace dae
 	private:
 		const std::string basePath{"..\\Data\\UI\\"};
 
-		std::shared_ptr<Texture2D> m_Logo;
-		std::shared_ptr<Texture2D> m_Arrow;
+		Texture2D* m_Logo;
+		Texture2D* m_Arrow;
 		std::string m_Player1{"1    PLAYER"};
 		std::string m_Player2{"2    PLAYERS"};
 

@@ -10,6 +10,9 @@
 			"components": [
 				{
 					"name": "EnemySpawner"
+				},
+				{
+					"name": "GameManager"
 				}
 			],
 			"children": [

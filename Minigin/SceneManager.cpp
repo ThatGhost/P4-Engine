@@ -44,7 +44,12 @@ void dae::SceneManager::SwitchScene(const std::string& scenename)
 	m_Scenes[m_ActiveScene].get()->Start();
 }
 
-void dae::SceneManager::AddColliderToMain(Collider* coll)
+void dae::SceneManager::AddCollider(Collider* coll)
 {
 	m_Scenes[m_ActiveScene].get()->AddCollider(coll);
+}
+
+void dae::SceneManager::RemoveCollider(Collider* coll)
+{
+	m_Scenes[m_ActiveScene].get()->RemoveCollider(coll);
 }

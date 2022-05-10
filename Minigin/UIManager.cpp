@@ -11,9 +11,7 @@ dae::UIManager::~UIManager()
 {}
 
 void dae::UIManager::Init()
-{
-	m_Font = std::make_shared<Font>("..\\Data\\Gameplay.ttf",20);
-}
+{}
 
 void dae::UIManager::Render() const
 {
@@ -27,23 +25,13 @@ void dae::UIManager::UpdateUI()
 {
 	for (size_t i = 0; i < m_UIElements.size(); i++)
 	{
-		if (m_UIElements[i].get()->getTextptr() != nullptr)
-		{
-			const SDL_Color color = { 255,255,255 }; // only white text is supported now
-			delete m_UIElements[i].get()->getTextTexture();
-			m_UIElements[i].get()->setTextTexture(MakeTextTexture(color, m_UIElements[i].get()->getTextptr()));
-		}
+		m_UIElements[i].get()->Update();
 	}
 }
 
-dae::Texture2D* dae::UIManager::MakeTextTexture(SDL_Color color, std::string* textt)
+dae::Texture2D* dae::UIElement::MakeTextTexture(SDL_Color color, std::string* text, Font* font)
 {
-	if (m_Font == nullptr)
-		return nullptr;
-
-	const std::string text = *textt;
-
-	const auto surf = TTF_RenderText_Blended(m_Font.get()->GetFont(), text.c_str(), color);
+	const auto surf = TTF_RenderText_Blended(font->GetFont(), text->c_str(), color);
 	if (surf == nullptr)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -63,38 +51,60 @@ dae::Texture2D* dae::UIManager::MakeTextTexture(SDL_Color color, std::string* te
 //	m_UIElements.erase(m_UIElements.begin()+index);
 //}
 
-int dae::UIManager::AddTextElement(std::string* sptr, float scale, glm::vec2 pos)
+int dae::UIManager::AddTextElement(std::string* sptr,float size, const glm::vec2& position, SDL_Color color)
 {
-	m_UIElements.push_back(std::make_unique<UIElement>(sptr,scale,pos));
+	m_UIElements.push_back(std::make_unique<TextElement>(sptr,size,position, color));
 	return m_UIElements.size()-1;
 }
 
-int dae::UIManager::AddImageElement(std::shared_ptr<Texture2D>* texture, float scale, glm::vec2 pos)
+int dae::UIManager::AddImageElement(Texture2D** texture, const glm::vec2& dim, const glm::vec2& pos)
 {
-	m_UIElements.push_back(std::make_unique<UIElement>(
-		texture
-		,scale
-		,pos));
+	m_UIElements.push_back(std::make_unique<ImageElement>(texture,dim,pos));
 	return m_UIElements.size() - 1;
 }
 
-void dae::UIElement::Render() const
+dae::TextElement::TextElement(std::string* tptr, float scale, const glm::vec2& pos, SDL_Color color)
+	:m_Textptr{ tptr }, m_Scale{ scale }, m_Position{ pos }, m_Color{ color }
 {
-	if (!m_IsActive)
-		return;
-
-	if (m_Textptr == nullptr)
-	{
-		Renderer::GetInstance().RenderTexture(**m_Texture, m_Position.x, m_Position.y);
-	}
-	else
-	{
-		Renderer::GetInstance().RenderTexture(*m_TextTexture, m_Position.x, m_Position.y);
-	}
+	m_Font = ResourceManager::GetInstance().LoadFont("..\\Data\\Gameplay.ttf",(unsigned int)m_Scale);
 }
 
-dae::UIElement::~UIElement()
+dae::TextElement::~TextElement()
 {
-	if (m_TextTexture != nullptr)
-		delete m_TextTexture;
+	delete m_Texture;
+	delete m_Font;
+}
+
+void dae::TextElement::Render() const
+{
+	if(m_IsActive)
+		Renderer::GetInstance().RenderTexture(*m_Texture, m_Position.x, m_Position.y);
+}
+
+void dae::TextElement::Update()
+{
+	delete m_Texture;
+	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Textptr->c_str(), m_Color);
+	if (surf == nullptr)
+	{
+		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+	}
+	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+	if (texture == nullptr)
+	{
+		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+	}
+	SDL_FreeSurface(surf);
+	m_Texture = new Texture2D(texture);
+}
+
+void dae::ImageElement::Render() const
+{
+	if (m_IsActive)
+		Renderer::GetInstance().RenderTexture(**m_Texture, m_Position.x, m_Position.y, m_dimensions.x, m_dimensions.y);
+}
+
+void dae::ImageElement::Update()
+{
+
 }

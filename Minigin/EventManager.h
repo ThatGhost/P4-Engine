@@ -10,15 +10,17 @@ namespace dae
 	{
 	public:
 
-		template<class T> static void SendEvent(const std::string& EventName, const T& args)
+		template<class T> static void SendEvent(const std::string& EventName, T args)
 		{
-			m_EventQue.push(std::make_pair(EventName, ConvertToCharArray(args)));
+			byte* b = ConvertToCharArray<T>(args);
+			//std::cout << std::to_string((int)b) << std::endl;
+			m_EventQue.push(std::make_pair(EventName, b));
 		}
 		static void AddEvent(const std::string& EventName, std::function<void(byte*)> func)
 		{
 			if (!m_Events.contains(EventName))
 			{
-				m_Events.emplace(EventName, std::vector<std::function<void(byte*)>>{});
+				m_Events.insert(std::pair(EventName, std::vector<std::function<void(byte*)>>{}));
 				m_Events[EventName].push_back(func);
 			}
 			else
@@ -28,7 +30,7 @@ namespace dae
 		static void AddEvent(const std::string& EventName, void(*func)(byte*))
 		{
 			if (!m_Events.contains(EventName))
-				m_Events.emplace(EventName, std::vector<std::function<void(byte*)>>{});
+				m_Events.insert(std::pair(EventName, std::vector<std::function<void(byte*)>>{}));
 			else
 				m_Events[EventName].push_back(func);
 
@@ -46,13 +48,14 @@ namespace dae
 		{
 			while (!m_EventQue.empty())
 			{
-				std::string e = m_EventQue.front().first;
-				if (m_Events.contains(e))
+				std::string eventname = m_EventQue.front().first;
+				if (m_Events.contains(eventname))
 				{
-					//std::cout << "event triggered:  " << e << '\n';
-					for (size_t i{}; i < m_Events[e].size(); i++)
+					//std::cout << "event triggered: " << &m_Events[eventname][0] << '\n';
+					for (size_t i{}; i < m_Events[eventname].size(); i++)
 					{
-						m_Events[e][i](m_EventQue.front().second);
+						byte* b = m_EventQue.front().second;
+						m_Events[eventname][i](b);
 					}
 				}
 				delete m_EventQue.front().second;
@@ -60,11 +63,12 @@ namespace dae
 			}
 		}
 	private:
-		template<class T> static byte* ConvertToCharArray(const T& obj)
+		template<class T> static byte* ConvertToCharArray(T obj)
 		{
-			int bytesize{ sizeof(obj) };
-			byte* c_array = new byte[bytesize];
-			memcpy(c_array, &obj, bytesize);
+			int bytesize{ sizeof(T) };
+			byte* c_array = new byte[8];
+			//memcpy(c_array, &obj, bytesize);
+			memcpy(&obj, c_array, bytesize);
 			return c_array;
 		}
 

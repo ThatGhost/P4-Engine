@@ -90,7 +90,7 @@ void dae::Minigin::Run()
 	Initialize();
 
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
+	ResourceManager::GetInstance().Init();
 
 	LoadGame();
 
@@ -109,21 +109,16 @@ void dae::Minigin::Run()
 			float deltaTime = chrono::duration<float>(start - lastTime).count();
 
 			doContinue = input.ProcessInput();
-
 			EventManager::ClearQueue();
-
 			sceneManager.Update(deltaTime);
+
 			std::thread collisionThread(CollisionThread);
-
-			//CollisionThread();
-			//render and calculate collisions
-
 			renderer.Render();
+			collisionThread.join();
+
 			const auto sleeptime = start + chrono::milliseconds(MsPerFrame) - chrono::high_resolution_clock::now();
 			this_thread::sleep_for(sleeptime);
 			lastTime = start;
-
-			collisionThread.join();
 		}
 	}
 

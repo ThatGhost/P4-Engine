@@ -15,7 +15,10 @@ namespace dae
 
 		void SetIsFalling(bool isFalling) { m_isFalling = isFalling; }
 		bool IsDone() { return m_done; }
+		bool IsFalling() { return m_isFalling; }
 	private:
+		void AddScore(int);
+
 		const float m_FallSpeed{8};
 		const float m_MaxSpeed{40};
 
@@ -24,6 +27,8 @@ namespace dae
 		float m_fallVelocity{};
 		bool m_isFalling{true};
 		bool m_done{ false };
+		bool m_ini{true};
+		int m_ScoreToAdd{};
 	};
 }
 

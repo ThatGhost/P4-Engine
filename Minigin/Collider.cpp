@@ -3,11 +3,18 @@
 #include "EventManager.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 #include "Renderer.h"
 
 dae::Collider::Collider(dae::GameObject* gameobject) : Component(gameobject)
 {
 	EventManager::AddEvent("0BUTTON_START", std::bind(&dae::Collider::EnableDebug, this, m_Argument));
+}
+
+dae::Collider::~Collider()
+{
+	EventManager::RemoveEvent("0BUTTON_START");
+	SceneManager::GetInstance().RemoveCollider(this);
 }
 
 void dae::Collider::CheckCollisions(std::vector<dae::Collider*>* colliders)
@@ -71,7 +78,7 @@ void dae::Collider::Render() const
 {
 	if (m_DebugEnabled)
 	{
-		Renderer::GetInstance().RenderTexture(*m_Image.get(), m_RealPos.x, m_RealPos.y, m_Dimensions.x, m_Dimensions.y);
+		Renderer::GetInstance().RenderTexture(*m_Image, m_RealPos.x, m_RealPos.y, m_Dimensions.x, m_Dimensions.y);
 	}
 }
 

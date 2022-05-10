@@ -8,9 +8,10 @@
 
 dae::GameObject::~GameObject()
 {
-	for (auto& comp : m_Children)
+	for (auto child : m_Children)
 	{
-		delete comp;
+		if(child != nullptr)
+			delete child;
 	}
 }
 
@@ -136,7 +137,8 @@ void dae::GameObject::RemoveChild(GameObject* obj)
 void dae::GameObject::DeleteChild(GameObject* child)
 {
 	RemoveChild(child);
-	delete child;
+	if(child != nullptr)
+		delete child;
 	child = nullptr;
 }
 

@@ -12,11 +12,12 @@ namespace dae
 		virtual void Start() override;
 
 		void RemoveEnemy();
+		void Restart();
 	private:
 
 		void SpawnEnemy(int idx = -1);
 		const float m_SecUntilSpawn{ 3 };
-		const int m_MaxEnemys{ 3 };
+		const int m_MaxEnemys{ 4 };
 
 		std::vector<glm::vec3> m_SpawnPoints{};
 

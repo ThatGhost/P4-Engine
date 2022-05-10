@@ -49,7 +49,7 @@ void dae::RenderComponent::Render() const
 	glm::vec3 position = GetOwner()->GetPosition().GetPosition();
 
 	if(!m_IsAnimated)
-		Renderer::GetInstance().RenderTexture(*m_Image.get(), position.x, position.y, ImageSize * m_Scale, ImageSize * m_Scale);
+		Renderer::GetInstance().RenderTexture(*m_Image, position.x, position.y, ImageSize * m_Scale, ImageSize * m_Scale);
 	else
 	{
 		SDL_Rect src{};
@@ -64,6 +64,6 @@ void dae::RenderComponent::Render() const
 		dst.w = (int)(ImageSize * m_Scale);
 		dst.h = (int)(ImageSize * m_Scale);
 
-		Renderer::GetInstance().RenderTexture(*m_Image.get(),src,dst);
+		Renderer::GetInstance().RenderTexture(*m_Image,src,dst);
 	}
 }

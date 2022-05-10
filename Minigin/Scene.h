@@ -22,6 +22,7 @@ namespace dae
 			return nullptr;
 		}
 		void AddCollider(Collider* coll) { m_colliders.push_back(coll); }
+		void RemoveCollider(Collider* coll) { m_colliders.erase(std::remove(m_colliders.begin(), m_colliders.end(), coll), m_colliders.end()); }
 
 		void Update(float);
 		void Render() const;

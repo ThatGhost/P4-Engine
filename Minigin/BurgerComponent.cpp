@@ -1,6 +1,6 @@
 #include "MiniginPCH.h"
 #include "BurgerComponent.h"
-#include "EventManager.h"
+#include "GameManager.h"
 #include "Collider.h"
 
 dae::BurgerComponent::BurgerComponent(GameObject* Owner) : Component(Owner)
@@ -19,6 +19,12 @@ void dae::BurgerComponent::Update(float deltaTime)
 		m_fallVelocity += m_FallSpeed * deltaTime;
 		if (m_fallVelocity > m_MaxSpeed)m_fallVelocity = m_MaxSpeed;
 	}
+
+	if (m_ScoreToAdd > 0)
+	{
+		GameManager::GetInstance()->AddScore(m_ScoreToAdd);
+		m_ScoreToAdd = 0;
+	}
 }
 
 void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
@@ -32,6 +38,7 @@ void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
 		{
 			m_walkSpots[j] = false;
 		}
+		AddScore(50);
 		return;
 	}
 	else if (otherTag == "HOLDER")
@@ -81,4 +88,15 @@ void dae::BurgerComponent::OnCollision(Collider* other, Collider* mine)
 		}
 		m_isFalling = canFall;
 	}
+}
+
+void dae::BurgerComponent::AddScore(int score)
+{
+	if (m_ini)
+	{
+		m_ini = false;
+		return;
+	}
+	m_ScoreToAdd += score;
+	//TODO add scores for when enemys are on it
 }
