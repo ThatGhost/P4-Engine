@@ -1,6 +1,19 @@
 {
 "name": "Level1",
-	"gameObjects": [],
+	"gameObjects": [
+		{
+			"name": "EnemySpawner",
+			"x": "0",
+			"y": "0",
+			"z": "4",
+			"static": "true",
+			"components": [
+				{
+					"name": "GameManager"
+				}
+			],
+			"children": []
+		}],
 	"prefabs": [
 		{
 			"name": "Player.json",
@@ -23,13 +36,13 @@
 			"z": "2f"
 		},
 		{
-			"name": "BurgerSalad.json",
+			"name": "BurgerMid.json",
 			"x": "72f",
 			"y": "220f",
 			"z": "2f"
 		},
 		{
-			"name": "BurgerMeat.json",
+			"name": "BurgerMid.json",
 			"x": "72f",
 			"y": "335f",
 			"z": "2f"
@@ -49,13 +62,13 @@
 			"z": "2f"
 		},
 		{
-			"name": "BurgerSalad.json",
+			"name": "BurgerMid.json",
 			"x": "168f",
 			"y": "252f",
 			"z": "2f"
 		},
 		{
-			"name": "BurgerMeat.json",
+			"name": "BurgerMid.json",
 			"x": "168f",
 			"y": "335f",
 			"z": "2f"
@@ -75,13 +88,13 @@
 			"z": "2f"
 		},
 		{
-			"name": "BurgerSalad.json",
+			"name": "BurgerMid.json",
 			"x": "264f",
 			"y": "155f",
 			"z": "2f"
 		},
 		{
-			"name": "BurgerMeat.json",
+			"name": "BurgerMid.json",
 			"x": "264f",
 			"y": "252f",
 			"z": "2f"
@@ -101,13 +114,13 @@
 			"z": "2f"
 		},
 		{
-			"name": "BurgerSalad.json",
+			"name": "BurgerMid.json",
 			"x": "360f",
 			"y": "155f",
 			"z": "2f"
 		},
 		{
-			"name": "BurgerMeat.json",
+			"name": "BurgerMid.json",
 			"x": "360f",
 			"y": "215f",
 			"z": "2f"

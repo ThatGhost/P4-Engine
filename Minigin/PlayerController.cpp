@@ -7,7 +7,7 @@
 #include "DestroyComponent.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
-
+#include "GameManager.h"
 //TEMP
 #include "FpsComponent.h"
 
@@ -23,6 +23,7 @@ dae::PlayerController::PlayerController(GameObject* owner) : Component(owner)
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::PlayerController::Down, this, m_Argument));
 	EventManager::AddEvent("PEPPER", std::bind(&dae::PlayerController::Pepper, this, m_Argument));
 	SoundManager::GetInstance().PlaySound(m_WalkingSound, true);
+	GameManager::GetInstance(true);
 }
 dae::PlayerController::~PlayerController()
 {

@@ -67,8 +67,7 @@ namespace dae
 		{
 			int bytesize{ sizeof(T) };
 			byte* c_array = new byte[8];
-			//memcpy(c_array, &obj, bytesize);
-			memcpy(&obj, c_array, bytesize);
+			memcpy(c_array, &obj, bytesize);
 			return c_array;
 		}
 

@@ -1,0 +1,30 @@
+{
+  "name": "BurgerMid",
+  "x": "0",
+  "y": "0",
+  "z": "0",
+  "static": "false",
+  "components": [
+    {
+      "name": "Collider",
+      "x": "0",
+      "y": "20",
+      "width": "64",
+      "height": "20",
+      "tag": "BURGER",
+      "seen": "true",
+      "look": "true"
+    },
+    {
+      "name": "RenderComponent",
+      "animated": "false",
+      "image": "Burger.png",
+      "scale": "2"
+    },
+    {
+      "name": "BurgerPart",
+      "bun": "false"
+    }
+  ],
+  "children": []
+}

@@ -16,7 +16,8 @@
       "look": "true"
     },
     {
-      "name": "BurgerPart"
+      "name": "BurgerPart",
+      "bun": "true"
     },
     {
       "name": "RenderComponent",

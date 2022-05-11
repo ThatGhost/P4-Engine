@@ -14,6 +14,7 @@
 #include "MainMenu.h"
 #include "EnemySpawner.h"
 #include "GameManager.h"
+#include "EnemyPlayerComponent.h"
 
 using json = nlohmann::json;
 bool m_canRecreate = false;
@@ -189,7 +190,8 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 	break;
 	case Components::burgerComponent:
 	{
-		gameObject->AddComponent<dae::BurgerComponent>();
+		BurgerComponent* burger = static_cast<BurgerComponent*>(gameObject->AddComponent<dae::BurgerComponent>());
+		burger->Init(TrimJson(compIt.value()["bun"]) == "true");
 	}
 	break;
 	case Components::MainMenu:
@@ -205,6 +207,11 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 	case Components::GameManager:
 	{
 		gameObject->AddComponent<GameManager>();
+	}
+	break;
+	case Components::EnemyPlayerComponent:
+	{
+		gameObject->AddComponent<EnemyPlayerComponent>();
 	}
 	break;
 	default:

@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 #include "PlayerController.h"
 #include "BurgerComponent.h"
+#include "GameManager.h"
 
 dae::EnemyComponent::EnemyComponent(GameObject* owner) : Component(owner)
 {
@@ -18,6 +19,25 @@ dae::EnemyComponent::EnemyComponent(GameObject* owner) : Component(owner)
 dae::EnemyComponent::~EnemyComponent()
 {
 
+}
+
+void dae::EnemyComponent::Init(EnemyType type)
+{
+	m_type = type;
+	switch (type)
+	{
+	case EnemyType::sausage:
+		m_score = 100;
+		break;
+	case EnemyType::pickle:
+		m_score = 200;
+		break;
+	case EnemyType::egg:
+		m_score = 300;
+		break;
+	default:
+		break;
+	}
 }
 
 void dae::EnemyComponent::Update(float deltaTime)
@@ -96,7 +116,8 @@ void dae::EnemyComponent::Update(float deltaTime)
 
 void dae::EnemyComponent::Die()
 {
-	m_spawner->RemoveEnemy();
+	m_spawner->RemoveEnemy(m_type);
+	GameManager::GetInstance()->AddScore(m_score);
 	GetOwner()->Destroy();
 }
 

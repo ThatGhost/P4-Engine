@@ -21,8 +21,9 @@ dae::MainMenu::MainMenu(GameObject* owner) : Component(owner)
 	m_Arrow2 = UIManager::GetInstance().getElement(i2);
 	m_Arrow2->SetActive(false);
 
-	UIManager::GetInstance().AddTextElement(&m_Player1,35,glm::vec2(190,250));
-	UIManager::GetInstance().AddTextElement(&m_Player2,35,glm::vec2(183,300));
+	UIManager::GetInstance().AddTextElement(&m_Player1,32,glm::vec2(160,250));
+	UIManager::GetInstance().AddTextElement(&m_Player2,32,glm::vec2(150,300));
+	UIManager::GetInstance().AddTextElement(&m_Online,32,glm::vec2(213,350));
 
 	//Input
 	EventManager::AddEvent("0BUTTON_A",std::bind(&dae::MainMenu::OnA,this,m_Argument));
@@ -57,10 +58,12 @@ void dae::MainMenu::OnA(byte*)
 	UIManager::GetInstance().ClearUI();
 	if (m_firstPos)
 	{
+		InputManager::GetInstance().SetKeyboardId(0);
 		SceneManager::GetInstance().SwitchScene("Level1.json");
 	}
 	else
 	{
+		InputManager::GetInstance().SetKeyboardId(1);
 		SceneManager::GetInstance().SwitchScene("2Level1.json");
 	}
 }

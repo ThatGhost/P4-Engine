@@ -8,12 +8,20 @@ namespace dae
 	class PlayerController;
 	using byte = unsigned char;
 
+	enum class EnemyType
+	{
+		sausage,
+		egg,
+		pickle
+	};
+
 	class EnemyComponent : public Component
 	{
 	public:
 		EnemyComponent(GameObject*);
 		~EnemyComponent() override;
 
+		void Init(EnemyType);
 		virtual void Update(float) override;
 		virtual void OnCollisionEnter(Collider*, Collider*) override;
 		virtual void OnCollision(Collider*, Collider*) override;
@@ -39,6 +47,7 @@ namespace dae
 			Right = 3,
 		};
 		EnemyMoveState m_moveState{ EnemyMoveState::Right };
+		EnemyType m_type{EnemyType::sausage};
 		bool m_CanUp{ false };
 		bool m_CanDown{ false };
 		bool m_CanLeft{ false };
@@ -46,10 +55,13 @@ namespace dae
 		bool m_OnPlatform{ true };
 		bool m_Reset{ false };
 		bool m_Peppered{ false };
+		bool m_RandomWalk{ false };
 
 		float m_pepperTimer{};
 		float m_StairPosition{};
 		float m_PlatformPosition{};
+
+		int m_score{};
 	};
 }
 

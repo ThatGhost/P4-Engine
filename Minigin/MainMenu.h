@@ -21,6 +21,7 @@ namespace dae
 		Texture2D* m_Arrow;
 		std::string m_Player1{"1    PLAYER"};
 		std::string m_Player2{"2    PLAYERS"};
+		std::string m_Online{"ONLINE"};
 
 		UIElement* m_Arrow1;
 		UIElement* m_Arrow2;

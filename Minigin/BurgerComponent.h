@@ -9,11 +9,13 @@ namespace dae
 		BurgerComponent(GameObject* Owner);
 		virtual ~BurgerComponent() override;
 
+
 		virtual void Update(float deltaTime) override;
 		virtual void OnCollisionEnter(Collider*, Collider*) override;
 		virtual void OnCollision(Collider*, Collider*) override;
 
 		void SetIsFalling(bool isFalling) { m_isFalling = isFalling; }
+		void Init(bool bread = true);
 		bool IsDone() { return m_done; }
 		bool IsFalling() { return m_isFalling; }
 	private:

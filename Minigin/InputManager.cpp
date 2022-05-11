@@ -29,6 +29,7 @@ void dae::InputManager::Init()
 
 bool dae::InputManager::ProcessInput()
 {
+	//controllers
 	DWORD dwResult;
 	for (DWORD i = 0; i < XUSER_MAX_COUNT; i++)
 	{
@@ -40,18 +41,16 @@ bool dae::InputManager::ProcessInput()
 		}
 	}
 
+	//keyboard
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
 		if (e.type == SDL_KEYDOWN) {
-			std::cout << e.key.keysym.sym << std::endl;
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			
-		}
-		
+			KeyPress(e.key.keysym.sym,1);
+			//std::cout << SDL_GetKeyName(e.key.keysym.sym) << std::endl;
+		}		
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
@@ -70,5 +69,20 @@ void dae::InputManager::ButtonPress(const ControllerButton b, int player)
 			eventName += m_Commands[e];
 			EventManager::SendEvent(eventName, 0);
 		}
+	}
+}
+
+void dae::InputManager::KeyPress(const SDL_Keycode key, int)
+{
+	switch (key)
+	{
+	case SDLK_SPACE: EventManager::SendEvent(std::to_string(m_keyboardId) +"BUTTON_A", 0);break;
+	case SDLK_v: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_B", 0);break;
+	case SDLK_w: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_UP", 0); break;
+	case SDLK_s: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_DOWN", 0);break;
+	case SDLK_a: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_LEFT", 0);break;
+	case SDLK_d: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_RIGHT", 0);break;
+	default:
+		break;
 	}
 }

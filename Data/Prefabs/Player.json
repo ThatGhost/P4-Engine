@@ -10,8 +10,8 @@
 			"image" : "Player.png",
 			"animated": "true",
 			"scale": "1",
-			"frames": "3",
-			"frameTime": "0.3f"
+			"frames": "4",
+			"frameTime": "0.2f"
 		},
 		{
 			"name": "Collider",

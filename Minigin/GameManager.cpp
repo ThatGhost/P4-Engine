@@ -17,10 +17,10 @@
 using byte = unsigned char;
 byte* g_arg;
 
-dae::GameManager* dae::GameManager::GetInstance()
+dae::GameManager* dae::GameManager::GetInstance(bool restart)
 {
 	static GameManager* instance = nullptr;
-	if (instance == nullptr)
+	if (instance == nullptr || restart)
 		instance = static_cast<GameManager*>(SceneManager::GetInstance().FindComponent<GameManager>());
 
 	return instance;
@@ -29,7 +29,7 @@ dae::GameManager* dae::GameManager::GetInstance()
 dae::GameManager::GameManager(GameObject* owner) : Component(owner)
 {
 	EventManager::AddEvent("DIE",std::bind(&dae::GameManager::OnDie,this,m_Argument));
-	EventManager::AddEvent("WIN",std::bind(&dae::GameManager::OnWin,this,m_Argument));
+	EventManager::AddEvent("BURGERDONE",std::bind(&dae::GameManager::OnBurgderDone,this,m_Argument));
 	EventManager::AddEvent("0BUTTON_A", std::bind(&dae::GameManager::OnSalt, this, m_Argument));
 
 	m_healthImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "Health.png");
@@ -64,7 +64,7 @@ void dae::GameManager::Restart()
 	//remove all enemies and place player in start
 	m_healthString = std::to_string(m_health);
 	m_playerController->SetPosition(m_playerStartpos);
-	m_enemySpawner->Restart();
+	if(m_enemySpawner != nullptr) m_enemySpawner->Restart();
 	UIManager::GetInstance().UpdateUI();
 	SoundManager::GetInstance().PlaySound("GameOver.wav");
 }
@@ -81,11 +81,11 @@ void dae::GameManager::GameOver()
 void dae::GameManager::AddGameUI()
 {
 	//score
-	UIManager::GetInstance().AddTextElement(&m_1Up, m_FontSize, glm::vec2(20, 10));
+	UIManager::GetInstance().AddTextElement(&m_1Up, m_FontSize, glm::vec2(20, 10),SDL_Color(0,255,0));
 	UIManager::GetInstance().AddTextElement(&m_scoreString, m_FontSize - 10, glm::vec2(90, 20));
 
 	//Hi score
-	UIManager::GetInstance().AddTextElement(&m_Hi_Score, m_FontSize, glm::vec2(210, 10));
+	UIManager::GetInstance().AddTextElement(&m_Hi_Score, m_FontSize, glm::vec2(210, 10), SDL_Color(255, 0, 0));
 	UIManager::GetInstance().AddTextElement(&m_highScoreString, m_FontSize - 10, glm::vec2(250, 20));
 
 	//pepper
@@ -161,11 +161,11 @@ void dae::GameManager::OnDie(byte*)
 	m_health--;
 	if (m_health == 0)
 		GameOver();
-	else
+	else if (m_health > 0)
 		Restart();
 }
 
-void dae::GameManager::OnWin(byte*)
+void dae::GameManager::OnWin()
 {
 	SoundManager::GetInstance().PlaySound("NextLevel.wav");
 	EventManager::RemoveEvent("0BUTTON_A");
@@ -184,6 +184,15 @@ void dae::GameManager::OnSalt(byte*)
 		UIManager::GetInstance().UpdateUI();
 	}
 	m_PressingPepper = true;
+}
+
+void dae::GameManager::OnBurgderDone(byte*)
+{
+	m_doneBurgers++;
+	if (m_doneBurgers == 16)
+	{
+		OnWin();
+	}
 }
 
 void dae::GameManager::AddScore(int score)

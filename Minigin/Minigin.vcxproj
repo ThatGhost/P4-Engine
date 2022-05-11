@@ -224,6 +224,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClInclude Include="dirent.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EnemyEntry.h" />
+    <ClInclude Include="EnemyPlayerComponent.h" />
     <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Font.h" />
@@ -299,6 +300,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClCompile Include="DestroyComponent.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="EnemyEntry.cpp" />
+    <ClCompile Include="EnemyPlayerComponent.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Font.cpp" />

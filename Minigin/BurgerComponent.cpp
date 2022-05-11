@@ -1,10 +1,14 @@
 #include "MiniginPCH.h"
 #include "BurgerComponent.h"
+#include "RenderComponent.h"
+#include "EventManager.h"
 #include "GameManager.h"
 #include "Collider.h"
 
 dae::BurgerComponent::BurgerComponent(GameObject* Owner) : Component(Owner)
-{}
+{
+	
+}
 
 dae::BurgerComponent::~BurgerComponent()
 {
@@ -46,18 +50,26 @@ void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
 		m_fallVelocity = 0;
 		m_isFalling = false;
 		m_done = true;
+		EventManager::SendEvent("BURGERDONE", 0);
 		return;
 	}
 	else if (otherTag == "BURGER")
 	{
-		m_isFalling = true;
-
-		bool done = static_cast<dae::BurgerComponent*>(other->GetOwner()->GetComponent<dae::BurgerComponent>())->IsDone();
-		if (done || m_done)
+		//m_isFalling = true;
+		if (!m_done)
 		{
-			m_isFalling = false;
-			m_fallVelocity = 0;
-			m_done = true;
+			bool done = static_cast<dae::BurgerComponent*>(other->GetOwner()->GetComponent<dae::BurgerComponent>())->IsDone();
+			if (done)
+			{
+				m_isFalling = false;
+				m_fallVelocity = 0;
+				m_done = true;
+				EventManager::SendEvent("BURGERDONE", 0);
+			}
+			else
+			{
+				m_isFalling = true;
+			}
 		}
 		return;
 	}
@@ -87,6 +99,24 @@ void dae::BurgerComponent::OnCollision(Collider* other, Collider* mine)
 				canFall = false;
 		}
 		m_isFalling = canFall;
+	}
+}
+
+void dae::BurgerComponent::Init(bool bread)
+{
+	if (!bread)
+	{
+		RenderComponent* ren = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
+		int r = rand()%5;
+		switch (r)
+		{
+		case 0: ren->SetImage("Burger.png",true ,2); break;
+		case 1: ren->SetImage("Cheese.png",true ,2); break;
+		case 2: ren->SetImage("Salad.png",true  ,2); break;
+		case 3: ren->SetImage("Tomatos.png",true,2); break;
+		default:
+			break;
+		}
 	}
 }
 

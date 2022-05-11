@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-
+#include "EnemyComponent.h"
 namespace dae
 {
 	class EnemySpawner : public Component
@@ -11,7 +11,7 @@ namespace dae
 		virtual void Update(float) override;
 		virtual void Start() override;
 
-		void RemoveEnemy();
+		void RemoveEnemy(EnemyType);
 		void Restart();
 	private:
 
@@ -23,7 +23,7 @@ namespace dae
 
 		float m_Timer{};
 		int m_AmountOfEnemys{};
-		bool m_initialPhase{true};
+		bool m_EggOnScreen{false};
 	};
 }
 

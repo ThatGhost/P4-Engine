@@ -18,6 +18,7 @@ namespace dae
 		MainMenu,
 		EnemySpawner,
 		GameManager,
+		EnemyPlayerComponent,
 	};
 
 	const std::map<std::string, Components> StringToType{
@@ -29,6 +30,7 @@ namespace dae
 		{"MainMenu", Components::MainMenu},
 		{"EnemySpawner", Components::EnemySpawner},
 		{"GameManager", Components::GameManager},
+		{"EnemyPlayerComponent", Components::EnemyPlayerComponent},
 	};
 
 	class Scene;

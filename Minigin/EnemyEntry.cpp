@@ -20,7 +20,8 @@ void dae::EnemyEntry::Update(float deltaTime)
 
 	if (distancefromorigal > destfromorigal)
 	{
-		GetOwner()->AddComponent<EnemyComponent>();
+		EnemyComponent* e = static_cast<EnemyComponent*>( GetOwner()->AddComponent<EnemyComponent>());
+		e->Init(m_type);
 		GetOwner()->RemoveComponent<EnemyEntry>();
 	}
 }

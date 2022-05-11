@@ -59,6 +59,7 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame()
 {
+	srand((unsigned int)time(NULL));
 	SoundManager::GetInstance().Init();
 	UIManager::GetInstance().Init();
 

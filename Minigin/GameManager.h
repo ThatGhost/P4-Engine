@@ -11,7 +11,7 @@ namespace dae
 	class GameManager : public Component
 	{
 	public:
-		static GameManager* GetInstance();
+		static GameManager* GetInstance(bool restart = false);
 
 		GameManager(GameObject* owner);
 		~GameManager() override;
@@ -26,17 +26,18 @@ namespace dae
 		void GameOver();
 		void AddGameUI();
 		void InitialiseData();
+		void OnWin();
 		void HandleScore();
 		void OnDie(byte*);
-		void OnWin(byte*);
 		void OnSalt(byte*);
+		void OnBurgderDone(byte*);
 
 		GameObject* m_playerController = nullptr;
 		EnemySpawner* m_enemySpawner = nullptr;
 
 		byte* m_Argument = nullptr;
 		const std::string m_BasePath{ "..\\Data\\UI\\" };
-		const int m_NormalHealth = 5;
+		const int m_NormalHealth = 3;
 		const int m_NormalPepper = 3;
 
 		int m_HighScore = 0;
@@ -47,6 +48,7 @@ namespace dae
 		int m_score = 0;
 		int m_health = m_NormalHealth;
 		int m_pepper = m_NormalPepper;
+		int m_doneBurgers{};
 
 		//UI
 		std::string m_1Up{"1UP"};

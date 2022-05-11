@@ -159,6 +159,9 @@
     <ClInclude Include="EnemyEntry.h">
       <Filter>Game\headers</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyPlayerComponent.h">
+      <Filter>Game\headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\ImGui\imgui.cpp">
@@ -267,6 +270,9 @@
       <Filter>Game\cpp</Filter>
     </ClCompile>
     <ClCompile Include="DestroyComponent.cpp">
+      <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPlayerComponent.cpp">
       <Filter>Game\cpp</Filter>
     </ClCompile>
   </ItemGroup>
