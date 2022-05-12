@@ -51,16 +51,16 @@ dae::Texture2D* dae::UIElement::MakeTextTexture(SDL_Color color, std::string* te
 //	m_UIElements.erase(m_UIElements.begin()+index);
 //}
 
-int dae::UIManager::AddTextElement(std::string* sptr,float size, const glm::vec2& position, SDL_Color color)
+dae::UIElement* dae::UIManager::AddTextElement(std::string* sptr,float size, const glm::vec2& position, SDL_Color color)
 {
 	m_UIElements.push_back(std::make_unique<TextElement>(sptr,size,position, color));
-	return m_UIElements.size()-1;
+	return m_UIElements[m_UIElements.size()-1].get();
 }
 
-int dae::UIManager::AddImageElement(Texture2D** texture, const glm::vec2& dim, const glm::vec2& pos)
+dae::UIElement* dae::UIManager::AddImageElement(Texture2D** texture, const glm::vec2& dim, const glm::vec2& pos)
 {
 	m_UIElements.push_back(std::make_unique<ImageElement>(texture,dim,pos));
-	return m_UIElements.size() - 1;
+	return m_UIElements[m_UIElements.size() - 1].get();
 }
 
 dae::TextElement::TextElement(std::string* tptr, float scale, const glm::vec2& pos, SDL_Color color)

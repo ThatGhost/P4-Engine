@@ -162,6 +162,15 @@
     <ClInclude Include="EnemyPlayerComponent.h">
       <Filter>Game\headers</Filter>
     </ClInclude>
+    <ClInclude Include="GameManagerVersus.h">
+      <Filter>Game\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManagerSolo.h">
+      <Filter>Game\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManagerCoop.h">
+      <Filter>Game\headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\ImGui\imgui.cpp">
@@ -273,6 +282,15 @@
       <Filter>Game\cpp</Filter>
     </ClCompile>
     <ClCompile Include="EnemyPlayerComponent.cpp">
+      <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManagerVersus.cpp">
+      <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManagerSolo.cpp">
+      <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManagerCoop.cpp">
       <Filter>Game\cpp</Filter>
     </ClCompile>
   </ItemGroup>

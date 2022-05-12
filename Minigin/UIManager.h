@@ -18,9 +18,9 @@ namespace dae
 		//void DeleteUI(int);
 		void ClearUI() { m_UIElements.clear(); }
 		void UpdateUI();
-		int AddTextElement(std::string*, float, const glm::vec2& position, SDL_Color c = SDL_Color(255,255,255));
-		int AddImageElement(Texture2D**, const glm::vec2& position, const glm::vec2& dimensions);
-		UIElement* getElement(int i) { return m_UIElements[i].get(); }
+
+		UIElement* AddTextElement(std::string*, float, const glm::vec2& position, SDL_Color c = SDL_Color(255,255,255));
+		UIElement* AddImageElement(Texture2D**, const glm::vec2& position, const glm::vec2& dimensions);
 	private:
 		friend class Singleton<UIManager>;
 		UIManager() = default;

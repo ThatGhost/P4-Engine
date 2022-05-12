@@ -14,6 +14,9 @@
 #include "MainMenu.h"
 #include "EnemySpawner.h"
 #include "GameManager.h"
+#include "GameManagerVersus.h"
+#include "GameManagerSolo.h"
+#include "GameManagerCoop.h"
 #include "EnemyPlayerComponent.h"
 
 using json = nlohmann::json;
@@ -56,14 +59,14 @@ void dae::SceneConstructor::ConstructScene(const std::string& nameScene, bool ki
 	SceneFile.close();
 
 	//make scene
-	auto& scene = SceneManager::GetInstance().CreateScene(TrimJson(sceneData["name"]));
-	std::vector<dae::Collider*>* colliders = scene.GetColliderVector();
+	auto scene = SceneManager::GetInstance().CreateScene(TrimJson(sceneData["name"]));
+	std::vector<dae::Collider*>* colliders = scene->GetColliderVector();
 
 	//construct the gameobjects
 	for (auto it = sceneData["gameObjects"].begin(); it != sceneData["gameObjects"].end(); ++it)
 	{
 		json j{ it.value()};
-		scene.Add(ConstructGO(j, colliders));
+		ConstructGO(j, colliders, scene);
 	}
 
 	//construct the prefabs
@@ -75,7 +78,7 @@ void dae::SceneConstructor::ConstructScene(const std::string& nameScene, bool ki
 		j["x"] = it.value()["x"];
 		j["y"] = it.value()["y"];
 		j["z"] = it.value()["z"];
-		scene.Add(ConstructGO(j,colliders));
+		ConstructGO(j,colliders,scene);
 	}
 
 	//test comp
@@ -86,9 +89,9 @@ void dae::SceneConstructor::ConstructScene(const std::string& nameScene, bool ki
 	m_canRecreate = true;
 }
 
-dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<dae::Collider*>* colliders)
+dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<dae::Collider*>* colliders, Scene* scene)
 {
-	auto gameObject = new dae::GameObject();
+	dae::GameObject* gameObject = scene->Add(new GameObject());
 
 	//position
 	float x = std::stof(TrimJson(it["x"]));
@@ -117,7 +120,7 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 		j["x"] = childIt.value()["x"];
 		j["y"] = childIt.value()["y"];
 		j["z"] = childIt.value()["z"];
-		ConstructGO(j, colliders)->SetParent(gameObject);
+		ConstructGO(j, colliders,scene)->SetParent(gameObject);
 	}
 
 	return gameObject;
@@ -206,7 +209,22 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 	break;
 	case Components::GameManager:
 	{
-		gameObject->AddComponent<GameManager>();
+		std::string type{TrimJson(compIt.value()["type"])};
+		GameManager* gamemanager = nullptr;
+		if (type == "solo")
+		{
+			gamemanager = static_cast<GameManagerSolo*>(gameObject->AddComponent<GameManagerSolo>());
+			static_cast<GameManagerSolo*>(gamemanager)->SetLevel(std::stoi(TrimJson(compIt.value()["level"])));
+		}
+		else if (type == "versus")
+		{
+			gamemanager = static_cast<GameManagerVersus*>(gameObject->AddComponent<GameManagerVersus>());
+		}
+		else if (type == "coop")
+		{
+			gamemanager = static_cast<GameManagerCoop*>(gameObject->AddComponent<GameManagerCoop>());
+		}
+		SceneManager::GetInstance().SetGameManager(gamemanager);
 	}
 	break;
 	case Components::EnemyPlayerComponent:

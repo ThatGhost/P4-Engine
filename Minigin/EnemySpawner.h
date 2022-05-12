@@ -13,17 +13,20 @@ namespace dae
 
 		void RemoveEnemy(EnemyType);
 		void Restart();
+		void ClearEnemys();
+		void SetSpawning(bool spawning = true) { m_Spawning = spawning; }
 	private:
 
 		void SpawnEnemy(int idx = -1);
 		const float m_SecUntilSpawn{ 3 };
-		const int m_MaxEnemys{ 4 };
+		const int m_MaxEnemys{ 6 };
 
 		std::vector<glm::vec3> m_SpawnPoints{};
 
 		float m_Timer{};
 		int m_AmountOfEnemys{};
 		bool m_EggOnScreen{false};
+		bool m_Spawning{ true };
 	};
 }
 

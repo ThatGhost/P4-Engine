@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "GameObject.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 #include "Renderer.h"
 #include "Collider.h"
 #include <memory>
@@ -8,11 +9,11 @@
 
 dae::GameObject::~GameObject()
 {
-	for (auto child : m_Children)
+	for (size_t i = 0; i < m_Children.size(); i++)
 	{
-		if(child != nullptr)
-			delete child;
+		delete m_Children[i];
 	}
+	m_Children.clear();
 }
 
 void dae::GameObject::Update(float deltaTime)
@@ -21,12 +22,18 @@ void dae::GameObject::Update(float deltaTime)
 	{
 		m_Components[i].get()->Update(deltaTime);
 	}
+	bool deleted{false};
 	for (auto child : m_Children)
 	{
 		if (!child->IsMarkedForDeletion())
+		{
 			child->Update(deltaTime);
-		else
+		}
+		else if (!deleted)
+		{
 			DeleteChild(child);
+			deleted = true;
+		}
 	}
 }
 
@@ -92,8 +99,15 @@ dae::Transform dae::GameObject::CalculatePosition()
 
 dae::GameObject* dae::GameObject::SetParent(GameObject* parent)
 {
-	if(m_Parent!= nullptr)
+	if (m_Parent != nullptr)
+	{
 		m_Parent->RemoveChild(this);
+	}
+	else
+	{
+		SceneManager::GetInstance().RemoveGameObject(this);
+	}
+
 	m_Parent = parent;
 	if (m_Parent != nullptr)
 		m_Parent->AddChild(this);
@@ -123,13 +137,10 @@ void dae::GameObject::RemoveChild(int index)
 
 void dae::GameObject::RemoveChild(GameObject* obj)
 {
-	if (m_Children.size() > 0)
-	{
-		for (size_t i = 0; i < m_Children.size(); i++) {
-			if (m_Children[i] == obj) {
-				m_Children.erase(m_Children.begin() + i);
-				break;
-			}
+	for (size_t i = 0; i < m_Children.size(); i++) {
+		if (m_Children[i] == obj) {
+			m_Children.erase(m_Children.begin() + i);
+			break;
 		}
 	}
 }
@@ -139,7 +150,6 @@ void dae::GameObject::DeleteChild(GameObject* child)
 	RemoveChild(child);
 	if(child != nullptr)
 		delete child;
-	child = nullptr;
 }
 
 dae::GameObject* dae::GameObject::AddChild(GameObject* child)

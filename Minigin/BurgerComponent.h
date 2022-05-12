@@ -30,7 +30,6 @@ namespace dae
 		bool m_isFalling{true};
 		bool m_done{ false };
 		bool m_ini{true};
-		int m_ScoreToAdd{};
 	};
 }
 

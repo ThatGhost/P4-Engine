@@ -15,15 +15,7 @@ dae::PlayerController::PlayerController(GameObject* owner) : Component(owner)
 {
 	//TEMP
 	//GetOwner()->AddComponent<dae::FpsComponent>();
-
-	//input
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::PlayerController::Left, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::PlayerController::Right, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::PlayerController::Up, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::PlayerController::Down, this, m_Argument));
-	EventManager::AddEvent("PEPPER", std::bind(&dae::PlayerController::Pepper, this, m_Argument));
-	SoundManager::GetInstance().PlaySound(m_WalkingSound, true);
-	GameManager::GetInstance(true);
+	//SoundManager::GetInstance().PlaySound(m_WalkingSound, true);
 }
 dae::PlayerController::~PlayerController()
 {
@@ -31,9 +23,9 @@ dae::PlayerController::~PlayerController()
 	EventManager::RemoveEvent(std::to_string(m_Player) + "BUTTON_RIGHT");
 	EventManager::RemoveEvent(std::to_string(m_Player) + "BUTTON_UP");
 	EventManager::RemoveEvent(std::to_string(m_Player) + "BUTTON_DOWN");
-	EventManager::RemoveEvent("PEPPER");
+	EventManager::RemoveEvent(std::to_string(m_Player) + "PEPPER");
 
-	SoundManager::GetInstance().RemoveSound("Footstep.wav");
+	//SoundManager::GetInstance().RemoveSound("Footstep.wav");
 }
 
 void dae::PlayerController::Update(float deltaTime)
@@ -69,14 +61,14 @@ void dae::PlayerController::Update(float deltaTime)
 	}
 
 	//sound
-	if (m_Movement.x != 0 || m_Movement.y != 0)
-	{
-		SoundManager::GetInstance().PauseSound(m_WalkingSound, false);
-	}
-	else
-	{
-		SoundManager::GetInstance().PauseSound(m_WalkingSound, true);
-	}
+	//if (m_Movement.x != 0 || m_Movement.y != 0)
+	//{
+	//	SoundManager::GetInstance().PauseSound(m_WalkingSound, false);
+	//}
+	//else
+	//{
+	//	SoundManager::GetInstance().PauseSound(m_WalkingSound, true);
+	//}
 
 	//snap to correct place
 	if (m_Movement.x != 0)
@@ -133,6 +125,11 @@ void dae::PlayerController::Init(int player)
 {
 	m_Player = player;
 	m_renderer = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::PlayerController::Left, this, m_Argument));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::PlayerController::Right, this, m_Argument));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::PlayerController::Up, this, m_Argument));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::PlayerController::Down, this, m_Argument));
+	EventManager::AddEvent(std::to_string(m_Player) + "PEPPER", std::bind(&dae::PlayerController::Pepper, this, m_Argument));
 }
 
 //input callbacks

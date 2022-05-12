@@ -44,7 +44,7 @@ namespace dae
 		static void Init();
 
 		static void ConstructScene(const std::string&, bool kill = true);
-		static dae::GameObject* ConstructGO(const nlohmann::json& it, std::vector<dae::Collider*>* colliders);
+		static dae::GameObject* ConstructGO(const nlohmann::json& it, std::vector<dae::Collider*>* colliders, Scene* scene);
 	private:
 		static std::string TrimJson(const std::string& string);
 		static void AddComponent(const json::const_iterator&, GameObject*, std::vector<dae::Collider*>*);

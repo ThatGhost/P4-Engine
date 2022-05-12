@@ -9,7 +9,8 @@
 			"static": "true",
 			"components": [
 				{
-					"name": "GameManager"
+					"name": "GameManager",
+					"type": "versus"
 				}
 			],
 			"children": []

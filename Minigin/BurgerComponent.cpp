@@ -23,12 +23,6 @@ void dae::BurgerComponent::Update(float deltaTime)
 		m_fallVelocity += m_FallSpeed * deltaTime;
 		if (m_fallVelocity > m_MaxSpeed)m_fallVelocity = m_MaxSpeed;
 	}
-
-	if (m_ScoreToAdd > 0)
-	{
-		GameManager::GetInstance()->AddScore(m_ScoreToAdd);
-		m_ScoreToAdd = 0;
-	}
 }
 
 void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
@@ -65,6 +59,7 @@ void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
 				m_fallVelocity = 0;
 				m_done = true;
 				EventManager::SendEvent("BURGERDONE", 0);
+				AddScore(50);
 			}
 			else
 			{
@@ -127,6 +122,6 @@ void dae::BurgerComponent::AddScore(int score)
 		m_ini = false;
 		return;
 	}
-	m_ScoreToAdd += score;
+	SceneManager::GetInstance().GetGameManager()->AddScore(score);
 	//TODO add scores for when enemys are on it
 }

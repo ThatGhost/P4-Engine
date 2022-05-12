@@ -117,7 +117,7 @@ void dae::EnemyComponent::Update(float deltaTime)
 void dae::EnemyComponent::Die()
 {
 	m_spawner->RemoveEnemy(m_type);
-	GameManager::GetInstance()->AddScore(m_score);
+	SceneManager::GetInstance().GetGameManager()->AddScore(m_score);
 	GetOwner()->Destroy();
 }
 

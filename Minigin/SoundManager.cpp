@@ -45,8 +45,11 @@ void dae::SoundManager::PauseSound(const std::string& nameSound, bool pauze)
 
 void dae::SoundManager::RemoveSound(const std::string& nameSound)
 {
-	m_sound[nameSound]->setIsPaused();
-	m_sound[nameSound]->setIsLooped(false);
-	m_sound[nameSound]->drop();
-	m_sound.erase(nameSound);
+	if (m_sound.contains(nameSound))
+	{
+		m_sound[nameSound]->setIsPaused();
+		m_sound[nameSound]->setIsLooped(false);
+		m_sound[nameSound]->drop();
+		m_sound.erase(nameSound);
+	}
 }

@@ -18,8 +18,6 @@ dae::EnemyPlayerComponent::EnemyPlayerComponent(GameObject* owner) : Component(o
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::EnemyPlayerComponent::Up, this, m_Argument));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::EnemyPlayerComponent::Down, this, m_Argument));
 	EventManager::AddEvent("DIE", std::bind(&dae::EnemyPlayerComponent::Restart, this, m_Argument));
-
-	GameManager::GetInstance(true);
 }
 dae::EnemyPlayerComponent::~EnemyPlayerComponent()
 {

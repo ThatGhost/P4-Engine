@@ -83,7 +83,7 @@ void dae::Minigin::Cleanup()
 
 void CollisionThread()
 {
-	dae::SceneManager::GetInstance().GetActiveScene().get()->GetCollisions();
+	dae::SceneManager::GetInstance().GetActiveScene()->GetCollisions();
 }
 
 void dae::Minigin::Run()

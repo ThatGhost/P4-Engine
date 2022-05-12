@@ -4,13 +4,9 @@
 #include "Collider.h"
 #include <algorithm>
 
-using namespace dae;
+dae::Scene::Scene(const std::string& name) : m_Name(name) {}
 
-unsigned int Scene::m_IdCounter = 0;
-
-Scene::Scene(const std::string& name) : m_Name(name) {}
-
-Scene::~Scene()
+dae::Scene::~Scene()
 {
 	for (auto go : m_Objects)
 	{
@@ -18,25 +14,42 @@ Scene::~Scene()
 	}
 }
 
-void Scene::Add(GameObject* object)
+dae::GameObject* dae::Scene::Add(GameObject* obj)
 {
-	m_Objects.push_back(object);
+	m_Objects.push_back(obj);
+	return obj;
 }
 
-void Scene::Update(float deltaTime)
+void dae::Scene::Update(float deltaTime)
 {
-	for(auto& object : m_Objects)
+	bool deleted = false;
+
+	for (size_t i = 0; i < m_Objects.size(); i++)
 	{
-		if (!object->IsMarkedForDeletion())
-			object->Update(deltaTime);
-		else 
-			DeleteGameObject(object);
+		if (m_Objects[i] != nullptr)
+		{
+			if (!m_Objects[i]->IsMarkedForDeletion())
+			{
+				m_Objects[i]->Update(deltaTime);
+			}
+			else if (!deleted)
+			{
+				DeleteGameObject(m_Objects[i]);
+				i--;
+				deleted = true;
+			}
+		}
 	}
 }
 
-void Scene::Render() const
+void dae::Scene::Render() const
 {
-	std::vector<dae::GameObject*> toRender{ m_Objects };
+	std::vector<dae::GameObject*> toRender{ };
+	for (size_t i = 0; i < m_Objects.size(); i++)
+	{
+		toRender.push_back(m_Objects[i]);
+	}
+
 	int layer{0};
 	while (toRender.size() > 0)
 	{
@@ -61,7 +74,7 @@ void dae::Scene::Start()
 	}
 }
 
-void Scene::GetCollisions()
+void dae::Scene::GetCollisions()
 {
 	for (auto coll : m_colliders)
 	{
@@ -71,17 +84,8 @@ void Scene::GetCollisions()
 
 void dae::Scene::DeleteGameObject(GameObject* obj)
 {
-	if (std::find(m_Objects.begin(), m_Objects.end(), obj) == m_Objects.end()) //if vector doesnt contain pointer
-	{
-		obj->SetParent(nullptr);
-		delete obj;
-		obj = nullptr;
-	}
-	else
-	{
-		int idx = m_Objects.begin() - std::find(m_Objects.begin(), m_Objects.end(), obj);
-		delete obj;
-		obj = nullptr;
-		m_Objects.erase(m_Objects.begin() + idx);
-	}
+	int idx = m_Objects.begin() - std::find(m_Objects.begin(), m_Objects.end(), obj);
+	delete obj;
+	obj = nullptr;
+	m_Objects.erase(m_Objects.begin() + idx);
 }

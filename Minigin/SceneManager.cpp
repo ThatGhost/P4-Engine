@@ -2,29 +2,30 @@
 #include "SceneManager.h"
 #include "InputManager.h"
 #include "EventManager.h"
+#include "Scene.h"
+#include "GameManager.h"
 #include "SceneConstructor.h"
 
 void dae::SceneManager::Update(float deltaTime)
 {
-	for(auto& scene : m_Scenes)
+	for (size_t i = 0; i < m_Scenes.size(); i++)
 	{
-		scene->Update(deltaTime);
+		m_Scenes[i]->Update(deltaTime);
 	}
 }
 
 void dae::SceneManager::Render()
 {
-	for (const auto& scene : m_Scenes)
+	for (size_t i = 0; i < m_Scenes.size(); i++)
 	{
-		scene->Render();
+		m_Scenes[i]->Render();
 	}
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+dae::Scene* dae::SceneManager::CreateScene(const std::string& name)
 {
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_Scenes.push_back(scene);
-	return *scene;
+	m_Scenes.push_back(std::make_unique<Scene>(name));
+	return m_Scenes[m_Scenes.size() - 1].get();
 }
 
 void dae::SceneManager::KillMainScene()
@@ -52,4 +53,14 @@ void dae::SceneManager::AddCollider(Collider* coll)
 void dae::SceneManager::RemoveCollider(Collider* coll)
 {
 	m_Scenes[m_ActiveScene].get()->RemoveCollider(coll);
+}
+
+dae::GameManager* dae::SceneManager::GetGameManager()
+{
+	return m_Scenes[m_ActiveScene].get()->GetGameManager();
+}
+
+void dae::SceneManager::SetGameManager(GameManager* gm)
+{
+	m_Scenes[m_ActiveScene].get()->AddGameManager(gm);
 }

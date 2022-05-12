@@ -4,11 +4,12 @@
 
 namespace dae
 {
+	class GameManager;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
-		std::shared_ptr<dae::Scene> GetActiveScene() { return m_Scenes[m_ActiveScene]; }
+		Scene* CreateScene(const std::string& name);
+		dae::Scene* GetActiveScene() { return m_Scenes[m_ActiveScene].get(); }
 
 		void Update(float);
 		void Render();
@@ -17,12 +18,15 @@ namespace dae
 		void SwitchScene(const std::string& scenename);
 		void AddCollider(Collider*);
 		void RemoveCollider(Collider*);
+		GameManager* GetGameManager();
+		void SetGameManager(GameManager*);
+		void RemoveGameObject(GameObject* object) {	m_Scenes[m_ActiveScene].get()->RemoveGameObject(object); }
 
 		template<class T> Component* FindComponent() const
 		{
-			for (auto scene : m_Scenes)
+			for (size_t i = 0; i < m_Scenes.size(); i++)
 			{
-				Component* comp = scene.get()->GetComponent<T>();
+				Component* comp = m_Scenes[i].get()->GetComponent<T>();
 				if (comp != nullptr)
 				{
 					return comp;
@@ -35,7 +39,7 @@ namespace dae
 		SceneManager() = default;
 		~SceneManager() = default;
 
-		std::vector<std::shared_ptr<dae::Scene>> m_Scenes;
+		std::vector<std::unique_ptr<dae::Scene>> m_Scenes;
 		int m_ActiveScene{1};
 	};
 }

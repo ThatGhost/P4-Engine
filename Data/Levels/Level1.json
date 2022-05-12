@@ -12,7 +12,9 @@
 					"name": "EnemySpawner"
 				},
 				{
-					"name": "GameManager"
+					"name": "GameManager",
+					"type": "solo",
+					"level": "1"
 				}
 			],
 			"children": [

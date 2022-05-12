@@ -16,6 +16,9 @@ dae::EnemySpawner::~EnemySpawner()
 
 void dae::EnemySpawner::Update(float deltaTime)
 {
+	if (!m_Spawning)
+		return;
+
 	m_Timer += deltaTime;
 	if (m_Timer > m_SecUntilSpawn)
 	{
@@ -39,6 +42,9 @@ void dae::EnemySpawner::Start()
 
 void dae::EnemySpawner::SpawnEnemy(int idx)
 {
+	if (!m_Spawning)
+		return;
+
 	GameObject* owner{ GetOwner() };
 	GameObject* enemy = new GameObject();
 
@@ -140,12 +146,17 @@ void dae::EnemySpawner::RemoveEnemy(EnemyType type)
 
 void dae::EnemySpawner::Restart()
 {
-	m_EggOnScreen = false;
+	ClearEnemys();
+	SpawnEnemy(0);
+	SpawnEnemy(1);
+}
+
+void dae::EnemySpawner::ClearEnemys()
+{
 	m_AmountOfEnemys = 0;
+	m_EggOnScreen = false;
 	for (size_t i{}; i < GetOwner()->GetChildCount(); i++)
 	{
 		GetOwner()->GetChildAt(i)->Destroy();
 	}
-	SpawnEnemy(0);
-	SpawnEnemy(1);
 }
