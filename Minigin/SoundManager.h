@@ -1,6 +1,6 @@
 #pragma once
 #include "Singleton.h"
-#include "irrKlang.h"
+#include <irrKlang.h>
 #include <map>
 
 namespace dae

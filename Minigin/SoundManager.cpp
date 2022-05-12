@@ -1,6 +1,9 @@
 #include "MiniginPCH.h"
 #include "SoundManager.h"
 #include "dirent.h"
+#pragma comment(lib, "irrKlang.lib")
+
+using namespace irrklang;
 
 dae::SoundManager::~SoundManager()
 {
@@ -13,7 +16,7 @@ dae::SoundManager::~SoundManager()
 
 void dae::SoundManager::Init()
 {
-	m_engine = irrklang::createIrrKlangDevice();
+	m_engine = createIrrKlangDevice();
 	if (!m_engine)
 	{
 		throw new std::runtime_error("Mixer did not initialize properly");
@@ -26,7 +29,7 @@ void dae::SoundManager::PlaySound(const std::string& nameSound, bool loop)
 	if (!m_sources.contains(nameSound))
 	{
 		std::string s{ "..\\Data\\Sound\\" + nameSound };
-		irrklang::ISoundSource* sound = m_engine->addSoundSourceFromFile(s.c_str());
+		ISoundSource* sound = m_engine->addSoundSourceFromFile(s.c_str());
 		m_sources.insert(std::pair(nameSound,sound));
 	}
 	if (loop)
