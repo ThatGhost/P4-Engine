@@ -1,0 +1,596 @@
+{
+"name": "Level1",
+	"gameObjects": [
+		{
+			"name": "EnemySpawner",
+			"x": "0",
+			"y": "0",
+			"z": "4",
+			"static": "true",
+			"components": [
+				{
+					"name": "EnemySpawner"
+				},
+				{
+					"name": "GameManager",
+					"type": "solo",
+					"level": "1"
+				}
+			],
+			"children": [
+				{
+					"name": "SpawnPoint.json",
+					"x": "-32",
+					"y": "95",
+					"z": "7"
+				},
+				{
+					"name": "SpawnPoint.json",
+					"x": "532",
+					"y": "95",
+					"z": "7"
+				},
+				{
+					"name": "SpawnPoint.json",
+					"x": "-32",
+					"y": "405",
+					"z": "7"
+				},
+				{
+					"name": "SpawnPoint.json",
+					"x": "532",
+					"y": "405",
+					"z": "7"
+				}
+			]
+		}
+	],
+	"prefabs": [
+		{
+			"name": "Player.json",
+			"x": "232f",
+			"y": "340f",
+			"z": "5f"
+		},
+
+		{
+			"name": "BurgerTop.json",
+			"x": "72f",
+			"y": "155f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMid.json",
+			"x": "72f",
+			"y": "220f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMid.json",
+			"x": "72f",
+			"y": "335f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerBot.json",
+			"x": "72f",
+			"y": "400f",
+			"z": "2f"
+		},
+
+
+		{
+			"name": "BurgerTop.json",
+			"x": "168f",
+			"y": "90f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMid.json",
+			"x": "168f",
+			"y": "252f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMid.json",
+			"x": "168f",
+			"y": "335f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerBot.json",
+			"x": "168f",
+			"y": "400f",
+			"z": "2f"
+		},
+
+
+		{
+			"name": "BurgerTop.json",
+			"x": "264f",
+			"y": "90f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMid.json",
+			"x": "264f",
+			"y": "155f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMid.json",
+			"x": "264f",
+			"y": "252f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerBot.json",
+			"x": "264f",
+			"y": "400f",
+			"z": "2f"
+		},
+
+
+		{
+			"name": "BurgerTop.json",
+			"x": "360f",
+			"y": "90f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMid.json",
+			"x": "360f",
+			"y": "155f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerMid.json",
+			"x": "360f",
+			"y": "215f",
+			"z": "2f"
+		},
+		{
+			"name": "BurgerBot.json",
+			"x": "360f",
+			"y": "280f",
+			"z": "2f"
+		},
+
+
+		{
+			"name": "StairColl.json",
+			"x": "40f",
+			"y": "100f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "40f",
+			"y": "130f",
+			"z": "0f"
+		},
+
+		{
+			"name": "StairColl.json",
+			"x": "136f",
+			"y": "100f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "136f",
+			"y": "130f",
+			"z": "0f"
+		},
+
+		{
+			"name": "FullPlatform.json",
+			"x": "40f",
+			"y": "110f",
+			"z": "1"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "40f",
+			"y": "175f",
+			"z": "1"
+		},
+
+		{
+			"name": "2Stair.json",
+			"x": "136f",
+			"y": "190f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "136f",
+			"y": "250f",
+			"z": "0f"
+		},
+
+
+		{
+			"name": "2Stair.json",
+			"x": "40f",
+			"y": "250f",
+			"z": "0f"
+		},
+		{
+			"name": "StairColl.json",
+			"x": "40f",
+			"y": "232f",
+			"z": "0f"
+		},
+
+		{
+			"name": "FullPlatform.json",
+			"x": "40f",
+			"y": "240f",
+			"z": "1"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "40f",
+			"y": "355f",
+			"z": "1"
+		},
+
+
+		{
+			"name": "2Stair.json",
+			"x": "40f",
+			"y": "310f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "136f",
+			"y": "310f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "40f",
+			"y": "375f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "136f",
+			"y": "375f",
+			"z": "0f"
+		},
+
+		{
+			"name": "FullPlatform.json",
+			"x": "40f",
+			"y": "420f",
+			"z": "1"
+		},
+
+		{
+			"name": "StairColl.json",
+			"x": "88f",
+			"y": "166f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "88f",
+			"y": "196f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "88f",
+			"y": "258f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "88f",
+			"y": "312f",
+			"z": "0f"
+		},
+
+
+
+		{
+			"name": "FullPlatform.json",
+			"x": "168f",
+			"y": "110f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "296f",
+			"y": "110f",
+			"z": "1f"
+		},
+		{
+			"name": "PlatformColl.json",
+			"x": "424f",
+			"y": "110f",
+			"z": "1f"
+		},
+
+		{
+			"name": "StairColl.json",
+			"x": "184f",
+			"y": "100f",
+			"z": "0f"
+		},
+		{
+			"name": "StairColl.json",
+			"x": "232f",
+			"y": "100f",
+			"z": "0f"
+		},
+		{
+			"name": "StairColl.json",
+			"x": "328f",
+			"y": "100f",
+			"z": "0f"
+		},
+		{
+			"name": "StairColl.json",
+			"x": "424f",
+			"y": "100f",
+			"z": "0f"
+		},
+
+		{
+			"name": "2Stair.json",
+			"x": "184f",
+			"y": "130f",
+			"z": "0f"
+		},
+		{
+			"name": "StairColl.json",
+			"x": "184f",
+			"y": "190f",
+			"z": "0f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "136f",
+			"y": "207f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "136f",
+			"y": "270f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "136f",
+			"y": "420f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "136f",
+			"y": "355f",
+			"z": "1f"
+		},
+
+		{
+			"name": "2Stair.json",
+			"x": "232f",
+			"y": "130f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "232f",
+			"y": "190f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "232f",
+			"y": "250f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "232f",
+			"y": "310f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "232f",
+			"y": "375f",
+			"z": "0f"
+		},
+
+
+
+		{
+			"name": "FullPlatform.json",
+			"x": "232f",
+			"y": "175f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "232f",
+			"y": "270f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "232f",
+			"y": "355f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "232f",
+			"y": "420f",
+			"z": "1f"
+		},
+
+		{
+			"name": "2Stair.json",
+			"x": "328f",
+			"y": "130f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "328f",
+			"y": "190f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "328f",
+			"y": "250f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "328f",
+			"y": "310f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "328f",
+			"y": "375f",
+			"z": "0f"
+		},
+
+		{
+			"name": "2Stair.json",
+			"x": "280f",
+			"y": "192f",
+			"z": "0f"
+		},
+		{
+			"name": "StairColl.json",
+			"x": "280f",
+			"y": "252f",
+			"z": "0f"
+		},
+		{
+			"name": "StairColl.json",
+			"x": "280f",
+			"y": "168f",
+			"z": "0f"
+		},
+
+
+
+		{
+			"name": "2Stair.json",
+			"x": "424f",
+			"y": "130f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "424f",
+			"y": "190f",
+			"z": "0f"
+		},
+		{
+			"name": "StairColl.json",
+			"x": "424f",
+			"y": "294f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "424f",
+			"y": "312f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "424f",
+			"y": "375f",
+			"z": "0f"
+		},
+
+		{
+			"name": "FullPlatform.json",
+			"x": "328f",
+			"y": "175f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "328f",
+			"y": "302f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "328f",
+			"y": "235f",
+			"z": "1f"
+		},
+		{
+			"name": "FullPlatform.json",
+			"x": "328f",
+			"y": "420f",
+			"z": "1f"
+		},
+		{
+			"name": "StairColl.json",
+			"x": "376f",
+			"y": "227f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "376f",
+			"y": "258f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "376f",
+			"y": "312f",
+			"z": "0f"
+		},
+		{
+			"name": "2Stair.json",
+			"x": "376f",
+			"y": "375f",
+			"z": "0f"
+		},
+
+		{
+			"name": "BurgerHolder.json",
+			"x": "72f",
+			"y": "520f",
+			"z": "0f"
+		},
+		{
+			"name": "BurgerHolder.json",
+			"x": "168f",
+			"y": "520f",
+			"z": "0f"
+		},
+		{
+			"name": "BurgerHolder.json",
+			"x": "264f",
+			"y": "520f",
+			"z": "0f"
+		},
+		{
+			"name": "BurgerHolder.json",
+			"x": "360f",
+			"y": "520f",
+			"z": "0f"
+		}
+
+	]
+}

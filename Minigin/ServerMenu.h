@@ -1,11 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "playfab/PlayFabError.h"
-#include "playfab/PlayFabClientDataModels.h"
-#include "playfab/PlayFabClientApi.h"
-#include "playfab/PlayFabSettings.h"
-#include "playfab/PlayFabApiSettings.h"
-#include <windows.h>
 
 namespace dae
 {
@@ -15,6 +9,7 @@ namespace dae
 		ServerMenu(GameObject*);
 		~ServerMenu() override;
 
+		virtual void Update(float) override;
 	private:
 
 	};

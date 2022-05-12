@@ -1,0 +1,19 @@
+{
+  "name": "serverMenu",
+  "gameObjects": [
+    {
+      "name": "serverMenu",
+      "x": "0",
+      "y": "0",
+      "z": "0",
+      "static": "true",
+      "components": [
+        {
+          "name": "ServerMenu"
+        }
+      ],
+      "children": []
+    }
+  ],
+  "prefabs": []
+}

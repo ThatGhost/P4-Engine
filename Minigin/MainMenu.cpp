@@ -113,7 +113,7 @@ void dae::MainMenu::OnA(byte*)
 		break;
 	case MenuPosition::online:
 		InputManager::GetInstance().SetKeyboardId(0);
-		SceneManager::GetInstance().SwitchScene("Versus1.json");
+		SceneManager::GetInstance().SwitchScene("ServerMenu.json");
 		break;
 	}
 }

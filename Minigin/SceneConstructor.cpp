@@ -18,6 +18,7 @@
 #include "GameManagerSolo.h"
 #include "GameManagerCoop.h"
 #include "EnemyPlayerComponent.h"
+#include "ServerMenu.h"
 
 using json = nlohmann::json;
 bool m_canRecreate = false;
@@ -230,6 +231,11 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 	case Components::EnemyPlayerComponent:
 	{
 		gameObject->AddComponent<EnemyPlayerComponent>();
+	}
+	break;
+	case Components::ServerMenu:
+	{
+		gameObject->AddComponent<ServerMenu>();
 	}
 	break;
 	default:
