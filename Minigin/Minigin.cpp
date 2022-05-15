@@ -2,6 +2,7 @@
 #include "Minigin.h"
 #include <thread>
 #include <chrono>
+
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -63,13 +64,11 @@ void dae::Minigin::LoadGame()
 	SoundManager::GetInstance().Init();
 	UIManager::GetInstance().Init();
 
+	SceneManager::GetInstance().ConstructEmptyScene("DontDestroyOnLoad");
 	SceneConstructor::Init();
-	SceneConstructor::ConstructScene("DontDestroyOnLoad.json", false);
 	SceneConstructor::ConstructScene("MainMenu.json");
 
 	UIManager::GetInstance().UpdateUI();
-	//InputManager::GetInstance().AddPlayer(gm.get());
-	//InputManager::GetInstance().InsertCommand<dae::Comd_TestCommand>(dae::ControllerButton::ButtonX);
 }
 
 void dae::Minigin::Cleanup()

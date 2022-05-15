@@ -12,6 +12,10 @@ void dae::SceneManager::Update(float deltaTime)
 	{
 		m_Scenes[i]->Update(deltaTime);
 	}
+	if (m_switchScene)
+	{
+		ChangeScene(m_nextSceneName);
+	}
 }
 
 void dae::SceneManager::Render()
@@ -41,8 +45,13 @@ void dae::SceneManager::KillAllScenes()
 
 void dae::SceneManager::SwitchScene(const std::string& scenename)
 {
-	SceneConstructor::ConstructScene(scenename);
-	m_Scenes[m_ActiveScene].get()->Start();
+	m_switchScene = true;
+	m_nextSceneName = scenename;
+}
+
+void dae::SceneManager::ConstructEmptyScene(const std::string& scenename)
+{
+	CreateScene(scenename);
 }
 
 void dae::SceneManager::AddCollider(Collider* coll)
@@ -63,4 +72,11 @@ dae::GameManager* dae::SceneManager::GetGameManager()
 void dae::SceneManager::SetGameManager(GameManager* gm)
 {
 	m_Scenes[m_ActiveScene].get()->AddGameManager(gm);
+}
+
+void dae::SceneManager::ChangeScene(const std::string& name)
+{
+	SceneConstructor::ConstructScene(name);
+	m_Scenes[m_ActiveScene].get()->Start();
+	m_switchScene = false;
 }

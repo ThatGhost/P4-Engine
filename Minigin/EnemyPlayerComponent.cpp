@@ -150,7 +150,7 @@ void dae::EnemyPlayerComponent::OnCollisionEnter(Collider* other, Collider*)
 {
 	if (other->GetTag() == "PLAYER")
 	{
-		EventManager::SendEvent("DIE",0);
+		EventManager::SendEvent("DIE");
 	}
 	if (other->GetTag() == "PEPPER")
 	{

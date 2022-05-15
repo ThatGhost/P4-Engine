@@ -21,9 +21,9 @@ namespace dae
 		void GameOver() override;
 		void OnWin() override;
 
-		void OnDie(byte*) override;
-		void OnSalt(byte*) override;
-		void OnBurgderDone(byte*) override;
+		void OnDie() override;
+		void OnSalt() override;
+		void OnBurgderDone() override;
 
 		void AddGameUI();
 

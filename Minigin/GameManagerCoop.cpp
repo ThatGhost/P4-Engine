@@ -18,10 +18,10 @@
 
 dae::GameManagerCoop::GameManagerCoop(GameObject* owner) : GameManager(owner)
 {
-	EventManager::AddEvent("DIE", std::bind(&dae::GameManagerCoop::OnDie, this, m_Argument));
-	EventManager::AddEvent("BURGERDONE", std::bind(&dae::GameManagerCoop::OnBurgderDone, this, m_Argument));
-	EventManager::AddEvent("0BUTTON_A", std::bind(&dae::GameManagerCoop::OnSalt, this, m_Argument));
-	EventManager::AddEvent("1BUTTON_A", std::bind(&dae::GameManagerCoop::OnSalt2, this, m_Argument));
+	EventManager::AddEvent("DIE", std::bind(&dae::GameManagerCoop::OnDie, this));
+	EventManager::AddEvent("BURGERDONE", std::bind(&dae::GameManagerCoop::OnBurgderDone, this));
+	EventManager::AddEvent("0BUTTON_A", std::bind(&dae::GameManagerCoop::OnSalt, this));
+	EventManager::AddEvent("1BUTTON_A", std::bind(&dae::GameManagerCoop::OnSalt2, this));
 
 	m_healthImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "Health.png");
 	m_pepperImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "pepper.png");
@@ -142,7 +142,7 @@ void dae::GameManagerCoop::HandleScore() //The most basic type of saving lol
 	out.close();
 }
 
-void dae::GameManagerCoop::OnDie(byte*)
+void dae::GameManagerCoop::OnDie()
 {
 	m_daed = true;
 	m_health--;
@@ -161,19 +161,19 @@ void dae::GameManagerCoop::OnWin()
 	SceneManager::GetInstance().SwitchScene("MainMenu.json");
 }
 
-void dae::GameManagerCoop::OnSalt(byte*)
+void dae::GameManagerCoop::OnSalt()
 {
 	if (!m_WasPressingPepper && m_pepper > 0)
 	{
 		m_pepper--;
 		m_pepperString = std::to_string(m_pepper);
-		EventManager::SendEvent("0PEPPER", 0);
+		EventManager::SendEvent("0PEPPER");
 		UIManager::GetInstance().UpdateUI();
 	}
 	m_PressingPepper = true;
 }
 
-void dae::GameManagerCoop::OnBurgderDone(byte*)
+void dae::GameManagerCoop::OnBurgderDone()
 {
 	m_doneBurgers++;
 	if (m_doneBurgers == 16)

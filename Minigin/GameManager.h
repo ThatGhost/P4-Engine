@@ -4,7 +4,6 @@
 
 namespace dae
 {
-	using byte = unsigned char;
 	class GameManager : public Component
 	{
 	public:
@@ -12,11 +11,9 @@ namespace dae
 		virtual void AddScore(int) {}
 
 	protected:
-		byte* m_Argument = nullptr;
-
-		virtual void OnDie(byte*) {}
-		virtual void OnSalt(byte*) {}
-		virtual void OnBurgderDone(byte*) {}
+		virtual void OnDie() {}
+		virtual void OnSalt() {}
+		virtual void OnBurgderDone() {}
 
 		virtual void Restart() {}
 		virtual void GameOver() {}

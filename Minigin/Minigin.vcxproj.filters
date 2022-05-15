@@ -111,30 +111,6 @@
     <ClInclude Include="TestComponent.h">
       <Filter>Game\headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\3rdParty\ImGui\imconfig.h">
-      <Filter>Engine\ImGui\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\ImGui\imgui.h">
-      <Filter>Engine\ImGui\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\ImGui\imgui_impl_opengl2.h">
-      <Filter>Engine\ImGui\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\ImGui\imgui_impl_sdl.h">
-      <Filter>Engine\ImGui\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\ImGui\imgui_internal.h">
-      <Filter>Engine\ImGui\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\ImGui\imstb_rectpack.h">
-      <Filter>Engine\ImGui\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\ImGui\imstb_textedit.h">
-      <Filter>Engine\ImGui\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\ImGui\imstb_truetype.h">
-      <Filter>Engine\ImGui\headers</Filter>
-    </ClInclude>
     <ClInclude Include="EnemySpawner.h">
       <Filter>Game\headers</Filter>
     </ClInclude>
@@ -172,31 +148,16 @@
       <Filter>Game\headers</Filter>
     </ClInclude>
     <ClInclude Include="ServerMenu.h">
-      <Filter>Engine</Filter>
+      <Filter>Game\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManagerOnline.h">
+      <Filter>Game\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHandler.h">
+      <Filter>Game\headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\3rdParty\ImGui\imgui.cpp">
-      <Filter>Engine\ImGui\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\ImGui\imgui_demo.cpp">
-      <Filter>Engine\ImGui\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\ImGui\imgui_draw.cpp">
-      <Filter>Engine\ImGui\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\ImGui\imgui_impl_opengl2.cpp">
-      <Filter>Engine\ImGui\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\ImGui\imgui_impl_sdl.cpp">
-      <Filter>Engine\ImGui\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\ImGui\imgui_tables.cpp">
-      <Filter>Engine\ImGui\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\ImGui\imgui_widgets.cpp">
-      <Filter>Engine\ImGui\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="FpsComponent.cpp">
       <Filter>Game\cpp</Filter>
     </ClCompile>
@@ -297,7 +258,13 @@
       <Filter>Game\cpp</Filter>
     </ClCompile>
     <ClCompile Include="ServerMenu.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManagerOnline.cpp">
+      <Filter>Game\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHandler.cpp">
+      <Filter>Game\cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,9 +275,6 @@
       <Filter>Dll%27s</Filter>
     </None>
     <None Include="ikpMP3.dll">
-      <Filter>Dll%27s</Filter>
-    </None>
-    <None Include="irrKlang.dll">
       <Filter>Dll%27s</Filter>
     </None>
     <None Include="packages.config" />

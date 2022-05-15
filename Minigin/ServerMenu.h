@@ -10,8 +10,11 @@ namespace dae
 		~ServerMenu() override;
 
 		virtual void Update(float) override;
-	private:
 
+
+		void SetSwitchScene(bool b) { m_switchScenes = b; }
+	private:
+		bool m_switchScenes{false};
 	};
 }
 

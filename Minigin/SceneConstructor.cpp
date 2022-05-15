@@ -17,6 +17,7 @@
 #include "GameManagerVersus.h"
 #include "GameManagerSolo.h"
 #include "GameManagerCoop.h"
+#include "GameManagerOnline.h"
 #include "EnemyPlayerComponent.h"
 #include "ServerMenu.h"
 
@@ -28,24 +29,8 @@ std::string dae::SceneConstructor::TrimJson(const std::string& string)
 	return string.substr(0, string.size());
 }
 
-//debug--------------
-float g_arg;
-void dae::SceneConstructor::OnReCreateScene(float)
-{
-	std::cout << "recreate scene\n";
-	if (!m_canRecreate)
-		return;
-
-	m_canRecreate = false;
-	ConstructScene("MainMenu.json");
-}
-//-------------------
-
 void dae::SceneConstructor::Init()
 {
-	EventManager::AddEvent("0LSHOULDER", std::bind(&dae::SceneConstructor::OnReCreateScene, g_arg));
-	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonLeftShoulder, "LSHOULDER");
-	m_canRecreate = true;
 }
 
 void dae::SceneConstructor::ConstructScene(const std::string& nameScene, bool kill)
@@ -212,6 +197,7 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 	{
 		std::string type{TrimJson(compIt.value()["type"])};
 		GameManager* gamemanager = nullptr;
+
 		if (type == "solo")
 		{
 			gamemanager = static_cast<GameManagerSolo*>(gameObject->AddComponent<GameManagerSolo>());
@@ -224,6 +210,10 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 		else if (type == "coop")
 		{
 			gamemanager = static_cast<GameManagerCoop*>(gameObject->AddComponent<GameManagerCoop>());
+		}
+		else if (type == "online")
+		{
+			gamemanager = static_cast<GameManagerOnline*>(gameObject->AddComponent<GameManagerOnline>());
 		}
 		SceneManager::GetInstance().SetGameManager(gamemanager);
 	}

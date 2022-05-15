@@ -19,9 +19,9 @@ namespace dae
 		void SetLevel(int l) { m_level = l; };
 	private:
 
-		virtual void OnDie(byte*) override;
-		virtual void OnSalt(byte*)override;
-		virtual void OnBurgderDone(byte*)override;
+		virtual void OnDie() override;
+		virtual void OnSalt()override;
+		virtual void OnBurgderDone()override;
 
 		virtual void Restart()override;
 		virtual void GameOver()override;
