@@ -1,7 +1,8 @@
-#pragma once
+//#pragma once
 #include "Singleton.h"
-#include "irrKlang.h"
 #include <map>
+
+struct Mix_Chunk;
 
 namespace dae
 {
@@ -9,18 +10,15 @@ namespace dae
 	{
 	public:
 		void Init();
-		void PlaySound(const std::string& nameSound, bool loop = false);
-		void PauseSound(const std::string& nameSound, bool pauze = false);
+		void PlaySound(const std::string& nameSound, bool loop = false, int = -1);
+		void PauseSound(bool pause = true, int = -1);
 		void RemoveSound(const std::string& nameSound);
 	private:
 		friend class Singleton<SoundManager>;
-		SoundManager() = default;
 		~SoundManager();
 
-		const int m_Channels = 2;
-		irrklang::ISoundEngine* m_engine = nullptr;
-		std::map<std::string, irrklang::ISoundSource*> m_sources{};
-		std::map<std::string, irrklang::ISound*> m_sound{};
+		const std::string m_BasePath = "..\\Data\\Sound\\";
+		std::map<std::string, Mix_Chunk*> m_sound{};
 	};
 }
 

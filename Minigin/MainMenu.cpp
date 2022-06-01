@@ -28,9 +28,9 @@ dae::MainMenu::MainMenu(GameObject* owner) : Component(owner)
 	UIManager::GetInstance().AddTextElement(&m_Online,32,glm::vec2(213,400));
 
 	//Input
-	EventManager::AddEvent("0BUTTON_A",std::bind(&dae::MainMenu::OnA,this,m_Argument));
-	EventManager::AddEvent("0BUTTON_UP",std::bind(&dae::MainMenu::OnUp,this,m_Argument));
-	EventManager::AddEvent("0BUTTON_DOWN",std::bind(&dae::MainMenu::OnDown,this,m_Argument));
+	EventManager::AddEvent("0BUTTON_A",std::bind(&dae::MainMenu::OnA,this));
+	EventManager::AddEvent("0BUTTON_UP",std::bind(&dae::MainMenu::OnUp,this));
+	EventManager::AddEvent("0BUTTON_DOWN",std::bind(&dae::MainMenu::OnDown,this));
 
 	UIManager::GetInstance().UpdateUI();
 }
@@ -80,21 +80,21 @@ void dae::MainMenu::DisableAllArrows()
 	}
 }
 
-void dae::MainMenu::OnDown(byte*)
+void dae::MainMenu::OnDown()
 {
 	m_isPressing = true;
 	m_isDown = true;
 	handleInput();
 }
 
-void dae::MainMenu::OnUp(byte*)
+void dae::MainMenu::OnUp()
 {
 	m_isPressing = true;
 	m_isDown = false;
 	handleInput();
 }
 
-void dae::MainMenu::OnA(byte*)
+void dae::MainMenu::OnA()
 {
 	UIManager::GetInstance().ClearUI();
 	switch (m_menuposition)

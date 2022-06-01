@@ -11,8 +11,7 @@ namespace dae
 		virtual ~TestComponent() override;
 
 	private:
-		void Test(byte*);
-		//byte* m_Argument;
+		void Test();
 		//std::shared_ptr<Texture2D> m_UIImage;
 		//std::string m_Sting{"first string"};
 	};

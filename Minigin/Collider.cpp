@@ -8,11 +8,11 @@
 
 dae::Collider::Collider(dae::GameObject* gameobject) : Component(gameobject)
 {
-	EventManager::AddEvent("0BUTTON_START", std::bind(&dae::Collider::EnableDebug, this, m_Argument));
+	EventManager::AddEvent("0BUTTON_START", std::bind(&dae::Collider::EnableDebug, this));
 }
 
 dae::Collider::~Collider()
-{
+{ 
 	EventManager::RemoveEvent("0BUTTON_START");
 	SceneManager::GetInstance().RemoveCollider(this);
 }
@@ -23,10 +23,15 @@ void dae::Collider::CheckCollisions(std::vector<dae::Collider*>* colliders)
 		return;
 
 	glm::vec2 pos = GetPosition();
+
+	//nlogn (quadtree)
+
+
+	//n^2
 	for (int i = 0; i < (int)colliders->size(); i++)
 	{
 		Collider* coll = colliders->at(i);
-		if (coll->GetSeen() && coll->GetOwner() != GetOwner())//can be looked at and has things to look at
+		if (coll->GetSeen() && coll->GetOwner() != GetOwner())//can be looked at
 		{
 			coll->GetPosition();
 			bool isColliding = (m_RealPos.x < coll->m_RealPos.x + coll->m_Dimensions.x &&
@@ -82,7 +87,7 @@ void dae::Collider::Render() const
 	}
 }
 
-void dae::Collider::EnableDebug(float)
+void dae::Collider::EnableDebug()
 {
 	if (m_Image == nullptr)
 	{

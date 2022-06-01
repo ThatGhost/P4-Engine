@@ -190,7 +190,7 @@ void dae::EnemyComponent::OnCollisionEnter(Collider* other, Collider* mine)
 	if (mine->GetTag() == "ENEMY" && other->GetTag() == "PLAYER") //player interaction
 	{
 		if(!m_Peppered)
-			EventManager::SendEvent("DIE",0);
+			EventManager::SendEvent("DIE");
 		return;
 	}
 	if (mine->GetTag() == "ENEMY" && other->GetTag() == "BURGER") //burger interaction

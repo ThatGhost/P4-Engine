@@ -32,7 +32,7 @@ void dae::EnemySpawner::Update(float deltaTime)
 
 void dae::EnemySpawner::Start()
 {
-	for (size_t i = 0; i < GetOwner()->GetChildCount(); i++)
+	for (int i = 0; i < int(GetOwner()->GetChildCount()); i++)
 	{
 		m_SpawnPoints.push_back(GetOwner()->GetChildAt(i)->GetPosition().GetPosition());
 	}
@@ -155,7 +155,7 @@ void dae::EnemySpawner::ClearEnemys()
 {
 	m_AmountOfEnemys = 0;
 	m_EggOnScreen = false;
-	for (size_t i{}; i < GetOwner()->GetChildCount(); i++)
+	for (int i{}; i < int(GetOwner()->GetChildCount()); i++)
 	{
 		GetOwner()->GetChildAt(i)->Destroy();
 	}

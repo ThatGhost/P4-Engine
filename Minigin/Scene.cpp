@@ -84,7 +84,7 @@ void dae::Scene::GetCollisions()
 
 void dae::Scene::DeleteGameObject(GameObject* obj)
 {
-	int idx = m_Objects.begin() - std::find(m_Objects.begin(), m_Objects.end(), obj);
+	int idx = int(m_Objects.begin() - std::find(m_Objects.begin(), m_Objects.end(), obj));
 	delete obj;
 	obj = nullptr;
 	m_Objects.erase(m_Objects.begin() + idx);

@@ -17,10 +17,10 @@ namespace dae
 		virtual void AddScore(int);
 	private:
 
-		virtual void OnDie(byte*) override;
-		virtual void OnSalt(byte*)override;
-		void OnSalt2(byte*) {};
-		virtual void OnBurgderDone(byte*)override;
+		virtual void OnDie() override;
+		virtual void OnSalt()override;
+		void OnSalt2() {};
+		virtual void OnBurgderDone()override;
 
 		virtual void Restart()override;
 		virtual void GameOver()override;

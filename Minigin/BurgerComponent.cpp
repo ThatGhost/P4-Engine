@@ -44,7 +44,7 @@ void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
 		m_fallVelocity = 0;
 		m_isFalling = false;
 		m_done = true;
-		EventManager::SendEvent("BURGERDONE", 0);
+		EventManager::SendEvent("BURGERDONE");
 		return;
 	}
 	else if (otherTag == "BURGER")
@@ -58,7 +58,7 @@ void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
 				m_isFalling = false;
 				m_fallVelocity = 0;
 				m_done = true;
-				EventManager::SendEvent("BURGERDONE", 0);
+				EventManager::SendEvent("BURGERDONE");
 				AddScore(50);
 			}
 			else

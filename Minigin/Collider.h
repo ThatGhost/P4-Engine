@@ -40,8 +40,7 @@ namespace dae
 
 		//debug
 		Texture2D* m_Image;
-		void EnableDebug(float);
-		float m_Argument{};
+		void EnableDebug();
 		bool m_DebugEnabled{false};
 	};
 }

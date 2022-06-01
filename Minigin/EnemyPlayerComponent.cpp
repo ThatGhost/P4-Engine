@@ -13,11 +13,11 @@ dae::EnemyPlayerComponent::EnemyPlayerComponent(GameObject* owner) : Component(o
 {
 	m_startpos = GetOwner()->GetPosition().GetPosition();
 	//input
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::EnemyPlayerComponent::Left, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::EnemyPlayerComponent::Right, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::EnemyPlayerComponent::Up, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::EnemyPlayerComponent::Down, this, m_Argument));
-	EventManager::AddEvent("DIE", std::bind(&dae::EnemyPlayerComponent::Restart, this, m_Argument));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::EnemyPlayerComponent::Left, this));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::EnemyPlayerComponent::Right, this));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::EnemyPlayerComponent::Up, this));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::EnemyPlayerComponent::Down, this));
+	EventManager::AddEvent("DIE", std::bind(&dae::EnemyPlayerComponent::Restart, this));
 }
 dae::EnemyPlayerComponent::~EnemyPlayerComponent()
 {
@@ -27,7 +27,7 @@ dae::EnemyPlayerComponent::~EnemyPlayerComponent()
 	EventManager::RemoveEvent(std::to_string(m_Player) + "BUTTON_DOWN");
 	EventManager::RemoveEvent("PEPPER");
 
-	//SoundManager::GetInstance().RemoveSound("Footstep.wav");
+	SoundManager::GetInstance().RemoveSound("Footstep.wav");
 }
 
 void dae::EnemyPlayerComponent::Update(float deltaTime)
@@ -150,7 +150,7 @@ void dae::EnemyPlayerComponent::OnCollisionEnter(Collider* other, Collider*)
 {
 	if (other->GetTag() == "PLAYER")
 	{
-		EventManager::SendEvent("DIE",0);
+		EventManager::SendEvent("DIE");
 	}
 	if (other->GetTag() == "PEPPER")
 	{
@@ -166,23 +166,23 @@ void dae::EnemyPlayerComponent::Start()
 }
 
 //input callbacks
-void dae::EnemyPlayerComponent::Left(byte*)
+void dae::EnemyPlayerComponent::Left()
 {
 	m_Movement.x += -1;
 }
-void dae::EnemyPlayerComponent::Right(byte*)
+void dae::EnemyPlayerComponent::Right()
 {
 	m_Movement.x += 1;
 }
-void dae::EnemyPlayerComponent::Up(byte*)
+void dae::EnemyPlayerComponent::Up()
 {
 	m_Movement.y += -1;
 }
-void dae::EnemyPlayerComponent::Down(byte*)
+void dae::EnemyPlayerComponent::Down()
 {
 	m_Movement.y += 1;
 }
-void dae::EnemyPlayerComponent::Restart(byte*)
+void dae::EnemyPlayerComponent::Restart()
 {
 	GetOwner()->SetPosition(m_startpos);
 }

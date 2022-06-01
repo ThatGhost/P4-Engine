@@ -17,14 +17,13 @@ namespace dae
 		virtual void OnCollisionEnter(Collider*, Collider*) override;
 
 	private:
-		void Left(byte*);
-		void Right(byte*);
-		void Up(byte*);
-		void Down(byte*);
-		void Restart(byte*);
+		void Left();
+		void Right();
+		void Up();
+		void Down();
+		void Restart();
 
 		int m_Player{1};
-		byte* m_Argument;
 		RenderComponent* m_renderer{ nullptr };
 
 		glm::vec2 m_Movement{};

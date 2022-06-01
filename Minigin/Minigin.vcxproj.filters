@@ -298,14 +298,5 @@
     <None Include="SDL2.dll">
       <Filter>Dll%27s</Filter>
     </None>
-    <None Include="ikpFlac.dll">
-      <Filter>Dll%27s</Filter>
-    </None>
-    <None Include="ikpMP3.dll">
-      <Filter>Dll%27s</Filter>
-    </None>
-    <None Include="irrKlang.dll">
-      <Filter>Dll%27s</Filter>
-    </None>
   </ItemGroup>
 </Project>

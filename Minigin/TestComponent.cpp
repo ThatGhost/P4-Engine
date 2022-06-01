@@ -7,7 +7,7 @@
 
 dae::TestComponent::TestComponent(GameObject* Owner) : Component(Owner)
 {
-	//EventManager::AddEvent("0BUTTON_A", std::bind(&dae::TestComponent::Test, this, m_Argument));
+	//EventManager::AddEvent("0BUTTON_A", std::bind(&dae::TestComponent::Test, this));
 	//m_UIImage = ResourceManager::GetInstance().LoadTexture("..\\Data\\UI\\Hello.png");
 	//UIManager::GetInstance().AddTextElement(&m_Sting,25,glm::vec2(100,100));
 }
@@ -16,7 +16,7 @@ dae::TestComponent::~TestComponent()
 {
 }
 
-void dae::TestComponent::Test(byte*)
+void dae::TestComponent::Test()
 {
 	//m_Sting = "hahahhahaha";
 	//UIManager::GetInstance().UpdateUI();

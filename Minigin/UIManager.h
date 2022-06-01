@@ -26,8 +26,6 @@ namespace dae
 		UIManager() = default;
 
 		std::vector<std::unique_ptr<UIElement>> m_UIElements;
-
-		byte* m_Argument = nullptr;
 	};
 
 	class UIElement

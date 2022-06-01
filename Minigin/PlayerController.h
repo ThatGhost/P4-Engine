@@ -17,14 +17,13 @@ namespace dae
 		void Init(int player);
 
 	private:
-		void Left(byte*);
-		void Right(byte*);
-		void Up(byte*);
-		void Down(byte*);
-		void Pepper(byte*);
+		void Left();
+		void Right();
+		void Up();
+		void Down();
+		void Pepper();
 
 		int m_Player{};
-		byte* m_Argument;
 		RenderComponent* m_renderer{nullptr};
 
 		glm::vec2 m_Movement{};

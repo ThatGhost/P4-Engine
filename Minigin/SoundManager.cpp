@@ -1,55 +1,66 @@
 #include "MiniginPCH.h"
 #include "SoundManager.h"
 #include "dirent.h"
+#include "SDL_mixer.h"
 
 dae::SoundManager::~SoundManager()
 {
-	m_engine->drop();
-	for (auto& e : m_sound)
-	{
-		e.second->drop();
-	}
+	//for (auto c : m_sound)
+	//{
+	//	delete c.second;
+	//}
+
+	m_sound.clear();
+	Mix_CloseAudio();
+	Mix_Quit();
 }
 
 void dae::SoundManager::Init()
 {
-	m_engine = irrklang::createIrrKlangDevice();
-	if (!m_engine)
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
 	{
-		throw new std::runtime_error("Mixer did not initialize properly");
+		printf("SDL2_Mixer could not be initialised\n");
 	}
-	m_engine->setSoundVolume(0.1f);
 }
 
-void dae::SoundManager::PlaySound(const std::string& nameSound, bool loop)
+void dae::SoundManager::PlaySound(const std::string& nameSound, bool loop, int channel)
 {
-	if (!m_sources.contains(nameSound))
+	if (!m_sound.contains(nameSound))
 	{
-		std::string s{ "..\\Data\\Sound\\" + nameSound };
-		irrklang::ISoundSource* sound = m_engine->addSoundSourceFromFile(s.c_str());
-		m_sources.insert(std::pair(nameSound,sound));
+		Mix_Chunk* sample;
+		sample = Mix_LoadWAV_RW(SDL_RWFromFile((m_BasePath + nameSound).c_str(), "rb"), 1);
+		if (!sample) {
+			printf("Mix_LoadWAV_RW: %s\n", Mix_GetError());
+		}
+		else
+		{
+			m_sound.insert(std::pair<std::string, Mix_Chunk*>(nameSound, sample));
+		}
 	}
+
 	if (loop)
 	{
-		irrklang::ISound* sound = m_engine->play2D(m_sources[nameSound], loop, false, true);
-		m_sound.insert(std::pair(nameSound, sound));
+		Mix_PlayChannel(channel,m_sound[nameSound],-1);
 	}
 	else
-		m_engine->play2D(m_sources[nameSound], loop);
+	{
+		Mix_PlayChannel(channel, m_sound[nameSound], 0);
+	}
 }
 
-void dae::SoundManager::PauseSound(const std::string& nameSound, bool pauze)
+void dae::SoundManager::PauseSound(bool pause, int channel)
 {
-	m_sound[nameSound]->setIsPaused(pauze);
+	if (pause)
+		Mix_Pause(channel);
+	else
+		Mix_Resume(channel);
+	//m_sound[nameSound]->setIsPaused(pauze);
 }
 
 void dae::SoundManager::RemoveSound(const std::string& nameSound)
 {
 	if (m_sound.contains(nameSound))
 	{
-		m_sound[nameSound]->setIsPaused();
-		m_sound[nameSound]->setIsLooped(false);
-		m_sound[nameSound]->drop();
 		m_sound.erase(nameSound);
 	}
 }

@@ -15,7 +15,7 @@ dae::PlayerController::PlayerController(GameObject* owner) : Component(owner)
 {
 	//TEMP
 	//GetOwner()->AddComponent<dae::FpsComponent>();
-	//SoundManager::GetInstance().PlaySound(m_WalkingSound, true);
+	SoundManager::GetInstance().PlaySound(m_WalkingSound, true,1);
 }
 dae::PlayerController::~PlayerController()
 {
@@ -25,7 +25,7 @@ dae::PlayerController::~PlayerController()
 	EventManager::RemoveEvent(std::to_string(m_Player) + "BUTTON_DOWN");
 	EventManager::RemoveEvent(std::to_string(m_Player) + "PEPPER");
 
-	//SoundManager::GetInstance().RemoveSound("Footstep.wav");
+	SoundManager::GetInstance().RemoveSound("Footstep.wav");
 }
 
 void dae::PlayerController::Update(float deltaTime)
@@ -61,14 +61,14 @@ void dae::PlayerController::Update(float deltaTime)
 	}
 
 	//sound
-	//if (m_Movement.x != 0 || m_Movement.y != 0)
-	//{
-	//	SoundManager::GetInstance().PauseSound(m_WalkingSound, false);
-	//}
-	//else
-	//{
-	//	SoundManager::GetInstance().PauseSound(m_WalkingSound, true);
-	//}
+	if (m_Movement.x != 0 || m_Movement.y != 0)
+	{
+		SoundManager::GetInstance().PauseSound(false,1);
+	}
+	else
+	{
+		SoundManager::GetInstance().PauseSound(true,1);
+	}
 
 	//snap to correct place
 	if (m_Movement.x != 0)
@@ -125,31 +125,31 @@ void dae::PlayerController::Init(int player)
 {
 	m_Player = player;
 	m_renderer = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::PlayerController::Left, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::PlayerController::Right, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::PlayerController::Up, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::PlayerController::Down, this, m_Argument));
-	EventManager::AddEvent(std::to_string(m_Player) + "PEPPER", std::bind(&dae::PlayerController::Pepper, this, m_Argument));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::PlayerController::Left, this));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::PlayerController::Right, this));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::PlayerController::Up, this ));
+	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::PlayerController::Down, this ));
+	EventManager::AddEvent(std::to_string(m_Player) + "PEPPER", std::bind(&dae::PlayerController::Pepper, this));
 }
 
 //input callbacks
-void dae::PlayerController::Left(byte*)
+void dae::PlayerController::Left()
 {
 	m_Movement.x += -1;
 }
-void dae::PlayerController::Right(byte*)
+void dae::PlayerController::Right()
 {
 	m_Movement.x += 1;
 }
-void dae::PlayerController::Up(byte*)
+void dae::PlayerController::Up()
 {
 	m_Movement.y += -1;
 }
-void dae::PlayerController::Down(byte*)
+void dae::PlayerController::Down()
 {
 	m_Movement.y += 1;
 }
-void dae::PlayerController::Pepper(byte*)
+void dae::PlayerController::Pepper()
 {
 	GameObject* go = new GameObject();
 	go->SetParent(GetOwner());

@@ -14,14 +14,11 @@
 #include "shlobj.h"
 #include <fstream>
 
-using byte = unsigned char;
-byte* g_arg;
-
 dae::GameManagerSolo::GameManagerSolo(GameObject* owner) : GameManager(owner)
 {
-	EventManager::AddEvent("DIE",std::bind(&dae::GameManagerSolo::OnDie,this,m_Argument));
-	EventManager::AddEvent("BURGERDONE",std::bind(&dae::GameManagerSolo::OnBurgderDone,this,m_Argument));
-	EventManager::AddEvent("0BUTTON_A", std::bind(&dae::GameManagerSolo::OnSalt, this, m_Argument));
+	EventManager::AddEvent("DIE",std::bind(&dae::GameManagerSolo::OnDie,this));
+	EventManager::AddEvent("BURGERDONE",std::bind(&dae::GameManagerSolo::OnBurgderDone,this));
+	EventManager::AddEvent("0BUTTON_A", std::bind(&dae::GameManagerSolo::OnSalt, this));
 
 	m_healthImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "Health.png");
 	m_pepperImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "pepper.png");
@@ -185,7 +182,7 @@ void dae::GameManagerSolo::HandleScore() //The most basic type of saving lol
 	out.close();
 }
 
-void dae::GameManagerSolo::OnDie(byte*)
+void dae::GameManagerSolo::OnDie()
 {
 	m_daed = true;
 	m_health--;
@@ -210,19 +207,19 @@ void dae::GameManagerSolo::OnWin()
 	HandleScore();
 }
 
-void dae::GameManagerSolo::OnSalt(byte*)
+void dae::GameManagerSolo::OnSalt()
 {
 	if (!m_WasPressingPepper && m_pepper > 0)
 	{
 		m_pepper--;
 		m_pepperString = std::to_string(m_pepper);
-		EventManager::SendEvent("0PEPPER",0);
-		UIManager::GetInstance().UpdateUI();
+		EventManager::SendEvent("0PEPPER");
+		UIManager::GetInstance().UpdateUI(); 
 	}
 	m_PressingPepper = true;
 }
 
-void dae::GameManagerSolo::OnBurgderDone(byte*)
+void dae::GameManagerSolo::OnBurgderDone()
 {
 	m_doneBurgers++;
 	if (m_doneBurgers == 16)

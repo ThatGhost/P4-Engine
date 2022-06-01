@@ -30,8 +30,6 @@ namespace dae
 
 		std::vector<UIElement*> m_arrows{};
 
-		byte* m_Argument;
-
 		enum class MenuPosition
 		{
 			solo,
@@ -46,9 +44,9 @@ namespace dae
 		bool m_isDown{ false };
 
 		//callbacks
-		void OnDown(byte*);
-		void OnUp(byte*);
-		void OnA(byte*);
+		void OnDown();
+		void OnUp();
+		void OnA();
 	};
 }
 

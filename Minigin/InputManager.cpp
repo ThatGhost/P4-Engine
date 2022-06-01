@@ -67,7 +67,7 @@ void dae::InputManager::ButtonPress(const ControllerButton b, int player)
 			//eventmanager
 			std::string eventName = std::to_string(player);
 			eventName += m_Commands[e];
-			EventManager::SendEvent(eventName, 0);
+			EventManager::SendEvent(eventName);
 		}
 	}
 }
@@ -76,12 +76,12 @@ void dae::InputManager::KeyPress(const SDL_Keycode key, int)
 {
 	switch (key)
 	{
-	case SDLK_SPACE: EventManager::SendEvent(std::to_string(m_keyboardId) +"BUTTON_A", 0);break;
-	case SDLK_v: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_B", 0);break;
-	case SDLK_w: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_UP", 0); break;
-	case SDLK_s: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_DOWN", 0);break;
-	case SDLK_a: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_LEFT", 0);break;
-	case SDLK_d: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_RIGHT", 0);break;
+	case SDLK_SPACE: EventManager::SendEvent(std::to_string(m_keyboardId) +"BUTTON_A");break;
+	case SDLK_v: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_B");break;
+	case SDLK_w: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_UP"); break;
+	case SDLK_s: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_DOWN");break;
+	case SDLK_a: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_LEFT");break;
+	case SDLK_d: EventManager::SendEvent(std::to_string(m_keyboardId)+"BUTTON_RIGHT");break;
 	default:
 		break;
 	}
