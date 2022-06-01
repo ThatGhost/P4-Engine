@@ -298,5 +298,6 @@
     <None Include="SDL2.dll">
       <Filter>Dll%27s</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
