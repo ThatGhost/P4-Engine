@@ -13,8 +13,10 @@ namespace dae
 		virtual void OnCollision(Collider*, Collider*) override;
 
 		void Init(int player);
-		void SetGood(bool good);
 
+		void SetGood(bool good);
+		void SetIsPlaying(bool isPlaying) { m_Playing = isPlaying; }
+		int GetState() const;
 	private:
 		void Left();
 		void Right();
@@ -38,7 +40,7 @@ namespace dae
 		const float m_Speed{ 50 }; //pixels per second
 		const std::string m_WalkingSound{ "Footstep.wav" };
 
-		bool m_Good{};
+		bool m_Playing{false};
 
 	private:
 	};

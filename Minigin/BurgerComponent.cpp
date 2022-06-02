@@ -72,7 +72,7 @@ void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
 
 void dae::BurgerComponent::OnCollision(Collider* other, Collider* mine)
 {
-	if (other->GetTag() == "PLAYER")
+	if (other->GetTag() == "PLAYER" && mine->GetTag() == "BURGER")
 	{
 		//position to [0,1]
 		glm::vec2 myPos = mine->GetOwner()->GetPosition().GetPosition();
@@ -82,10 +82,13 @@ void dae::BurgerComponent::OnCollision(Collider* other, Collider* mine)
 
 		otherPos.x += otherDimensions.x / 2;
 		float percentage = (otherPos.x-myPos.x) / myDimensions.x;
+
+		//position in 5 quadrants
 		int index = (int)(percentage * 5);
 		index = glm::clamp(index,0,4);
 
 		m_walkSpots[index] = true;
+
 		//check if it ran over everything
 		bool canFall = true;
 		for (size_t j = 0; j < sizeof(m_walkSpots); j++)

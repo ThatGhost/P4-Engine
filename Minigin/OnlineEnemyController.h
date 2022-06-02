@@ -16,17 +16,10 @@ namespace dae
 			state;
 		}
 
-		void Kill()
-		{
-
-		}
-
-		void Salt()
-		{
-
-		}
-
+		void Kill();
+		void Salt();
 		void SetGood(bool good);
+		void SetState(int state);
 
 	private:
 		bool m_Good{};

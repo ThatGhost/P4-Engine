@@ -3,16 +3,27 @@
 #include "OnlinePlayerController.h"
 #include "OnlineEnemyController.h"
 #include "EventManager.h"
+#include "UIManager.h"
+#include "ResourceManager.h"
 
 dae::GameManagerOnline::GameManagerOnline(GameObject* owner) : GameManager(owner),
 m_mapObjects{}
 {
-	EventManager::AddEvent("GAMEOVER",std::bind(&dae::GameManagerOnline::GameOver,this));
+	//resources
+	m_healthImage = ResourceManager::GetInstance().LoadTexture("..\\Data\\UI\\WhaitingScreen.png");
+
+	//events
+	EventManager::AddEvent("GAMEOVER",std::bind(&dae::GameManagerOnline::KilledOther,this));
 	EventManager::AddEvent("BURGERDONE",std::bind(&dae::GameManagerOnline::AddBurger,this));
+
+	//UI
+	m_WhaitingElement = UIManager::GetInstance().AddImageElement(&m_healthImage,glm::vec2(500,580),glm::vec2(0,0));
+	UIManager::GetInstance().UpdateUI();
 }
 
 dae::GameManagerOnline::~GameManagerOnline()
 {
+	UIManager::GetInstance().ClearUI();
 }
 
 void dae::GameManagerOnline::Update(float)
@@ -57,15 +68,21 @@ void dae::GameManagerOnline::HandleIncomingMessages()
 			//check if we are the good or bad guy
 			uint32_t amountofconnectedPlayers;
 			msg >> amountofconnectedPlayers;
-			m_playerController->SetGood(amountofconnectedPlayers == 1);
-			m_EnemyController->SetGood(amountofconnectedPlayers != 1);
+			if (amountofconnectedPlayers == 1) //first player
+			{
+			//i am white
+				m_playerController->SetGood(true);
+				m_EnemyController->SetGood(false);
+			}
+			else
+			{
+			//i am red
+				m_playerController->SetGood(false);
+				m_EnemyController->SetGood(true);
+			}
 
 			// Server is assigning us OUR id
 			msg >> m_nPlayerID;
-			std::cout << "first int = " << amountofconnectedPlayers << "\n";
-			std::cout << "second int = " << m_nPlayerID << "\n";
-			//std::cout << "Assigned Client ID = " << m_nPlayerID << "\n";
-
 			break;
 		}
 
@@ -79,7 +96,11 @@ void dae::GameManagerOnline::HandleIncomingMessages()
 			{
 				// Now we exist in game world
 				m_bWaitingForConnection = false;
-				std::cout << std::boolalpha << "excists in game world >> " << m_bWaitingForConnection << std::endl;
+				m_playerController->GetOwner()->SetPosition(glm::vec3(desc.x,desc.y,5));
+			}
+			else
+			{
+				m_EnemyController->GetOwner()->SetPosition(glm::vec3(desc.x,desc.y,5));
 			}
 			break;
 		}
@@ -96,11 +117,39 @@ void dae::GameManagerOnline::HandleIncomingMessages()
 		{
 			sPlayerDescription desc;
 			msg >> desc;
-			m_mapObjects.insert_or_assign(desc.nUniqueID, desc);
+			if (desc.nUniqueID != m_nPlayerID)
+			{
+				m_mapObjects.insert_or_assign(desc.nUniqueID, desc);
+			}
 			break;
 		}
 
+		//my messages
+		case(GameMsg::Game_Lose):
+		{
+			GameOver();
+			break;
+		}
+		case(GameMsg::Game_Start):
+		{
+			m_playerController->SetIsPlaying(true);
+			m_bWaitingForStart = false;
+			m_WhaitingElement->SetActive(false);
+			UIManager::GetInstance().UpdateUI();
+			break;
+		}
+		case(GameMsg::Game_Stop):
+		{
+			//disconnect from server
+			//go back to server browser
+			break;
+		}
+		case(GameMsg::Game_Restart):
+		{
+			//restart
 
+			break;
+		}
 		}
 	}
 }
@@ -110,11 +159,15 @@ void dae::GameManagerOnline::HandleGameWorld()
 	glm::vec3 playerPosition = m_playerController->GetOwner()->GetPosition().GetPosition();
 	m_descPlayer.x = playerPosition.x;
 	m_descPlayer.y = playerPosition.y;
+	m_descPlayer.state = m_playerController->GetState();
 
 	for (auto& other : m_mapObjects)
 	{		
-		if(other.first != m_nPlayerID)
-			m_EnemyController->GetOwner()->SetPosition(glm::vec3(other.second.x,other.second.y,0));
+		if (other.first != m_nPlayerID)
+		{
+			m_EnemyController->GetOwner()->SetPosition(glm::vec3(other.second.x, other.second.y, 5));
+			m_EnemyController->SetState(other.second.state);
+		}
 	}
 }
 
@@ -127,22 +180,38 @@ void dae::GameManagerOnline::HandleOutGoingMessages()
 	msgs.header.id = GameMsg::Game_UpdatePlayer;
 	msgs << m_descPlayer;
 	Send(msgs);
-	std::cout << "send update to server\n";
 }
 
 void dae::GameManagerOnline::GameOver()
 {
+	UIManager::GetInstance().AddTextElement(&m_YouLost, 64, glm::vec2(70, 210), SDL_Color(0, 0, 0));
+	UIManager::GetInstance().AddTextElement(&m_YouLost, 64, glm::vec2(60, 200), SDL_Color(210, 50, 50));
+	UIManager::GetInstance().UpdateUI();
 }
 
 void dae::GameManagerOnline::GameWon()
 {
+	UIManager::GetInstance().AddTextElement(&m_YouWon, 64, glm::vec2(70, 210), SDL_Color(0, 0, 0));
+	UIManager::GetInstance().AddTextElement(&m_YouWon, 64, glm::vec2(60, 200), SDL_Color(50, 210, 50));
+	UIManager::GetInstance().UpdateUI();
+	
+	//restart when pressing x
 }
-
+void dae::GameManagerOnline::KilledOther()
+{
+	GameWon();
+	olc::net::message<GameMsg> msg;
+	msg.header.id = GameMsg::Game_Lose;
+	Send(msg);
+}
 void dae::GameManagerOnline::AddBurger()
 {
 	m_burgers++;
 	if (m_burgers == m_MaxBurgers)
 	{
 		GameWon();
+		olc::net::message<GameMsg> msg;
+		msg.header.id = GameMsg::Game_Lose;
+		Send(msg);
 	}
 }

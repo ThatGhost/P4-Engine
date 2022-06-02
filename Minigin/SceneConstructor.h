@@ -44,9 +44,6 @@ namespace dae
 	class SceneConstructor
 	{
 	public:
-		static void OnReCreateScene(float);
-		static void Init();
-
 		static void ConstructScene(const std::string&, bool kill = true);
 		static dae::GameObject* ConstructGO(const nlohmann::json& it, std::vector<dae::Collider*>* colliders, Scene* scene);
 	private:

@@ -14,6 +14,20 @@ enum class GameMsg : uint32_t
 	Game_AddPlayer,
 	Game_RemovePlayer,
 	Game_UpdatePlayer,
+
+	Game_Lose,
+	Game_Start,
+	Game_Stop,
+	Game_Restart,
+};
+
+enum class PlayerState
+{
+	Idle = 0,
+	Left = 1,
+	Right = 2,
+	Climbing = 3,
+	Dead = 4
 };
 
 struct sPlayerDescription
@@ -22,6 +36,7 @@ struct sPlayerDescription
 
 	float x = 0;
 	float y = 0;
+	int state = 0;
 
 	bool salt = false;
 	bool dead = false;

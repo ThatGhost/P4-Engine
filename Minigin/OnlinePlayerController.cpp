@@ -15,8 +15,8 @@ dae::OnlinePlayerController::OnlinePlayerController(GameObject* owner) : Compone
 	GameManagerOnline* o = static_cast<GameManagerOnline*>(SceneManager::GetInstance().FindComponent<GameManagerOnline>());
 	o->SetPlayer(this);
 	SoundManager::GetInstance().PlaySound(m_WalkingSound, true, 1);
+	SoundManager::GetInstance().PauseSound(true,1);
 }
-
 dae::OnlinePlayerController::~OnlinePlayerController()
 {
 	EventManager::RemoveEvent(std::to_string(m_Player) + "BUTTON_LEFT");
@@ -30,6 +30,9 @@ dae::OnlinePlayerController::~OnlinePlayerController()
 
 void dae::OnlinePlayerController::Update(float deltaTime)
 {
+	if (!m_Playing)
+		return;
+
 	//movement
 	if (!m_OnPlatformLeft && m_Movement.x < 0)	m_Movement.x = 0;
 	if (!m_OnPlatformRight && m_Movement.x > 0)	m_Movement.x = 0;
@@ -120,7 +123,7 @@ void dae::OnlinePlayerController::OnCollision(Collider* other, Collider* mine)
 	}
 			break;
 	}
-	if (mine->GetTag() == "ENEMYPLAYER" && other->GetTag() == "PLAYER")
+	if (mine->GetTag() == "ENEMY" && other->GetTag() == "PLAYER")
 	{
 		EventManager::SendEvent("GAMEOVER");
 	}
@@ -133,23 +136,23 @@ void dae::OnlinePlayerController::Init(int player)
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::OnlinePlayerController::Right, this));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::OnlinePlayerController::Up, this));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::OnlinePlayerController::Down, this));
-	EventManager::AddEvent(std::to_string(m_Player) + "PEPPER", std::bind(&dae::OnlinePlayerController::Pepper, this));
+	//EventManager::AddEvent(std::to_string(m_Player) + "PEPPER", std::bind(&dae::OnlinePlayerController::Pepper, this));
 }
 
 void dae::OnlinePlayerController::SetGood(bool good)
 {
-	m_Good = good;
-	if (m_Good)
+	if (good)
 	{
 		//white
 		//interact with burgers
 		Collider* coll = static_cast<Collider*>(GetOwner()->AddComponent<Collider>());
-		coll->SetPosition(glm::vec3(7,3,0));
-		coll->SetDimensions(glm::vec2(18,27));
+		coll->SetPosition(glm::vec3(7, 3, 0));
+		coll->SetDimensions(glm::vec2(18, 27));
 		coll->Setlookers(true, false);
 		coll->SetTag("PLAYER");
+		SceneManager::GetInstance().AddCollider(coll);
 
-		m_renderer->SetImage("Player.png",true,1);
+		m_renderer->SetImage("Player.png", true, 1);
 	}
 	else
 	{
@@ -158,10 +161,30 @@ void dae::OnlinePlayerController::SetGood(bool good)
 		Collider* coll = static_cast<Collider*>(GetOwner()->AddComponent<Collider>());
 		coll->SetPosition(glm::vec3(7, 3, 0));
 		coll->SetDimensions(glm::vec2(18, 27));
-		coll->Setlookers(true, false);
-		coll->SetTag("ENEMYPLAYER");
+		coll->Setlookers(false, true);
+		coll->SetTag("ENEMY");
+		SceneManager::GetInstance().AddCollider(coll);
 
 		m_renderer->SetImage("EvilCook.png", true, 1);
+	}
+}
+int dae::OnlinePlayerController::GetState() const
+{
+	if (m_Movement.y != 0 || (m_OnStairsBottom && m_OnStairsTop && (!m_OnPlatformLeft || !m_OnPlatformRight)))
+	{
+		return 3;
+	}
+	else if (m_Movement.x < 0)
+	{
+		return 1;
+	}
+	else if (m_Movement.x > 0)
+	{
+		return 2;
+	}
+	else
+	{
+		return 0;
 	}
 }
 

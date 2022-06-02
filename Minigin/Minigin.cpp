@@ -63,7 +63,6 @@ void dae::Minigin::LoadGame()
 	SoundManager::GetInstance().Init();
 	UIManager::GetInstance().Init();
 
-	SceneConstructor::Init();
 	SceneConstructor::ConstructScene("DontDestroyOnLoad.json", false);
 	SceneConstructor::ConstructScene("MainMenu.json");
 

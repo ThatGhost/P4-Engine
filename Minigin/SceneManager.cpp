@@ -6,6 +6,8 @@
 #include "GameManager.h"
 #include "SceneConstructor.h"
 
+#include "Collider.h"
+
 void dae::SceneManager::Update(float deltaTime)
 {
 	for (size_t i = 0; i < m_Scenes.size(); i++)

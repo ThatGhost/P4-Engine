@@ -8,6 +8,9 @@ namespace dae
 {
 	class OnlinePlayerController;
 	class OnlineEnemyController;
+	class Texture2D;
+	class UIElement;
+
 	class GameManagerOnline : public GameManager, olc::net::client_interface<GameMsg>
 	{
 	public:
@@ -29,7 +32,11 @@ namespace dae
 		OnlineEnemyController* m_EnemyController = nullptr;
 
 		bool m_bWaitingForConnection = true;
-		bool m_IsGoodPlayer;
+		bool m_bWaitingForStart = true;
+		dae::UIElement* m_WhaitingElement = nullptr;
+
+		std::string m_YouWon{"YOU   WON"};
+		std::string m_YouLost{"YOU   LOST"};
 
 		void HandleIncomingMessages();
 		void HandleGameWorld();
@@ -37,10 +44,13 @@ namespace dae
 
 		void GameOver();
 		void GameWon();
+		void KilledOther();
 		void Salt();
 
 		int m_burgers{};
 		const int m_MaxBurgers = 16;
 		void AddBurger();
+
+		Texture2D* m_healthImage;
 	};
 }

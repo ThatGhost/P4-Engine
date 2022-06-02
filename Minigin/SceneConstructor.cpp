@@ -14,25 +14,6 @@ std::string dae::SceneConstructor::TrimJson(const std::string& string)
 	return string.substr(0, string.size());
 }
 
-//debug--------------
-float g_arg;
-void dae::SceneConstructor::OnReCreateScene(float)
-{
-	std::cout << "recreate scene\n";
-	if (!m_canRecreate)
-		return;
-
-	m_canRecreate = false;
-	ConstructScene("MainMenu.json");
-}
-//-------------------
-
-void dae::SceneConstructor::Init()
-{
-	EventManager::AddEvent("0LSHOULDER", std::bind(&dae::SceneConstructor::OnReCreateScene, g_arg));
-	InputManager::GetInstance().InsertCommand(dae::ControllerButton::ButtonLeftShoulder, "LSHOULDER");
-	m_canRecreate = true;
-}
 
 void dae::SceneConstructor::ConstructScene(const std::string& nameScene, bool kill)
 {
