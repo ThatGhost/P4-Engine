@@ -5,12 +5,6 @@
 
 dae::SoundManager::~SoundManager()
 {
-	//for (auto c : m_sound)
-	//{
-	//	delete c.second;
-	//}
-
-	m_sound.clear();
 	Mix_CloseAudio();
 	Mix_Quit();
 }

@@ -6,19 +6,6 @@
 #include "GameObject.h"
 #include "Scene.h"
 
-#include "Collider.h"
-#include "TestComponent.h"
-#include "RenderComponent.h"
-#include "PlayerController.h"
-#include "BurgerComponent.h"
-#include "MainMenu.h"
-#include "EnemySpawner.h"
-#include "GameManager.h"
-#include "GameManagerVersus.h"
-#include "GameManagerSolo.h"
-#include "GameManagerCoop.h"
-#include "EnemyPlayerComponent.h"
-
 using json = nlohmann::json;
 bool m_canRecreate = false;
 
@@ -126,6 +113,22 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 	return gameObject;
 }
 
+#include "Collider.h"
+#include "TestComponent.h"
+#include "RenderComponent.h"
+#include "PlayerController.h"
+#include "BurgerComponent.h"
+#include "MainMenu.h"
+#include "EnemySpawner.h"
+#include "GameManager.h"
+#include "GameManagerVersus.h"
+#include "GameManagerSolo.h"
+#include "GameManagerCoop.h"
+#include "GameManagerOnline.h"
+#include "EnemyPlayerComponent.h"
+#include "OnlineEnemyController.h"
+#include "OnlinePlayerController.h"
+
 void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, GameObject* gameObject, std::vector<dae::Collider*>* colliders)
 {
 	std::string NameComponent{ TrimJson(compIt.value()["name"]) };
@@ -224,12 +227,27 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 		{
 			gamemanager = static_cast<GameManagerCoop*>(gameObject->AddComponent<GameManagerCoop>());
 		}
+		else if (type == "online")
+		{
+			gamemanager = static_cast<GameManagerOnline*>(gameObject->AddComponent<GameManagerOnline>());
+		}
 		SceneManager::GetInstance().SetGameManager(gamemanager);
 	}
 	break;
 	case Components::EnemyPlayerComponent:
 	{
 		gameObject->AddComponent<EnemyPlayerComponent>();
+	}
+	break;
+	case Components::OnlineEnemyController:
+	{
+		gameObject->AddComponent<dae::OnlineEnemyController>();
+	}
+	break;
+	case Components::OnlinePlayerController:
+	{
+		dae::OnlinePlayerController* playerController = static_cast<dae::OnlinePlayerController*>(gameObject->AddComponent<dae::OnlinePlayerController>());
+		playerController->Init(0);
 	}
 	break;
 	default:

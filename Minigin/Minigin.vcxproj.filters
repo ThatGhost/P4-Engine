@@ -37,6 +37,30 @@
     <Filter Include="Engine\ImGui\cpp">
       <UniqueIdentifier>{ea726a84-97c2-4f3d-96a1-855c92473a64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\cpp\World">
+      <UniqueIdentifier>{a59b758c-5196-4444-b747-a12f75867b86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\cpp\Managers">
+      <UniqueIdentifier>{622c9540-5d1b-417f-8279-8a651834b4a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\cpp\Controllers">
+      <UniqueIdentifier>{20d27709-4c2a-4570-88b8-f35a5e8607b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\cpp\Menus">
+      <UniqueIdentifier>{f99bba8b-944a-40bd-94e2-7ad183e5751f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\headers\Managers">
+      <UniqueIdentifier>{4406d7f1-f791-458b-9059-239565cd26e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\headers\Controllers">
+      <UniqueIdentifier>{dc42a1ce-796d-48a9-ab20-830865644b61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\headers\Menus">
+      <UniqueIdentifier>{9742099c-9ee6-478f-aca7-a1390564d648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\headers\World">
+      <UniqueIdentifier>{3db82e4a-1f42-4105-975b-839d76060e48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dirent.h">
@@ -93,24 +117,6 @@
     <ClInclude Include="Utils.h">
       <Filter>Engine\headers</Filter>
     </ClInclude>
-    <ClInclude Include="BurgerComponent.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="FpsComponent.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerController.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderComponent.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="TestComponent.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\3rdParty\ImGui\imconfig.h">
       <Filter>Engine\ImGui\headers</Filter>
     </ClInclude>
@@ -135,9 +141,6 @@
     <ClInclude Include="..\3rdParty\ImGui\imstb_truetype.h">
       <Filter>Engine\ImGui\headers</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySpawner.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Engine\headers</Filter>
     </ClInclude>
@@ -147,29 +150,59 @@
     <ClInclude Include="UIManager.h">
       <Filter>Engine\headers</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyComponent.h">
-      <Filter>Game\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Game\headers</Filter>
+    <ClInclude Include="BurgerComponent.h">
+      <Filter>Game\headers\World</Filter>
     </ClInclude>
     <ClInclude Include="DestroyComponent.h">
-      <Filter>Game\headers</Filter>
+      <Filter>Game\headers\World</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
+      <Filter>Game\headers\World</Filter>
     </ClInclude>
     <ClInclude Include="EnemyEntry.h">
-      <Filter>Game\headers</Filter>
+      <Filter>Game\headers\World</Filter>
     </ClInclude>
     <ClInclude Include="EnemyPlayerComponent.h">
-      <Filter>Game\headers</Filter>
+      <Filter>Game\headers\World</Filter>
     </ClInclude>
-    <ClInclude Include="GameManagerVersus.h">
-      <Filter>Game\headers</Filter>
+    <ClInclude Include="EnemySpawner.h">
+      <Filter>Game\headers\World</Filter>
     </ClInclude>
-    <ClInclude Include="GameManagerSolo.h">
-      <Filter>Game\headers</Filter>
+    <ClInclude Include="FpsComponent.h">
+      <Filter>Game\headers\World</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Game\headers\Managers</Filter>
     </ClInclude>
     <ClInclude Include="GameManagerCoop.h">
-      <Filter>Game\headers</Filter>
+      <Filter>Game\headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManagerOnline.h">
+      <Filter>Game\headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManagerSolo.h">
+      <Filter>Game\headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManagerVersus.h">
+      <Filter>Game\headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Game\headers\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Game\headers\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Game\headers\World</Filter>
+    </ClInclude>
+    <ClInclude Include="TestComponent.h">
+      <Filter>Game\headers\World</Filter>
+    </ClInclude>
+    <ClInclude Include="OnlinePlayerController.h">
+      <Filter>Game\headers\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="OnlineEnemyController.h">
+      <Filter>Game\headers\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,24 +226,6 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\ImGui\imgui_widgets.cpp">
       <Filter>Engine\ImGui\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="FpsComponent.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="TestComponent.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerController.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="BurgerComponent.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>Game\cpp</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Engine\cpp</Filter>
@@ -257,9 +272,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Engine\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawner.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>Engine\cpp</Filter>
     </ClCompile>
@@ -269,29 +281,59 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>Engine\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyComponent.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Game\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyEntry.cpp">
-      <Filter>Game\cpp</Filter>
+    <ClCompile Include="BurgerComponent.cpp">
+      <Filter>Game\cpp\World</Filter>
     </ClCompile>
     <ClCompile Include="DestroyComponent.cpp">
-      <Filter>Game\cpp</Filter>
+      <Filter>Game\cpp\World</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp">
+      <Filter>Game\cpp\World</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyEntry.cpp">
+      <Filter>Game\cpp\World</Filter>
     </ClCompile>
     <ClCompile Include="EnemyPlayerComponent.cpp">
-      <Filter>Game\cpp</Filter>
+      <Filter>Game\cpp\World</Filter>
     </ClCompile>
-    <ClCompile Include="GameManagerVersus.cpp">
-      <Filter>Game\cpp</Filter>
+    <ClCompile Include="EnemySpawner.cpp">
+      <Filter>Game\cpp\World</Filter>
     </ClCompile>
-    <ClCompile Include="GameManagerSolo.cpp">
-      <Filter>Game\cpp</Filter>
+    <ClCompile Include="FpsComponent.cpp">
+      <Filter>Game\cpp\World</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Game\cpp\Managers</Filter>
     </ClCompile>
     <ClCompile Include="GameManagerCoop.cpp">
-      <Filter>Game\cpp</Filter>
+      <Filter>Game\cpp\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManagerOnline.cpp">
+      <Filter>Game\cpp\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManagerSolo.cpp">
+      <Filter>Game\cpp\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManagerVersus.cpp">
+      <Filter>Game\cpp\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Game\cpp\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Game\cpp\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Game\cpp\World</Filter>
+    </ClCompile>
+    <ClCompile Include="TestComponent.cpp">
+      <Filter>Game\cpp\World</Filter>
+    </ClCompile>
+    <ClCompile Include="OnlinePlayerController.cpp">
+      <Filter>Game\cpp\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="OnlineEnemyController.cpp">
+      <Filter>Game\cpp\Controllers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
