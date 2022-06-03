@@ -11,9 +11,9 @@
 
 dae::EnemyComponent::EnemyComponent(GameObject* owner) : Component(owner)
 {
-	m_spawner = static_cast<EnemySpawner*>(GetOwner()->GetParent()->GetComponent<EnemySpawner>());
-	m_renderer = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
-	m_player = SceneManager::GetInstance().FindComponent<PlayerController>()->GetOwner();
+	m_Spawner = static_cast<EnemySpawner*>(GetOwner()->GetParent()->GetComponent<EnemySpawner>());
+	m_Renderer = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
+	m_Player = SceneManager::GetInstance().FindComponent<PlayerController>()->GetOwner();
 }
 
 dae::EnemyComponent::~EnemyComponent()
@@ -27,13 +27,13 @@ void dae::EnemyComponent::Init(EnemyType type)
 	switch (type)
 	{
 	case EnemyType::sausage:
-		m_score = 100;
+		m_Score = 100;
 		break;
 	case EnemyType::pickle:
-		m_score = 200;
+		m_Score = 200;
 		break;
 	case EnemyType::egg:
-		m_score = 300;
+		m_Score = 300;
 		break;
 	default:
 		break;
@@ -45,21 +45,21 @@ void dae::EnemyComponent::Update(float deltaTime)
 	//pepper
 	if (m_Peppered)
 	{
-		if (m_pepperTimer >= m_PepperTime)
+		if (m_PepperTimer >= m_PepperTime)
 		{
 			m_Peppered = false;
-			m_pepperTimer = 0;
+			m_PepperTimer = 0;
 			switch (m_moveState)
 			{
-			case EnemyMoveState::Left: m_renderer->SetRow(1); break;
-			case EnemyMoveState::Right: m_renderer->SetRow(2); break;
+			case EnemyMoveState::Left: m_Renderer->SetRow(1); break;
+			case EnemyMoveState::Right: m_Renderer->SetRow(2); break;
 			case EnemyMoveState::Up:
-			case EnemyMoveState::Down: m_renderer->SetRow(3); break;
+			case EnemyMoveState::Down: m_Renderer->SetRow(3); break;
 			default:
 				break;
 			}
 		}
-		else m_pepperTimer += deltaTime;
+		else m_PepperTimer += deltaTime;
 		return;
 	}
 
@@ -116,8 +116,8 @@ void dae::EnemyComponent::Update(float deltaTime)
 
 void dae::EnemyComponent::Die()
 {
-	m_spawner->RemoveEnemy(m_type);
-	SceneManager::GetInstance().GetGameManager()->AddScore(m_score);
+	m_Spawner->RemoveEnemy(m_type);
+	SceneManager::GetInstance().GetGameManager()->AddScore(m_Score);
 	GetOwner()->Destroy();
 }
 
@@ -129,7 +129,7 @@ void dae::EnemyComponent::Salt()
 void dae::EnemyComponent::DecideDirection()
 {
 	glm::vec3 mypos{GetOwner()->GetPosition().GetPosition()};
-	glm::vec3 playerpos{m_player->GetPosition().GetPosition()};
+	glm::vec3 playerpos{m_Player->GetPosition().GetPosition()};
 
 	if (!m_OnPlatform)
 	{
@@ -139,14 +139,14 @@ void dae::EnemyComponent::DecideDirection()
 		{
 			m_moveState = EnemyMoveState::Left;
 			SnapToPlatform();
-			m_renderer->SetRow(1);
+			m_Renderer->SetRow(1);
 			m_OnPlatform = true;
 		}
 		else
 		{
 			m_moveState = EnemyMoveState::Right;
 			SnapToPlatform();
-			m_renderer->SetRow(2);
+			m_Renderer->SetRow(2);
 			m_OnPlatform = true;
 		}
 	}
@@ -158,14 +158,14 @@ void dae::EnemyComponent::DecideDirection()
 		{
 			m_moveState = EnemyMoveState::Up;
 			SnapToStair();
-			m_renderer->SetRow(3);
+			m_Renderer->SetRow(3);
 			m_OnPlatform = false;
 		}
 		else
 		{
 			m_moveState = EnemyMoveState::Down;
 			SnapToStair();
-			m_renderer->SetRow(3);
+			m_Renderer->SetRow(3);
 			m_OnPlatform = false;
 		}
 	}
@@ -203,7 +203,7 @@ void dae::EnemyComponent::OnCollisionEnter(Collider* other, Collider* mine)
 	if (mine->GetTag() == "ENEMY" && other->GetTag() == "PEPPER") //burger interaction
 	{
 		m_Peppered = true;
-		m_renderer->SetRow(0);
+		m_Renderer->SetRow(0);
 		return;
 	}
 }

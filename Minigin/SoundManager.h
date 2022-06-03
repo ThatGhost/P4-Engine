@@ -18,7 +18,7 @@ namespace dae
 		~SoundManager();
 
 		const std::string m_BasePath = "..\\Data\\Sound\\";
-		std::map<std::string, Mix_Chunk*> m_sound{};
+		std::map<std::string, Mix_Chunk*> m_Sounds{};
 	};
 }
 

@@ -1,3 +1,5 @@
+#if _WIN64
+#define ENVIROMENT64
 #pragma once
 #include "Component.h"
 namespace dae
@@ -16,14 +18,14 @@ namespace dae
 			state;
 		}
 
-		void Kill();
-		void Salt();
 		void SetGood(bool good);
 		void SetState(int state);
+		void ShootPepper();
 
 	private:
-		bool m_Good{};
-		RenderComponent* m_renderer;
+		int m_State{0};
+		bool m_Good{true};
+		RenderComponent* m_Renderer;
 	};
 }
-
+#endif

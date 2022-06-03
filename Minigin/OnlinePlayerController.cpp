@@ -1,4 +1,7 @@
+
 #include "MiniginPCH.h"
+#if _WIN64
+#define ENVIROMENT64
 #include "OnlinePlayerController.h"
 #include "SceneManager.h"
 #include "GameManagerOnline.h"
@@ -30,6 +33,17 @@ dae::OnlinePlayerController::~OnlinePlayerController()
 
 void dae::OnlinePlayerController::Update(float deltaTime)
 {
+	if (m_Peppered)
+	{
+		if (m_PepperTimer >= m_PepperedTime)
+		{
+			m_Peppered = false;
+			m_Playing = true;
+			m_Renderer->SetRow(0);
+		}
+		else m_PepperTimer += deltaTime;
+	}
+
 	if (!m_Playing)
 		return;
 
@@ -48,19 +62,19 @@ void dae::OnlinePlayerController::Update(float deltaTime)
 	//animations
 	if (m_Movement.y != 0 || (m_OnStairsBottom && m_OnStairsTop && (!m_OnPlatformLeft || !m_OnPlatformRight)))
 	{
-		m_renderer->SetRow(3);
+		m_Renderer->SetRow(3);
 	}
 	else if (m_Movement.x < 0)
 	{
-		m_renderer->SetRow(1);
+		m_Renderer->SetRow(1);
 	}
 	else if (m_Movement.x > 0)
 	{
-		m_renderer->SetRow(2);
+		m_Renderer->SetRow(2);
 	}
 	else
 	{
-		m_renderer->SetRow(0);
+		m_Renderer->SetRow(0);
 	}
 
 	//sound
@@ -123,24 +137,35 @@ void dae::OnlinePlayerController::OnCollision(Collider* other, Collider* mine)
 	}
 			break;
 	}
+}
+void dae::OnlinePlayerController::OnCollisionEnter(Collider* other, Collider* mine)
+{
 	if (mine->GetTag() == "ENEMY" && other->GetTag() == "PLAYER")
 	{
 		EventManager::SendEvent("GAMEOVER");
+	}
+	if (!m_Good && other->GetTag() == "PEPPER")
+	{
+		m_Peppered = true;
+		m_PepperTimer = 0;
+		m_Playing = false;
+		m_Renderer->SetRow(4);
 	}
 }
 void dae::OnlinePlayerController::Init(int player)
 {
 	m_Player = player;
-	m_renderer = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
+	m_Renderer = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::OnlinePlayerController::Left, this));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::OnlinePlayerController::Right, this));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::OnlinePlayerController::Up, this));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_DOWN", std::bind(&dae::OnlinePlayerController::Down, this));
-	//EventManager::AddEvent(std::to_string(m_Player) + "PEPPER", std::bind(&dae::OnlinePlayerController::Pepper, this));
+	EventManager::AddEvent("PEPPER", std::bind(&dae::OnlinePlayerController::OnPepper, this));
 }
 
 void dae::OnlinePlayerController::SetGood(bool good)
 {
+	m_Good = good;
 	if (good)
 	{
 		//white
@@ -152,7 +177,7 @@ void dae::OnlinePlayerController::SetGood(bool good)
 		coll->SetTag("PLAYER");
 		SceneManager::GetInstance().AddCollider(coll);
 
-		m_renderer->SetImage("Player.png", true, 1);
+		m_Renderer->SetImage("Player.png", true, 1);
 	}
 	else
 	{
@@ -165,7 +190,7 @@ void dae::OnlinePlayerController::SetGood(bool good)
 		coll->SetTag("ENEMY");
 		SceneManager::GetInstance().AddCollider(coll);
 
-		m_renderer->SetImage("EvilCook.png", true, 1);
+		m_Renderer->SetImage("EvilCook.png", true, 1);
 	}
 }
 int dae::OnlinePlayerController::GetState() const
@@ -205,7 +230,7 @@ void dae::OnlinePlayerController::Down()
 {
 	m_Movement.y += 1;
 }
-void dae::OnlinePlayerController::Pepper()
+void dae::OnlinePlayerController::OnPepper()
 {
 	GameObject* go = new GameObject();
 	go->SetParent(GetOwner());
@@ -232,3 +257,5 @@ void dae::OnlinePlayerController::Pepper()
 	//sound
 	SoundManager::GetInstance().PlaySound("Shoot.wav");
 }
+
+#endif

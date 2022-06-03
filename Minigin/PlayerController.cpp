@@ -45,19 +45,19 @@ void dae::PlayerController::Update(float deltaTime)
 	//animations
 	if (m_Movement.y != 0 || (m_OnStairsBottom && m_OnStairsTop && (!m_OnPlatformLeft || !m_OnPlatformRight)))
 	{
-		m_renderer->SetRow(3);
+		m_Renderer->SetRow(3);
 	}
 	else if (m_Movement.x < 0)
 	{
-		m_renderer->SetRow(1);
+		m_Renderer->SetRow(1);
 	}
 	else if (m_Movement.x > 0)
 	{
-		m_renderer->SetRow(2);
+		m_Renderer->SetRow(2);
 	}
 	else
 	{
-		m_renderer->SetRow(0);
+		m_Renderer->SetRow(0);
 	}
 
 	//sound
@@ -74,12 +74,12 @@ void dae::PlayerController::Update(float deltaTime)
 	if (m_Movement.x != 0)
 	{
 		glm::vec3 position = GetOwner()->GetPosition().GetPosition();
-		GetOwner()->SetPosition(glm::vec3(position.x,m_platformHeight,position.z));
+		GetOwner()->SetPosition(glm::vec3(position.x,m_PlatformHeight,position.z));
 	}
 	if (m_Movement.y != 0)
 	{
 		glm::vec3 position = GetOwner()->GetPosition().GetPosition();
-		GetOwner()->SetPosition(glm::vec3(m_stairOffset,position.y,position.z));
+		GetOwner()->SetPosition(glm::vec3(m_StairOffset,position.y,position.z));
 	}
 
 	//reset
@@ -98,25 +98,25 @@ void dae::PlayerController::OnCollision(Collider* other, Collider* mine)
 	case 'T':if (other->GetTag() == "STAIR")
 		{
 			m_OnStairsTop = true;
-			m_stairOffset = other->GetOwner()->GetPosition().GetPosition().x;
+			m_StairOffset = other->GetOwner()->GetPosition().GetPosition().x;
 		}
 		break;
 	case 'B':if (other->GetTag() == "STAIR")
 		{
 			m_OnStairsBottom = true;
-			m_stairOffset = other->GetOwner()->GetPosition().GetPosition().x;
+			m_StairOffset = other->GetOwner()->GetPosition().GetPosition().x;
 		}
 		break;
 	case 'L':if (other->GetTag() == "PLATFORM")
 		{
 			m_OnPlatformLeft = true;	
-			m_platformHeight = other->GetOwner()->GetPosition().GetPosition().y - 16;
+			m_PlatformHeight = other->GetOwner()->GetPosition().GetPosition().y - 16;
 		}
 		break;
 	case 'R':if (other->GetTag() == "PLATFORM") 
 		{
 			m_OnPlatformRight = true;
-			m_platformHeight = other->GetOwner()->GetPosition().GetPosition().y - 16;
+			m_PlatformHeight = other->GetOwner()->GetPosition().GetPosition().y - 16;
 		}
 		break;
 	}
@@ -124,7 +124,7 @@ void dae::PlayerController::OnCollision(Collider* other, Collider* mine)
 void dae::PlayerController::Init(int player)
 {
 	m_Player = player;
-	m_renderer = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
+	m_Renderer = static_cast<RenderComponent*>(GetOwner()->GetComponent<RenderComponent>());
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_LEFT", std::bind(&dae::PlayerController::Left, this));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_RIGHT", std::bind(&dae::PlayerController::Right, this));
 	EventManager::AddEvent(std::to_string(m_Player) + "BUTTON_UP", std::bind(&dae::PlayerController::Up, this ));

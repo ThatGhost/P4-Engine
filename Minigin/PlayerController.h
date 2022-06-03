@@ -24,7 +24,7 @@ namespace dae
 		void Pepper();
 
 		int m_Player{};
-		RenderComponent* m_renderer{nullptr};
+		RenderComponent* m_Renderer{nullptr};
 
 		glm::vec2 m_Movement{};
 
@@ -33,8 +33,8 @@ namespace dae
 		bool m_OnPlatformLeft{};
 		bool m_OnPlatformRight{};
 
-		float m_platformHeight{};
-		float m_stairOffset{};
+		float m_PlatformHeight{};
+		float m_StairOffset{};
 
 		const float m_Speed{50}; //pixels per second
 		const std::string m_WalkingSound{"Footstep.wav"};

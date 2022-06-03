@@ -11,10 +11,10 @@ dae::GameManagerVersus::GameManagerVersus(GameObject* owner) : GameManager(owner
 {
 	EventManager::AddEvent("DIE", std::bind(&dae::GameManagerVersus::OnDie, this));
 	EventManager::AddEvent("BURGERDONE", std::bind(&dae::GameManagerVersus::OnBurgderDone, this));
-	EventManager::AddEvent("0BUTTON_A", std::bind(&dae::GameManagerVersus::OnSalt, this));
+	EventManager::AddEvent("0BUTTON_X", std::bind(&dae::GameManagerVersus::OnPepper, this));
 
-	m_healthImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "Health.png");
-	m_pepperImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "pepper.png");
+	m_HealthImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "Health.png");
+	m_PepperImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "pepper.png");
 
 	AddGameUI();
 }
@@ -23,7 +23,7 @@ dae::GameManagerVersus::~GameManagerVersus()
 {
 	EventManager::RemoveEvent("DIE");
 	EventManager::RemoveEvent("BURGERDONE");
-	EventManager::RemoveEvent("0BUTTON_A");
+	EventManager::RemoveEvent("0BUTTON_X");
 }
 
 void dae::GameManagerVersus::Update(float)
@@ -34,15 +34,15 @@ void dae::GameManagerVersus::Update(float)
 
 void dae::GameManagerVersus::Start()
 {
-	m_playerController = SceneManager::GetInstance().FindComponent<dae::PlayerController>()->GetOwner();
-	m_playerStartpos = m_playerController->GetPosition().GetPosition();
+	m_PlayerController = SceneManager::GetInstance().FindComponent<dae::PlayerController>()->GetOwner();
+	m_PlayerStartpos = m_PlayerController->GetPosition().GetPosition();
 }
 
 void dae::GameManagerVersus::Restart()
 {
 	//remove all enemies and place player in start
-	m_healthString = std::to_string(m_health);
-	m_playerController->SetPosition(m_playerStartpos);
+	m_healthString = std::to_string(m_Health);
+	m_PlayerController->SetPosition(m_PlayerStartpos);
 	UIManager::GetInstance().UpdateUI();
 	SoundManager::GetInstance().PlaySound("GameOver.wav");
 }
@@ -57,11 +57,11 @@ void dae::GameManagerVersus::GameOver()
 void dae::GameManagerVersus::AddGameUI()
 {
 	//pepper
-	UIManager::GetInstance().AddImageElement(&m_pepperImage, glm::vec2(32, 32), glm::vec2(365, 15));
+	UIManager::GetInstance().AddImageElement(&m_PepperImage, glm::vec2(32, 32), glm::vec2(365, 15));
 	UIManager::GetInstance().AddTextElement(&m_pepperString, m_FontSize - 10, glm::vec2(395, 20));
 
 	//Health
-	UIManager::GetInstance().AddImageElement(&m_healthImage, glm::vec2(32, 32), glm::vec2(425, 12));
+	UIManager::GetInstance().AddImageElement(&m_HealthImage, glm::vec2(32, 32), glm::vec2(425, 12));
 	UIManager::GetInstance().AddTextElement(&m_healthString, m_FontSize - 10, glm::vec2(455, 20));
 
 	UIManager::GetInstance().UpdateUI();
@@ -69,10 +69,10 @@ void dae::GameManagerVersus::AddGameUI()
 
 void dae::GameManagerVersus::OnDie()
 {
-	m_health--;
-	if (m_health == 0)
+	m_Health--;
+	if (m_Health == 0)
 		GameOver();
-	else if (m_health > 0)
+	else if (m_Health > 0)
 		Restart();
 }
 
@@ -83,12 +83,12 @@ void dae::GameManagerVersus::OnWin()
 	SceneManager::GetInstance().SwitchScene("MainMenu.json");
 }
 
-void dae::GameManagerVersus::OnSalt()
+void dae::GameManagerVersus::OnPepper()
 {
-	if (!m_WasPressingPepper && m_pepper > 0)
+	if (!m_WasPressingPepper && m_Pepper > 0)
 	{
-		m_pepper--;
-		m_pepperString = std::to_string(m_pepper);
+		m_Pepper--;
+		m_pepperString = std::to_string(m_Pepper);
 		EventManager::SendEvent("0PEPPER");
 		UIManager::GetInstance().UpdateUI();
 	}
@@ -97,8 +97,8 @@ void dae::GameManagerVersus::OnSalt()
 
 void dae::GameManagerVersus::OnBurgderDone()
 {
-	m_doneBurgers++;
-	if (m_doneBurgers == 16)
+	m_DoneBurgers++;
+	if (m_DoneBurgers == 16)
 	{
 		OnWin();
 	}

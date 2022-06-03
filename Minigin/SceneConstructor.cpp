@@ -109,6 +109,7 @@ dae::GameObject* dae::SceneConstructor::ConstructGO(const json& it, std::vector<
 #include "EnemyPlayerComponent.h"
 #include "OnlineEnemyController.h"
 #include "OnlinePlayerController.h"
+#include "ServerBrowserComponent.h"
 
 void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, GameObject* gameObject, std::vector<dae::Collider*>* colliders)
 {
@@ -208,10 +209,14 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 		{
 			gamemanager = static_cast<GameManagerCoop*>(gameObject->AddComponent<GameManagerCoop>());
 		}
+#if _WIN64
+#define ENVIROMENT64
+
 		else if (type == "online")
 		{
 			gamemanager = static_cast<GameManagerOnline*>(gameObject->AddComponent<GameManagerOnline>());
 		}
+#endif
 		SceneManager::GetInstance().SetGameManager(gamemanager);
 	}
 	break;
@@ -220,6 +225,9 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 		gameObject->AddComponent<EnemyPlayerComponent>();
 	}
 	break;
+#if _WIN64
+#define ENVIROMENT64
+
 	case Components::OnlineEnemyController:
 	{
 		gameObject->AddComponent<dae::OnlineEnemyController>();
@@ -231,6 +239,14 @@ void dae::SceneConstructor::AddComponent(const json::const_iterator& compIt, Gam
 		playerController->Init(0);
 	}
 	break;
+	case Components::ServerBrowserComponent:
+	{
+		dae::ServerBrowserComponent* playerController = static_cast<dae::ServerBrowserComponent*>(gameObject->AddComponent<dae::ServerBrowserComponent>());
+		playerController;
+		//playerController->Start();
+	}
+	break;
+#endif
 	default:
 		std::cout << "NO KNOWN COMPONENT TYPE \n";
 		break;

@@ -14,13 +14,13 @@ namespace dae
 
 		virtual void Update(float) override;
 		virtual void Start() override;
-		virtual void AddScore(int);
+		virtual void AddScore(int) override;
 
-		void SetLevel(int l) { m_level = l; };
+		void SetLevel(int l) { m_Level = l; };
 	private:
 
 		virtual void OnDie() override;
-		virtual void OnSalt()override;
+		virtual void OnPepper()override;
 		virtual void OnBurgderDone()override;
 
 		virtual void Restart()override;
@@ -31,8 +31,8 @@ namespace dae
 		void InitialiseData();
 		void HandleScore();
 
-		GameObject* m_playerObject = nullptr;
-		EnemySpawner* m_enemySpawner = nullptr;
+		GameObject* m_PlayerObject = nullptr;
+		EnemySpawner* m_EnemySpawner = nullptr;
 
 		const std::string m_BasePath{ "..\\Data\\UI\\" };
 		const int m_NormalHealth = 3;
@@ -41,20 +41,20 @@ namespace dae
 		int m_HighScore = 0;
 		bool m_PressingPepper = false;
 		bool m_WasPressingPepper = false;
-		glm::vec3 m_playerStartpos{};
-		bool m_daed = false;
+		glm::vec3 m_PlayerStartpos{};
+		bool m_Dead = false;
 
-		bool m_endScreen = false;
-		float m_endScreenTimer = 0;
-		const float m_endScreenTime = 3;
+		bool m_EndScreen = false;
+		float m_EndScreenTimer = 0;
+		const float m_EndScreenTime = 3;
 		bool m_Lost{true};
 
-		int m_score = 0;
-		int m_scoreToAdd = 0;
-		int m_health = m_NormalHealth;
-		int m_pepper = m_NormalPepper;
-		int m_doneBurgers{};
-		int m_level{};
+		int m_Score = 0;
+		int m_ScoreToAdd = 0;
+		int m_Health = m_NormalHealth;
+		int m_Pepper = m_NormalPepper;
+		int m_DoneBurgers{};
+		int m_Level{};
 
 		//UI
 		std::string m_1Up{"1UP"};
@@ -67,11 +67,11 @@ namespace dae
 		std::string m_highScoreString{"10000"};
 		std::string m_scoreString{ "0" };
 
-		std::string m_appDataPath{""};
+		std::string m_AppDataPath{""};
 		std::string m_SoloDataPath{""};
 
-		Texture2D* m_pepperImage;
-		Texture2D* m_healthImage;
+		Texture2D* m_PepperImage;
+		Texture2D* m_HealthImage;
 
 		const float m_FontSize{32};
 		const std::string m_ReadMeText{ "Hi\nThis folder was created for the Programming 4 end assignment for Ibn Zwanckaert\nIf you already seen him and gave him 20/20 you can delete this.\nOtherwise pls give Ibn a 20/20 (he needs it)" };

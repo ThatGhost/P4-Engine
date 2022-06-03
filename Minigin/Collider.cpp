@@ -19,7 +19,7 @@ dae::Collider::~Collider()
 
 void dae::Collider::CheckCollisions(std::vector<dae::Collider*>* colliders)
 {
-	if (!m_look)
+	if (!m_IsLooking)
 		return;
 
 	glm::vec2 pos = GetPosition();

@@ -54,6 +54,9 @@
 	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020, 2021
 
 */
+#if _WIN32 || _WIN64
+#if _WIN64
+#define ENVIROMENT64
 
 #pragma once 
 
@@ -73,6 +76,7 @@
 #define _WIN32_WINNT 0x0A00
 #endif
 #endif
+
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #define ASIO_STANDALONE
@@ -1036,3 +1040,5 @@ namespace olc
 }
 
 
+#endif
+#endif

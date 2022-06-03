@@ -26,9 +26,9 @@ namespace dae
 		virtual void OnCollisionEnter(Collider*, Collider*) override;
 		virtual void OnCollision(Collider*, Collider*) override;
 	private:
-		EnemySpawner* m_spawner{ nullptr };
-		RenderComponent* m_renderer{ nullptr };
-		GameObject* m_player{nullptr};
+		EnemySpawner* m_Spawner{ nullptr };
+		RenderComponent* m_Renderer{ nullptr };
+		GameObject* m_Player{nullptr};
 
 		const float m_Speed{40};
 		const float m_PepperTime{5};
@@ -57,11 +57,11 @@ namespace dae
 		bool m_Peppered{ false };
 		bool m_RandomWalk{ false };
 
-		float m_pepperTimer{};
+		float m_PepperTimer{};
 		float m_StairPosition{};
 		float m_PlatformPosition{};
 
-		int m_score{};
+		int m_Score{};
 	};
 }
 

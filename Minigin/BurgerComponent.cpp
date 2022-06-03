@@ -17,11 +17,11 @@ dae::BurgerComponent::~BurgerComponent()
 
 void dae::BurgerComponent::Update(float deltaTime)
 {
-	if (m_isFalling)
+	if (m_IsFalling)
 	{
-		GetOwner()->Move(glm::vec3(0, m_fallVelocity,0));
-		m_fallVelocity += m_FallSpeed * deltaTime;
-		if (m_fallVelocity > m_MaxSpeed)m_fallVelocity = m_MaxSpeed;
+		GetOwner()->Move(glm::vec3(0, m_FallVelocity,0));
+		m_FallVelocity += m_FallSpeed * deltaTime;
+		if (m_FallVelocity > m_MaxSpeed)m_FallVelocity = m_MaxSpeed;
 	}
 }
 
@@ -30,40 +30,40 @@ void dae::BurgerComponent::OnCollisionEnter(Collider* other, Collider*)
 	std::string otherTag{ other->GetTag() };
 	if (otherTag == "PLATFORM")
 	{
-		m_fallVelocity = 0;
-		m_isFalling = false;
-		for (size_t j = 0; j < sizeof(m_walkSpots); j++)
+		m_FallVelocity = 0;
+		m_IsFalling = false;
+		for (size_t j = 0; j < sizeof(m_WalkSpots); j++)
 		{
-			m_walkSpots[j] = false;
+			m_WalkSpots[j] = false;
 		}
 		AddScore(50);
 		return;
 	}
 	else if (otherTag == "HOLDER")
 	{
-		m_fallVelocity = 0;
-		m_isFalling = false;
-		m_done = true;
+		m_FallVelocity = 0;
+		m_IsFalling = false;
+		m_Done = true;
 		EventManager::SendEvent("BURGERDONE");
 		return;
 	}
 	else if (otherTag == "BURGER")
 	{
 		//m_isFalling = true;
-		if (!m_done)
+		if (!m_Done)
 		{
 			bool done = static_cast<dae::BurgerComponent*>(other->GetOwner()->GetComponent<dae::BurgerComponent>())->IsDone();
 			if (done)
 			{
-				m_isFalling = false;
-				m_fallVelocity = 0;
-				m_done = true;
+				m_IsFalling = false;
+				m_FallVelocity = 0;
+				m_Done = true;
 				EventManager::SendEvent("BURGERDONE");
 				AddScore(50);
 			}
 			else
 			{
-				m_isFalling = true;
+				m_IsFalling = true;
 			}
 		}
 		return;
@@ -87,16 +87,16 @@ void dae::BurgerComponent::OnCollision(Collider* other, Collider* mine)
 		int index = (int)(percentage * 5);
 		index = glm::clamp(index,0,4);
 
-		m_walkSpots[index] = true;
+		m_WalkSpots[index] = true;
 
 		//check if it ran over everything
 		bool canFall = true;
-		for (size_t j = 0; j < sizeof(m_walkSpots); j++)
+		for (size_t j = 0; j < sizeof(m_WalkSpots); j++)
 		{
-			if (m_walkSpots[j] == false)
+			if (m_WalkSpots[j] == false)
 				canFall = false;
 		}
-		m_isFalling = canFall;
+		m_IsFalling = canFall;
 	}
 }
 
@@ -120,9 +120,9 @@ void dae::BurgerComponent::Init(bool bread)
 
 void dae::BurgerComponent::AddScore(int score)
 {
-	if (m_ini)
+	if (m_Init)
 	{
-		m_ini = false;
+		m_Init = false;
 		return;
 	}
 	SceneManager::GetInstance().GetGameManager()->AddScore(score);

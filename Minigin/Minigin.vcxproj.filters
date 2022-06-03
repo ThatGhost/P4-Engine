@@ -162,9 +162,6 @@
     <ClInclude Include="EnemyEntry.h">
       <Filter>Game\headers\World</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyPlayerComponent.h">
-      <Filter>Game\headers\World</Filter>
-    </ClInclude>
     <ClInclude Include="EnemySpawner.h">
       <Filter>Game\headers\World</Filter>
     </ClInclude>
@@ -203,6 +200,12 @@
     </ClInclude>
     <ClInclude Include="OnlineEnemyController.h">
       <Filter>Game\headers\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPlayerComponent.h">
+      <Filter>Game\headers\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerBrowserComponent.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +296,6 @@
     <ClCompile Include="EnemyEntry.cpp">
       <Filter>Game\cpp\World</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyPlayerComponent.cpp">
-      <Filter>Game\cpp\World</Filter>
-    </ClCompile>
     <ClCompile Include="EnemySpawner.cpp">
       <Filter>Game\cpp\World</Filter>
     </ClCompile>
@@ -334,6 +334,12 @@
     </ClCompile>
     <ClCompile Include="OnlineEnemyController.cpp">
       <Filter>Game\cpp\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPlayerComponent.cpp">
+      <Filter>Game\cpp\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerBrowserComponent.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

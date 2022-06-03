@@ -8,6 +8,7 @@
 #include "PlayerController.h"
 #include "EnemySpawner.h"
 #include "SoundManager.h"
+
 #include <tchar.h>
 #include <shlwapi.h>
 #pragma comment(lib,"shlwapi.lib")
@@ -18,10 +19,10 @@ dae::GameManagerSolo::GameManagerSolo(GameObject* owner) : GameManager(owner)
 {
 	EventManager::AddEvent("DIE",std::bind(&dae::GameManagerSolo::OnDie,this));
 	EventManager::AddEvent("BURGERDONE",std::bind(&dae::GameManagerSolo::OnBurgderDone,this));
-	EventManager::AddEvent("0BUTTON_A", std::bind(&dae::GameManagerSolo::OnSalt, this));
+	EventManager::AddEvent("0BUTTON_X", std::bind(&dae::GameManagerSolo::OnPepper, this));
 
-	m_healthImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "Health.png");
-	m_pepperImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "pepper.png");
+	m_HealthImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "Health.png");
+	m_PepperImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "pepper.png");
 
 	InitialiseData();
 	AddGameUI();
@@ -31,7 +32,7 @@ dae::GameManagerSolo::~GameManagerSolo()
 {
 	EventManager::RemoveEvent("DIE");
 	EventManager::RemoveEvent("BURGERDONE");
-	EventManager::RemoveEvent("0BUTTON_A");
+	EventManager::RemoveEvent("0BUTTON_X");
 }
 
 void dae::GameManagerSolo::Update(float deltaTime)
@@ -39,17 +40,17 @@ void dae::GameManagerSolo::Update(float deltaTime)
 	m_WasPressingPepper = m_PressingPepper;
 	m_PressingPepper = false;
 
-	if (m_scoreToAdd > 0)
+	if (m_ScoreToAdd > 0)
 	{
-		m_score += m_scoreToAdd;
-		m_scoreToAdd = 0;
-		m_scoreString = std::to_string(m_score);
+		m_Score += m_ScoreToAdd;
+		m_ScoreToAdd = 0;
+		m_scoreString = std::to_string(m_Score);
 		UIManager::GetInstance().UpdateUI();
 	}
 
-	if (m_endScreen)
+	if (m_EndScreen)
 	{
-		if (m_endScreenTimer >= m_endScreenTime)
+		if (m_EndScreenTimer >= m_EndScreenTime)
 		{
 			if (m_Lost)
 			{
@@ -59,29 +60,29 @@ void dae::GameManagerSolo::Update(float deltaTime)
 			else
 			{
 				UIManager::GetInstance().ClearUI();
-				if (m_level == 1)
+				if (m_Level == 1)
 					SceneManager::GetInstance().SwitchScene("Level2.json");
 				else
 					SceneManager::GetInstance().SwitchScene("MainMenu.json");
 			}
 		}
-		else m_endScreenTimer += deltaTime;
+		else m_EndScreenTimer += deltaTime;
 	}
 }
 
 void dae::GameManagerSolo::Start()
 {
-	m_playerObject = SceneManager::GetInstance().FindComponent<dae::PlayerController>()->GetOwner();
-	m_playerStartpos = m_playerObject->GetPosition().GetPosition();
+	m_PlayerObject = SceneManager::GetInstance().FindComponent<dae::PlayerController>()->GetOwner();
+	m_PlayerStartpos = m_PlayerObject->GetPosition().GetPosition();
 
-	m_enemySpawner = static_cast<EnemySpawner*>(SceneManager::GetInstance().FindComponent<EnemySpawner>());
+	m_EnemySpawner = static_cast<EnemySpawner*>(SceneManager::GetInstance().FindComponent<EnemySpawner>());
 }
 
 void dae::GameManagerSolo::Restart()
 {
-	m_healthString = std::to_string(m_health);
-	m_playerObject->SetPosition(m_playerStartpos);
-	if(m_enemySpawner != nullptr) m_enemySpawner->Restart();
+	m_healthString = std::to_string(m_Health);
+	m_PlayerObject->SetPosition(m_PlayerStartpos);
+	if(m_EnemySpawner != nullptr) m_EnemySpawner->Restart();
 
 	UIManager::GetInstance().UpdateUI();
 	SoundManager::GetInstance().PlaySound("GameOver.wav");
@@ -90,15 +91,15 @@ void dae::GameManagerSolo::Restart()
 void dae::GameManagerSolo::GameOver()
 {
 	m_Lost = true;
-	m_endScreen = true;
+	m_EndScreen = true;
 
 	HandleScore();
 	UIManager::GetInstance().AddTextElement(&m_YouLost,64,glm::vec2(70,210),SDL_Color(0,0,0));
 	UIManager::GetInstance().AddTextElement(&m_YouLost, 64, glm::vec2(60, 200), SDL_Color(210, 50, 50));
 	UIManager::GetInstance().UpdateUI();
 
-	m_enemySpawner->SetSpawning(false);
-	m_enemySpawner->ClearEnemys();
+	m_EnemySpawner->SetSpawning(false);
+	m_EnemySpawner->ClearEnemys();
 
 	EventManager::RemoveEvent("0BUTTON_A");
 	SoundManager::GetInstance().PlaySound("GameOver.wav");
@@ -115,11 +116,11 @@ void dae::GameManagerSolo::AddGameUI()
 	UIManager::GetInstance().AddTextElement(&m_highScoreString, m_FontSize - 10, glm::vec2(250, 20));
 
 	//pepper
-	UIManager::GetInstance().AddImageElement(&m_pepperImage, glm::vec2(32, 32), glm::vec2(365, 15));
+	UIManager::GetInstance().AddImageElement(&m_PepperImage, glm::vec2(32, 32), glm::vec2(365, 15));
 	UIManager::GetInstance().AddTextElement(&m_pepperString, m_FontSize - 10, glm::vec2(395, 20));
 
 	//Health
-	UIManager::GetInstance().AddImageElement(&m_healthImage, glm::vec2(32, 32), glm::vec2(425, 12));
+	UIManager::GetInstance().AddImageElement(&m_HealthImage, glm::vec2(32, 32), glm::vec2(425, 12));
 	UIManager::GetInstance().AddTextElement(&m_healthString, m_FontSize - 10, glm::vec2(455, 20));
 
 	UIManager::GetInstance().UpdateUI();
@@ -132,12 +133,12 @@ void dae::GameManagerSolo::InitialiseData()
 	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szPath)))
 	{
 		PathAppend(szPath, _T("\\.STUDENT_PROJECT_DATA\\"));
-		m_appDataPath = szPath;
+		m_AppDataPath = szPath;
 	}
-	CreateDirectory(m_appDataPath.c_str(), NULL);
+	CreateDirectory(m_AppDataPath.c_str(), NULL);
 
 	//create read me for future ref
-	std::ofstream out{m_appDataPath + "ReadMe.txt"};
+	std::ofstream out{m_AppDataPath + "ReadMe.txt"};
 	out << m_ReadMeText;
 	out.close();
 
@@ -173,9 +174,9 @@ void dae::GameManagerSolo::InitialiseData()
 
 void dae::GameManagerSolo::HandleScore() //The most basic type of saving lol
 {
-	if (m_score > m_HighScore)
+	if (m_Score > m_HighScore)
 	{
-		m_HighScore = m_score;
+		m_HighScore = m_Score;
 	}
 	std::ofstream out{m_SoloDataPath.c_str()};
 	out << m_HighScore;
@@ -184,20 +185,20 @@ void dae::GameManagerSolo::HandleScore() //The most basic type of saving lol
 
 void dae::GameManagerSolo::OnDie()
 {
-	m_daed = true;
-	m_health--;
-	if (m_health == 0)
+	m_Dead = true;
+	m_Health--;
+	if (m_Health == 0)
 		GameOver();
-	else if (m_health > 0)
+	else if (m_Health > 0)
 		Restart();
 }
 
 void dae::GameManagerSolo::OnWin()
 {
 	m_Lost = false;
-	m_endScreen = true;
-	m_enemySpawner->SetSpawning(false);
-	m_enemySpawner->ClearEnemys();
+	m_EndScreen = true;
+	m_EnemySpawner->SetSpawning(false);
+	m_EnemySpawner->ClearEnemys();
 
 	UIManager::GetInstance().AddTextElement(&m_YouWon, 64, glm::vec2(70, 210), SDL_Color(0, 0, 0));
 	UIManager::GetInstance().AddTextElement(&m_YouWon, 64, glm::vec2(60, 200), SDL_Color(50, 210, 50));
@@ -207,12 +208,12 @@ void dae::GameManagerSolo::OnWin()
 	HandleScore();
 }
 
-void dae::GameManagerSolo::OnSalt()
+void dae::GameManagerSolo::OnPepper()
 {
-	if (!m_WasPressingPepper && m_pepper > 0)
+	if (!m_WasPressingPepper && m_Pepper > 0)
 	{
-		m_pepper--;
-		m_pepperString = std::to_string(m_pepper);
+		m_Pepper--;
+		m_pepperString = std::to_string(m_Pepper);
 		EventManager::SendEvent("0PEPPER");
 		UIManager::GetInstance().UpdateUI(); 
 	}
@@ -221,8 +222,8 @@ void dae::GameManagerSolo::OnSalt()
 
 void dae::GameManagerSolo::OnBurgderDone()
 {
-	m_doneBurgers++;
-	if (m_doneBurgers == 16)
+	m_DoneBurgers++;
+	if (m_DoneBurgers == 16)
 	{
 		OnWin();
 	}
@@ -230,5 +231,5 @@ void dae::GameManagerSolo::OnBurgderDone()
 
 void dae::GameManagerSolo::AddScore(int score)
 {
-	m_scoreToAdd += score;
+	m_ScoreToAdd += score;
 }

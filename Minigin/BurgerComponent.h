@@ -14,22 +14,22 @@ namespace dae
 		virtual void OnCollisionEnter(Collider*, Collider*) override;
 		virtual void OnCollision(Collider*, Collider*) override;
 
-		void SetIsFalling(bool isFalling) { m_isFalling = isFalling; }
+		void SetIsFalling(bool isFalling) { m_IsFalling = isFalling; }
 		void Init(bool bread = true);
-		bool IsDone() { return m_done; }
-		bool IsFalling() { return m_isFalling; }
+		bool IsDone() { return m_Done; }
+		bool IsFalling() { return m_IsFalling; }
 	private:
 		void AddScore(int);
 
 		const float m_FallSpeed{8};
 		const float m_MaxSpeed{40};
 
-		bool m_walkSpots[5]{false};
+		bool m_WalkSpots[5]{false};
 
-		float m_fallVelocity{};
-		bool m_isFalling{true};
-		bool m_done{ false };
-		bool m_ini{true};
+		float m_FallVelocity{};
+		bool m_IsFalling{true};
+		bool m_Done{ false };
+		bool m_Init{true};
 	};
 }
 

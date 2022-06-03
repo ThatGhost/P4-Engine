@@ -20,11 +20,11 @@ dae::GameManagerCoop::GameManagerCoop(GameObject* owner) : GameManager(owner)
 {
 	EventManager::AddEvent("DIE", std::bind(&dae::GameManagerCoop::OnDie, this));
 	EventManager::AddEvent("BURGERDONE", std::bind(&dae::GameManagerCoop::OnBurgderDone, this));
-	EventManager::AddEvent("0BUTTON_A", std::bind(&dae::GameManagerCoop::OnSalt, this));
-	EventManager::AddEvent("1BUTTON_A", std::bind(&dae::GameManagerCoop::OnSalt2, this));
+	EventManager::AddEvent("0BUTTON_X", std::bind(&dae::GameManagerCoop::OnPepper, this));
+	EventManager::AddEvent("1BUTTON_X", std::bind(&dae::GameManagerCoop::OnSalt, this));
 
-	m_healthImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "Health.png");
-	m_pepperImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "pepper.png");
+	m_HealthImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "Health.png");
+	m_PepperImage = ResourceManager::GetInstance().LoadTexture(m_BasePath + "pepper.png");
 
 	InitialiseData();
 	AddGameUI();
@@ -34,7 +34,8 @@ dae::GameManagerCoop::~GameManagerCoop()
 {
 	EventManager::RemoveEvent("DIE");
 	EventManager::RemoveEvent("BURGERDONE");
-	EventManager::RemoveEvent("0BUTTON_A");
+	EventManager::RemoveEvent("0BUTTON_X");
+	EventManager::RemoveEvent("1BUTTON_X");
 }
 
 void dae::GameManagerCoop::Update(float)
@@ -46,15 +47,15 @@ void dae::GameManagerCoop::Update(float)
 void dae::GameManagerCoop::Start()
 {
 	m_playerObject = SceneManager::GetInstance().FindComponent<dae::PlayerController>()->GetOwner();
-	m_playerStartpos = m_playerObject->GetPosition().GetPosition();
+	m_PlayerStartPos = m_playerObject->GetPosition().GetPosition();
 
 	m_enemySpawner = static_cast<EnemySpawner*>(SceneManager::GetInstance().FindComponent<EnemySpawner>());
 }
 
 void dae::GameManagerCoop::Restart()
 {
-	m_healthString = std::to_string(m_health);
-	m_playerObject->SetPosition(m_playerStartpos);
+	m_HealthString = std::to_string(m_Health);
+	m_playerObject->SetPosition(m_PlayerStartPos);
 	if (m_enemySpawner != nullptr) m_enemySpawner->Restart();
 	UIManager::GetInstance().UpdateUI();
 	SoundManager::GetInstance().PlaySound("GameOver.wav");
@@ -73,19 +74,19 @@ void dae::GameManagerCoop::AddGameUI()
 {
 	//score
 	UIManager::GetInstance().AddTextElement(&m_1Up, m_FontSize, glm::vec2(20, 10), SDL_Color(0, 255, 0));
-	UIManager::GetInstance().AddTextElement(&m_scoreString, m_FontSize - 10, glm::vec2(90, 20));
+	UIManager::GetInstance().AddTextElement(&m_ScoreString, m_FontSize - 10, glm::vec2(90, 20));
 
 	//Hi score
 	UIManager::GetInstance().AddTextElement(&m_Hi_Score, m_FontSize, glm::vec2(210, 10), SDL_Color(255, 0, 0));
-	UIManager::GetInstance().AddTextElement(&m_highScoreString, m_FontSize - 10, glm::vec2(250, 20));
+	UIManager::GetInstance().AddTextElement(&m_HighScoreString, m_FontSize - 10, glm::vec2(250, 20));
 
 	//pepper
-	UIManager::GetInstance().AddImageElement(&m_pepperImage, glm::vec2(32, 32), glm::vec2(365, 15));
-	UIManager::GetInstance().AddTextElement(&m_pepperString, m_FontSize - 10, glm::vec2(395, 20));
+	UIManager::GetInstance().AddImageElement(&m_PepperImage, glm::vec2(32, 32), glm::vec2(365, 15));
+	UIManager::GetInstance().AddTextElement(&m_PepperString, m_FontSize - 10, glm::vec2(395, 20));
 
 	//Health
-	UIManager::GetInstance().AddImageElement(&m_healthImage, glm::vec2(32, 32), glm::vec2(425, 12));
-	UIManager::GetInstance().AddTextElement(&m_healthString, m_FontSize - 10, glm::vec2(455, 20));
+	UIManager::GetInstance().AddImageElement(&m_HealthImage, glm::vec2(32, 32), glm::vec2(425, 12));
+	UIManager::GetInstance().AddTextElement(&m_HealthString, m_FontSize - 10, glm::vec2(455, 20));
 
 	UIManager::GetInstance().UpdateUI();
 }
@@ -97,9 +98,9 @@ void dae::GameManagerCoop::InitialiseData()
 	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szPath)))
 	{
 		PathAppend(szPath, _T("\\.STUDENT_PROJECT_DATA\\"));
-		m_appDataPath = szPath;
+		m_AppDataPath = szPath;
 	}
-	CreateDirectory(m_appDataPath.c_str(), NULL);
+	CreateDirectory(m_AppDataPath.c_str(), NULL);
 
 	//create data folder path
 	m_CoopDataPath = szPath;
@@ -124,7 +125,7 @@ void dae::GameManagerCoop::InitialiseData()
 		while (std::getline(in, score))
 		{
 			m_HighScore = std::stoi(score);
-			m_highScoreString = std::to_string(m_HighScore);
+			m_HighScoreString = std::to_string(m_HighScore);
 		}
 	}
 
@@ -133,9 +134,9 @@ void dae::GameManagerCoop::InitialiseData()
 
 void dae::GameManagerCoop::HandleScore() //The most basic type of saving lol
 {
-	if (m_score > m_HighScore)
+	if (m_Score > m_HighScore)
 	{
-		m_HighScore = m_score;
+		m_HighScore = m_Score;
 	}
 	std::ofstream out{ m_CoopDataPath.c_str() };
 	out << m_HighScore;
@@ -144,11 +145,11 @@ void dae::GameManagerCoop::HandleScore() //The most basic type of saving lol
 
 void dae::GameManagerCoop::OnDie()
 {
-	m_daed = true;
-	m_health--;
-	if (m_health == 0)
+	m_Dead = true;
+	m_Health--;
+	if (m_Health == 0)
 		GameOver();
-	else if (m_health > 0)
+	else if (m_Health > 0)
 		Restart();
 }
 
@@ -161,12 +162,12 @@ void dae::GameManagerCoop::OnWin()
 	SceneManager::GetInstance().SwitchScene("MainMenu.json");
 }
 
-void dae::GameManagerCoop::OnSalt()
+void dae::GameManagerCoop::OnPepper()
 {
-	if (!m_WasPressingPepper && m_pepper > 0)
+	if (!m_WasPressingPepper && m_Pepper > 0)
 	{
-		m_pepper--;
-		m_pepperString = std::to_string(m_pepper);
+		m_Pepper--;
+		m_PepperString = std::to_string(m_Pepper);
 		EventManager::SendEvent("0PEPPER");
 		UIManager::GetInstance().UpdateUI();
 	}
@@ -175,8 +176,8 @@ void dae::GameManagerCoop::OnSalt()
 
 void dae::GameManagerCoop::OnBurgderDone()
 {
-	m_doneBurgers++;
-	if (m_doneBurgers == 16)
+	m_DoneBurgers++;
+	if (m_DoneBurgers == 16)
 	{
 		OnWin();
 	}
@@ -184,7 +185,7 @@ void dae::GameManagerCoop::OnBurgderDone()
 
 void dae::GameManagerCoop::AddScore(int score)
 {
-	m_score += score;
-	m_scoreString = std::to_string(m_score);
+	m_Score += score;
+	m_ScoreString = std::to_string(m_Score);
 	UIManager::GetInstance().UpdateUI();
 }

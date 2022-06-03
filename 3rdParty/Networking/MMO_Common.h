@@ -3,22 +3,24 @@
 
 enum class GameMsg : uint32_t
 {
-	Server_GetStatus,
-	Server_GetPing,
+	Server_GetStatu = 0,
+	Server_GetPing = 1,
+	Server_HeartBeat = 2,
 
-	Client_Accepted,
-	Client_AssignID,
-	Client_RegisterWithServer,
-	Client_UnregisterWithServer,
+	Client_Accepted = 3,
+	Client_AssignID = 4,
+	Client_RegisterWithServer = 5,
+	Client_UnregisterWithServer = 6,
 
-	Game_AddPlayer,
-	Game_RemovePlayer,
-	Game_UpdatePlayer,
+	Game_AddPlayer = 7,
+	Game_RemovePlayer = 8,
+	Game_UpdatePlayer = 9,
 
-	Game_Lose,
-	Game_Start,
-	Game_Stop,
-	Game_Restart,
+	Game_Lose = 10,
+	Game_Start = 11,
+	Game_Restart = 13,
+
+	Game_Pepper = 14,
 };
 
 enum class PlayerState

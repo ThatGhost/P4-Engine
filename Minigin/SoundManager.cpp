@@ -19,7 +19,7 @@ void dae::SoundManager::Init()
 
 void dae::SoundManager::PlaySound(const std::string& nameSound, bool loop, int channel)
 {
-	if (!m_sound.contains(nameSound))
+	if (!m_Sounds.contains(nameSound))
 	{
 		Mix_Chunk* sample;
 		sample = Mix_LoadWAV_RW(SDL_RWFromFile((m_BasePath + nameSound).c_str(), "rb"), 1);
@@ -28,17 +28,17 @@ void dae::SoundManager::PlaySound(const std::string& nameSound, bool loop, int c
 		}
 		else
 		{
-			m_sound.insert(std::pair<std::string, Mix_Chunk*>(nameSound, sample));
+			m_Sounds.insert(std::pair<std::string, Mix_Chunk*>(nameSound, sample));
 		}
 	}
 
 	if (loop)
 	{
-		Mix_PlayChannel(channel,m_sound[nameSound],-1);
+		Mix_PlayChannel(channel,m_Sounds[nameSound],-1);
 	}
 	else
 	{
-		Mix_PlayChannel(channel, m_sound[nameSound], 0);
+		Mix_PlayChannel(channel, m_Sounds[nameSound], 0);
 	}
 }
 
@@ -53,8 +53,8 @@ void dae::SoundManager::PauseSound(bool pause, int channel)
 
 void dae::SoundManager::RemoveSound(const std::string& nameSound)
 {
-	if (m_sound.contains(nameSound))
+	if (m_Sounds.contains(nameSound))
 	{
-		m_sound.erase(nameSound);
+		m_Sounds.erase(nameSound);
 	}
 }

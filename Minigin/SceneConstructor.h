@@ -21,6 +21,7 @@ namespace dae
 		EnemyPlayerComponent,
 		OnlinePlayerController,
 		OnlineEnemyController,
+		ServerBrowserComponent,
 	};
 
 	const std::map<std::string, Components> StringToType{
@@ -35,6 +36,7 @@ namespace dae
 		{"EnemyPlayerComponent", Components::EnemyPlayerComponent},
 		{"OnlinePlayerController", Components::OnlinePlayerController},
 		{"OnlineEnemyController", Components::OnlineEnemyController},
+		{"ServerBrowserComponent", Components::ServerBrowserComponent},
 	};
 
 	class Scene;

@@ -18,8 +18,8 @@ namespace dae
 	private:
 
 		virtual void OnDie() override;
-		virtual void OnSalt()override;
-		void OnSalt2() {};
+		virtual void OnPepper()override;
+		void OnSalt() {};
 		virtual void OnBurgderDone()override;
 
 		virtual void Restart()override;
@@ -40,28 +40,28 @@ namespace dae
 		int m_HighScore = 0;
 		bool m_PressingPepper = false;
 		bool m_WasPressingPepper = false;
-		glm::vec3 m_playerStartpos{};
-		bool m_daed = false;
+		glm::vec3 m_PlayerStartPos{};
+		bool m_Dead = false;
 
-		int m_score = 0;
-		int m_health = m_NormalHealth;
-		int m_pepper = m_NormalPepper;
-		int m_doneBurgers{};
+		int m_Score = 0;
+		int m_Health = m_NormalHealth;
+		int m_Pepper = m_NormalPepper;
+		int m_DoneBurgers{};
 
 		//UI
 		std::string m_1Up{ "1UP" };
 		std::string m_Hi_Score{ "HI" };
 
-		std::string m_pepperString{ "5" };
-		std::string m_healthString{ "3" };
-		std::string m_highScoreString{ "10000" };
-		std::string m_scoreString{ "0" };
+		std::string m_PepperString{ "5" };
+		std::string m_HealthString{ "3" };
+		std::string m_HighScoreString{ "10000" };
+		std::string m_ScoreString{ "0" };
 
-		std::string m_appDataPath{ "" };
+		std::string m_AppDataPath{ "" };
 		std::string m_CoopDataPath{ "" };
 
-		Texture2D* m_pepperImage;
-		Texture2D* m_healthImage;
+		Texture2D* m_PepperImage;
+		Texture2D* m_HealthImage;
 
 		const float m_FontSize{ 32 };
 	};

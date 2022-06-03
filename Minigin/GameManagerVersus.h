@@ -22,12 +22,12 @@ namespace dae
 		void OnWin() override;
 
 		void OnDie() override;
-		void OnSalt() override;
+		void OnPepper() override;
 		void OnBurgderDone() override;
 
 		void AddGameUI();
 
-		GameObject* m_playerController = nullptr;
+		GameObject* m_PlayerController = nullptr;
 
 		const std::string m_BasePath{ "..\\Data\\UI\\" };
 		const int m_NormalHealth = 3;
@@ -35,18 +35,18 @@ namespace dae
 
 		bool m_PressingPepper = false;
 		bool m_WasPressingPepper = false;
-		glm::vec3 m_playerStartpos{};
+		glm::vec3 m_PlayerStartpos{};
 
-		int m_health = m_NormalHealth;
-		int m_pepper = m_NormalPepper;
-		int m_doneBurgers{};
+		int m_Health = m_NormalHealth;
+		int m_Pepper = m_NormalPepper;
+		int m_DoneBurgers{};
 
 		//UI
 		std::string m_pepperString{ "5" };
 		std::string m_healthString{ "5" };
 
-		Texture2D* m_pepperImage;
-		Texture2D* m_healthImage;
+		Texture2D* m_PepperImage;
+		Texture2D* m_HealthImage;
 
 		const float m_FontSize{ 32 };
 	};

@@ -1,3 +1,6 @@
+#if _WIN64
+#define ENVIROMENT64
+
 #pragma once
 #include "Component.h"
 namespace dae
@@ -11,6 +14,7 @@ namespace dae
 
 		virtual void Update(float) override;
 		virtual void OnCollision(Collider*, Collider*) override;
+		virtual void OnCollisionEnter(Collider*, Collider*) override;
 
 		void Init(int player);
 
@@ -22,10 +26,10 @@ namespace dae
 		void Right();
 		void Up();
 		void Down();
-		void Pepper();
+		void OnPepper();
 
 		int m_Player{};
-		RenderComponent* m_renderer{ nullptr };
+		RenderComponent* m_Renderer{ nullptr };
 
 		glm::vec2 m_Movement{};
 
@@ -41,8 +45,13 @@ namespace dae
 		const std::string m_WalkingSound{ "Footstep.wav" };
 
 		bool m_Playing{false};
+		bool m_Good{true};
 
+		const float m_PepperedTime{3};
+		float m_PepperTimer{};
+		bool m_Peppered{false};
 	private:
 	};
 }
 
+#endif

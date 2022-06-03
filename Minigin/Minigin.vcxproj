@@ -265,6 +265,7 @@ xcopy $(SolutionDir)Data $(OutputPath)\..\Data /R /Y/E/H/C</Command>
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneConstructor.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ServerBrowserComponent.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TestComponent.h" />
@@ -353,6 +354,7 @@ xcopy $(SolutionDir)Data $(OutputPath)\..\Data /R /Y/E/H/C</Command>
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneConstructor.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ServerBrowserComponent.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TestComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />

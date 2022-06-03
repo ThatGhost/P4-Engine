@@ -29,7 +29,7 @@ void dae::UIManager::UpdateUI()
 	}
 }
 
-dae::Texture2D* dae::UIElement::MakeTextTexture(SDL_Color color, std::string* text, Font* font)
+dae::Texture2D* dae::TextElement::MakeTextTexture(SDL_Color color, std::string* text, Font* font)
 {
 	const auto surf = TTF_RenderText_Blended(font->GetFont(), text->c_str(), color);
 	if (surf == nullptr)
@@ -46,11 +46,6 @@ dae::Texture2D* dae::UIElement::MakeTextTexture(SDL_Color color, std::string* te
 	return new Texture2D(texture);
 }
 
-//void dae::UIManager::DeleteUI(int index)
-//{
-//	m_UIElements.erase(m_UIElements.begin()+index);
-//}
-
 dae::UIElement* dae::UIManager::AddTextElement(std::string* sptr,float size, const glm::vec2& position, SDL_Color color)
 {
 	m_UIElements.push_back(std::make_unique<TextElement>(sptr,size,position, color));
@@ -63,8 +58,14 @@ dae::UIElement* dae::UIManager::AddImageElement(Texture2D** texture, const glm::
 	return m_UIElements[m_UIElements.size() - 1].get();
 }
 
+dae::UIElement* dae::UIManager::AddContainer(const glm::vec2& position)
+{
+	m_UIElements.push_back(std::make_unique<ContainerElement>(position));
+	return m_UIElements[m_UIElements.size() - 1].get();
+}
+
 dae::TextElement::TextElement(std::string* tptr, float scale, const glm::vec2& pos, SDL_Color color)
-	:m_Textptr{ tptr }, m_Scale{ scale }, m_Position{ pos }, m_Color{ color }
+	:UIElement(pos,true), m_Textptr{tptr}, m_Scale{scale}, m_Color{color}
 {
 	m_Font = ResourceManager::GetInstance().LoadFont("..\\Data\\Gameplay.ttf",(unsigned int)m_Scale);
 }
@@ -101,10 +102,26 @@ void dae::TextElement::Update()
 void dae::ImageElement::Render() const
 {
 	if (m_IsActive)
-		Renderer::GetInstance().RenderTexture(**m_Texture, m_Position.x, m_Position.y, m_dimensions.x, m_dimensions.y);
+		Renderer::GetInstance().RenderTexture(**m_Texture, m_Position.x, m_Position.y, m_Dimensions.x, m_Dimensions.y);
 }
 
 void dae::ImageElement::Update()
 {
 
+}
+
+void dae::ContainerElement::Update()
+{
+	for (auto& a : m_Elements)
+	{
+		a->Update();
+	}
+}
+
+void dae::ContainerElement::Render() const
+{
+	for (auto& m : m_Elements)
+	{
+		m->Render();
+	}
 }

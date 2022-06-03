@@ -1,5 +1,80 @@
-﻿  GameManagerOnline.cpp
-C:\School\P4\P4-Engine\3rdParty\Networking\olcPGEX_Network.h(79,10): fatal error C1083: Cannot open include file: 'asio.hpp': No such file or directory
-  SceneConstructor.cpp
-C:\School\P4\P4-Engine\3rdParty\Networking\olcPGEX_Network.h(79,10): fatal error C1083: Cannot open include file: 'asio.hpp': No such file or directory
-  Generating Code...
+﻿  GameManagerSolo.cpp
+  Minigin.vcxproj -> C:\School\P4\P4-Engine\Win32\Debug\Minigin.exe
+  C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libFLAC-8.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libmodplug-1.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libmpg123-0.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libogg-0.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libopus-0.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libopusfile-0.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libvorbis-0.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libvorbisfile-3.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\SDL2_mixer.dll
+  9 File(s) copied
+  C:\School\P4\P4-Engine\3rdParty\SDL2_ttf\lib\x86\libfreetype-6.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_ttf\lib\x86\SDL2_ttf.dll
+  2 File(s) copied
+  C:\School\P4\P4-Engine\3rdParty\SDL2_image\lib\x86\libjpeg-9.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_image\lib\x86\libpng16-16.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_image\lib\x86\libtiff-5.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_image\lib\x86\libwebp-7.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_image\lib\x86\SDL2_image.dll
+  C:\School\P4\P4-Engine\3rdParty\SDL2_image\lib\x86\zlib1.dll
+  6 File(s) copied
+  C:\School\P4\P4-Engine\3rdParty\SDL2\lib\x86\SDL2.dll
+  1 File(s) copied
+  A subdirectory or file C:\School\P4\P4-Engine\Win32\Debug\\..\Data already exists.
+  C:\School\P4\P4-Engine\Data\Gameplay.ttf
+  C:\School\P4\P4-Engine\Data\Levels\Coop1.json
+  C:\School\P4\P4-Engine\Data\Levels\DontDestroyOnLoad.json
+  C:\School\P4\P4-Engine\Data\Levels\Level1.json
+  C:\School\P4\P4-Engine\Data\Levels\Level2.json
+  C:\School\P4\P4-Engine\Data\Levels\MainMenu.json
+  C:\School\P4\P4-Engine\Data\Levels\Online1.json
+  C:\School\P4\P4-Engine\Data\Levels\ServerBrowser.json
+  C:\School\P4\P4-Engine\Data\Levels\Versus1.json
+  C:\School\P4\P4-Engine\Data\Prefabs\2Stair.json
+  C:\School\P4\P4-Engine\Data\Prefabs\BurgerBot.json
+  C:\School\P4\P4-Engine\Data\Prefabs\BurgerHolder.json
+  C:\School\P4\P4-Engine\Data\Prefabs\BurgerMid.json
+  C:\School\P4\P4-Engine\Data\Prefabs\BurgerTop.json
+  C:\School\P4\P4-Engine\Data\Prefabs\EnemyPlayer.json
+  C:\School\P4\P4-Engine\Data\Prefabs\FullPlatform.json
+  C:\School\P4\P4-Engine\Data\Prefabs\MainMenu.json
+  C:\School\P4\P4-Engine\Data\Prefabs\OnlineEnemy.json
+  C:\School\P4\P4-Engine\Data\Prefabs\OnlinePlayer.json
+  C:\School\P4\P4-Engine\Data\Prefabs\Platform.json
+  C:\School\P4\P4-Engine\Data\Prefabs\PlatformColl.json
+  C:\School\P4\P4-Engine\Data\Prefabs\Player.json
+  C:\School\P4\P4-Engine\Data\Prefabs\Player2.json
+  C:\School\P4\P4-Engine\Data\Prefabs\SpawnPoint.json
+  C:\School\P4\P4-Engine\Data\Prefabs\Stair.json
+  C:\School\P4\P4-Engine\Data\Prefabs\StairColl.json
+  C:\School\P4\P4-Engine\Data\Sound\Footstep.wav
+  C:\School\P4\P4-Engine\Data\Sound\GameOver.wav
+  C:\School\P4\P4-Engine\Data\Sound\Levelup.wav
+  C:\School\P4\P4-Engine\Data\Sound\NextLevel.wav
+  C:\School\P4\P4-Engine\Data\Sound\Shoot.wav
+  C:\School\P4\P4-Engine\Data\Sprites\Bean.png
+  C:\School\P4\P4-Engine\Data\Sprites\BotBun.png
+  C:\School\P4\P4-Engine\Data\Sprites\Burger.png
+  C:\School\P4\P4-Engine\Data\Sprites\BurgerHolder.png
+  C:\School\P4\P4-Engine\Data\Sprites\Cheese.png
+  C:\School\P4\P4-Engine\Data\Sprites\DebugRectangle.png
+  C:\School\P4\P4-Engine\Data\Sprites\Egg.png
+  C:\School\P4\P4-Engine\Data\Sprites\EvilCook.png
+  C:\School\P4\P4-Engine\Data\Sprites\pepper.png
+  C:\School\P4\P4-Engine\Data\Sprites\Pickle.png
+  C:\School\P4\P4-Engine\Data\Sprites\Platform.png
+  C:\School\P4\P4-Engine\Data\Sprites\Player.png
+  C:\School\P4\P4-Engine\Data\Sprites\Salad.png
+  C:\School\P4\P4-Engine\Data\Sprites\Stairs.png
+  C:\School\P4\P4-Engine\Data\Sprites\Tomatos.png
+  C:\School\P4\P4-Engine\Data\Sprites\TopBun.png
+  C:\School\P4\P4-Engine\Data\UI\Arrow.png
+  C:\School\P4\P4-Engine\Data\UI\Health.png
+  C:\School\P4\P4-Engine\Data\UI\Hello.png
+  C:\School\P4\P4-Engine\Data\UI\Hello2.png
+  C:\School\P4\P4-Engine\Data\UI\Logo.png
+  C:\School\P4\P4-Engine\Data\UI\pepper.png
+  C:\School\P4\P4-Engine\Data\UI\WhaitingScreen.png
+  54 File(s) copied

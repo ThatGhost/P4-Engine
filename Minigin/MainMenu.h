@@ -19,7 +19,7 @@ namespace dae
 		void handleInput();
 		void DisableAllArrows();
 
-		const std::string basePath{"..\\Data\\UI\\"};
+		const std::string m_BasePath{"..\\Data\\UI\\"};
 
 		Texture2D* m_Logo;
 		Texture2D* m_Arrow;
@@ -28,7 +28,7 @@ namespace dae
 		std::string m_Online{"ONLINE"};
 		std::string m_Coop{"CO-OP"};
 
-		std::vector<UIElement*> m_arrows{};
+		std::vector<UIElement*> m_Arrows{};
 
 		enum class MenuPosition
 		{
@@ -38,10 +38,10 @@ namespace dae
 			online,
 			end
 		};
-		MenuPosition m_menuposition{ MenuPosition::solo };
-		bool m_wasPressed{false};
-		bool m_isPressing{ false };
-		bool m_isDown{ false };
+		MenuPosition m_MenuPosition{ MenuPosition::solo };
+		bool m_WasPressed{false};
+		bool m_IsPressing{ false };
+		bool m_IsDown{ false };
 
 		//callbacks
 		void OnDown();

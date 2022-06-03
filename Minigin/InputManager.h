@@ -54,12 +54,12 @@ namespace dae
 				m_Commands.insert(std::pair<int, std::string>((int)button, eventName));
 		}
 		bool ProcessInput();
-		void SetKeyboardId(int id) { m_keyboardId = id; }
+		void SetKeyboardId(int id) { m_KeyboardId = id; }
 	private:
 		XINPUT_STATE m_CurrentControllerState{};
 		std::map<int,std::string> m_Commands;
 		const float DEAD_ZONE{ 0.4f };
-		int m_keyboardId{0};
+		int m_KeyboardId{0};
 
 		void ButtonPress(const ControllerButton, int);
 		void KeyPress(const SDL_Keycode, int);

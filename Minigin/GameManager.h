@@ -13,7 +13,7 @@ namespace dae
 
 	protected:
 		virtual void OnDie() {}
-		virtual void OnSalt() {}
+		virtual void OnPepper() {}
 		virtual void OnBurgderDone() {}
 
 		virtual void Restart() {}

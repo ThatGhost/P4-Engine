@@ -76,9 +76,9 @@ void dae::Scene::Start()
 
 void dae::Scene::GetCollisions()
 {
-	for (auto coll : m_colliders)
+	for (auto coll : m_Colliders)
 	{
-		coll->CheckCollisions(&m_colliders);
+		coll->CheckCollisions(&m_Colliders);
 	}
 }
 
