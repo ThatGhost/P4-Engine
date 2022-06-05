@@ -205,7 +205,10 @@
       <Filter>Game\headers\Controllers</Filter>
     </ClInclude>
     <ClInclude Include="ServerBrowserComponent.h">
-      <Filter>Engine</Filter>
+      <Filter>Game\headers\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchComponent.h">
+      <Filter>Game\headers\World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -339,7 +342,10 @@
       <Filter>Game\cpp\Controllers</Filter>
     </ClCompile>
     <ClCompile Include="ServerBrowserComponent.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\cpp\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchComponent.cpp">
+      <Filter>Game\cpp\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -254,6 +254,7 @@ xcopy $(SolutionDir)Data $(OutputPath)\..\Data /R /Y/E/H/C</Command>
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="MatchComponent.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MiniginPCH.h" />
     <ClInclude Include="OnlineEnemyController.h" />
@@ -337,6 +338,7 @@ xcopy $(SolutionDir)Data $(OutputPath)\..\Data /R /Y/E/H/C</Command>
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="MatchComponent.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="MiniginPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

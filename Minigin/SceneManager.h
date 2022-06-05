@@ -22,6 +22,9 @@ namespace dae
 		void SetGameManager(GameManager*);
 		void RemoveGameObject(GameObject* object) {	m_Scenes[m_ActiveScene].get()->RemoveGameObject(object); }
 
+		void DontDestroyOnLoad(GameObject* object) { m_Scenes[0].get()->Add(object); }
+		void DestroyOnLoad(GameObject* object) { object->Destroy(); }
+
 		template<class T> Component* FindComponent() const
 		{
 			for (size_t i = 0; i < m_Scenes.size(); i++)

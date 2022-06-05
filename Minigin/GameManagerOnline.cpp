@@ -59,12 +59,15 @@ void dae::GameManagerOnline::Update(float)
 	m_WasPressingPepper = m_IsPressingPepper;
 	m_IsPressingPepper = false;
 }
+#include "MatchComponent.h"
 void dae::GameManagerOnline::Start()
 {
-	if (!Connect("127.0.0.1", 5522))
+	MatchComponent* pMatch = static_cast<MatchComponent*>( SceneManager::GetInstance().FindComponent<MatchComponent>());
+	if (!Connect(pMatch->getIp(), (uint16_t)pMatch->GetPort()))
 	{
 		std::cout << "Failed to connect to game\n";
 	}
+	SceneManager::GetInstance().DestroyOnLoad(pMatch->GetOwner());
 }
 void dae::GameManagerOnline::AddScore(int score)
 {
@@ -387,6 +390,7 @@ void dae::GameManagerOnline::InitialiseData()
 void dae::GameManagerOnline::AddGameUI()
 {
 	//--UI--
+	UIManager::GetInstance().ClearUI();
 //score
 	UIManager::GetInstance().AddTextElement(&m_1Up, m_FontSize, glm::vec2(20, 10), SDL_Color(0, 255, 0));
 	UIManager::GetInstance().AddTextElement(&m_ScoreString, m_FontSize - 10, glm::vec2(90, 20));
