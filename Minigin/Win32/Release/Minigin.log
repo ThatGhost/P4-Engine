@@ -1,16 +1,46 @@
-﻿  BurgerComponent.cpp
+﻿  MiniginPCH.cpp
+  BurgerComponent.cpp
   Collider.cpp
+  Component.cpp
+  DestroyComponent.cpp
   EnemyComponent.cpp
+  EnemyEntry.cpp
   EnemyPlayerComponent.cpp
   EnemySpawner.cpp
+  EventManager.cpp
+  Font.cpp
+  FpsComponent.cpp
+  GameManager.cpp
+  GameManagerCoop.cpp
+  GameManagerOnline.cpp
+  GameManagerSolo.cpp
+  GameManagerVersus.cpp
   GameObject.cpp
+  InputManager.cpp
+  Main.cpp
+  MainMenu.cpp
+  Compiling...
+  MatchComponent.cpp
+  Minigin.cpp
+  OnlineEnemyController.cpp
+  OnlinePlayerController.cpp
   PlayerController.cpp
+  RenderComponent.cpp
+  Renderer.cpp
+  ResourceManager.cpp
   Scene.cpp
   SceneConstructor.cpp
   SceneManager.cpp
+  ServerBrowserComponent.cpp
+  SoundManager.cpp
+  TestComponent.cpp
+  Texture2D.cpp
+  Transform.cpp
+  UIManager.cpp
   Generating code
-  Previous IPDB not found, fall back to full compilation.
-  All 4736 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  24 of 3570 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    7 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Minigin.vcxproj -> C:\School\P4\P4-Engine\Win32\Release\Minigin.exe
   C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libFLAC-8.dll

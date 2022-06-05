@@ -1,7 +1,6 @@
 #include "MiniginPCH.h"
 #include <algorithm>
 #include "InputManager.h"
-#include "imgui_impl_sdl.h"
 #include "GameObject.h"
 #include "EventManager.h"
 
@@ -50,7 +49,6 @@ bool dae::InputManager::ProcessInput()
 		if (e.type == SDL_KEYDOWN) {
 			KeyPress(e.key.keysym.sym,1);
 		}		
-		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
 	return true;

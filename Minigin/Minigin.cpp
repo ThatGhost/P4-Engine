@@ -68,8 +68,6 @@ void dae::Minigin::LoadGame()
 	SceneConstructor::ConstructScene("MainMenu.json");
 
 	UIManager::GetInstance().UpdateUI();
-	//InputManager::GetInstance().AddPlayer(gm.get());
-	//InputManager::GetInstance().InsertCommand<dae::Comd_TestCommand>(dae::ControllerButton::ButtonX);
 }
 
 void dae::Minigin::Cleanup()
