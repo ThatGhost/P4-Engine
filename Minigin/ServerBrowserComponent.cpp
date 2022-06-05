@@ -2,65 +2,12 @@
 #include "ServerBrowserComponent.h"
 
 #if _WIN64
+#define ENVIROMENT64
 
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "UIManager.h"
 #include <fstream>
-
-dae::ServerBrowserComponent* g_serverBrowser;
-
-dae::ServerBrowserComponent::~ServerBrowserComponent()
-{
-
-}
-
-void dae::ServerBrowserComponent::Start()
-{
-	//Load textures
-	m_ServerBackGround = ResourceManager::GetInstance().LoadTexture(m_BasePath+"ServerBg.png");
-	m_ServerIcon = ResourceManager::GetInstance().LoadTexture(m_BasePath+"ServerIcon.png");
-	m_ServerSelector = ResourceManager::GetInstance().LoadTexture(m_BasePath+"Arrow.png");
-
-	//construct UI
-	UIManager::GetInstance().AddTextElement(&m_ServerText, 32, glm::vec2(m_Margin.x, 10));
-
-	//for (size_t i = 0; i < 3; i++)
-	//{
-	//	ServerDetails d{};
-	//	d.Name = "server" + i;
-
-	//	m_Servers.push_back(d);
-	//	ConstructContainer(d);
-	//}
-
-	UIManager::GetInstance().UpdateUI();
-
-	//playfab
-	g_serverBrowser = this;
-	LoadPlayfab();
-}
-
-void dae::ServerBrowserComponent::ConstructContainer(const ServerDetails& details)
-{
-	ContainerElement* container = static_cast<ContainerElement*>(UIManager::GetInstance().AddContainer(glm::vec2()));
-
-	glm::vec2 pos{};
-	pos.x = m_Margin.x;
-	pos.y = m_TopDistance + (m_BlockSize.y + m_Margin.y) * m_Servers.size();
-
-	m_Selectors.push_back(UIManager::GetInstance().AddImageElement(&m_ServerSelector,glm::vec2(32,32), glm::vec2(m_Margin.x - 32, pos.y + (m_BlockSize.y/2-16))));
-	if (m_Selectors.size() > 1)
-	{
-		m_Selectors[m_Selectors.size() - 1]->SetActive(false);
-	}
-
-	container->AddElement(std::make_shared<ImageElement>(&m_ServerBackGround,m_BlockSize,pos));
-	container->AddElement(std::make_shared<ImageElement>(&m_ServerIcon,m_IconSize, pos + m_IconMargin));
-	//container->AddElement(std::make_shared<TextElement>(&details->Name,(float)25,pos + glm::vec2(80,25),SDL_Color(70,220,70)));
-	container->AddElement(std::make_shared<TextElement>(&m_ServerText,(float)25,pos + glm::vec2(80,25),SDL_Color(70,220,70)));
-	details;
-}
-
 #include "playfab/PlayFabClientApi.h"
 #include "playfab/PlayFabClientDataModels.h"
 #include "playfab/PlayFabSettings.h"
@@ -69,11 +16,12 @@ void dae::ServerBrowserComponent::ConstructContainer(const ServerDetails& detail
 #include "playfab/PlayFabMultiplayerApi.h"
 #include "playfab/PlayFabMultiplayerDataModels.h"
 #include <windows.h>
-
+#include "MatchComponent.h"
 using namespace PlayFab;
 using namespace ClientModels;
 using namespace MultiplayerModels;
 
+dae::ServerBrowserComponent* g_serverBrowser;
 void PlayFabErrorCallBack(const PlayFab::PlayFabError& error, void*)
 {
 	std::cout << "[ERROR]: " << error.ErrorMessage << '\n';
@@ -82,10 +30,72 @@ void OnLoginSuccess(const LoginResult& result, void* customData);
 void GetCurrentGamesCallBack(const CreateMatchmakingTicketResult& result, void*);
 void OnTicketPoll(const GetMatchmakingTicketResult& result, void*);
 void GetMatchCallBack(const GetMatchResult& result, void*);
+void CancelMatchCallBack(const CancelMatchmakingTicketResult& result, void*);
 
+dae::ServerBrowserComponent::~ServerBrowserComponent()
+{
+	if (m_TicketId != "NULL" && m_UngracefullDisconnect)
+	{
+		CancelMatchmakingTicketRequest request;
+		request.QueueName = "Normal";
+		request.TicketId = m_TicketId;
+		PlayFabMultiplayerAPI::CancelMatchmakingTicket(request, CancelMatchCallBack,PlayFabErrorCallBack);
+	}
+}
+void dae::ServerBrowserComponent::Start()
+{
+	//construct UI
+	m_ServerElement1 = UIManager::GetInstance().AddTextElement(&m_ServerText, 32, glm::vec2(m_Margin.x, m_Margin.y));
+	m_ServerElement2 = UIManager::GetInstance().AddTextElement(&m_ServerText2, 32, glm::vec2(m_Margin.x + 50, m_Margin.y + 40));
+
+	m_SearchElement1 = UIManager::GetInstance().AddTextElement(&m_SearchText, 32, glm::vec2(m_Margin.x, m_Margin.y));
+	m_SearchElement2 = UIManager::GetInstance().AddTextElement(&m_SearchText2, 32, glm::vec2(m_Margin.x + 50, m_Margin.y + 40));
+
+	m_SearchElement1->SetActive(false);
+	m_SearchElement2->SetActive(false);
+
+	UIManager::GetInstance().UpdateUI();
+
+	//playfab
+	g_serverBrowser = this;
+	LoadPlayfab();
+}
+void dae::ServerBrowserComponent::SwtichText()
+{
+	m_SearchElement1->SetActive(true);
+	m_SearchElement2->SetActive(true);
+
+	m_ServerElement1->SetActive(false);
+	m_ServerElement2->SetActive(false);
+
+	m_UIDirty = true;
+}
+void dae::ServerBrowserComponent::FoundMatch(const std::string& ip, uint16_t port)
+{
+	m_UngracefullDisconnect = false;
+	m_FoundMatch = true;
+	m_Ipv4 = ip;
+	m_Port = port;
+}
 void dae::ServerBrowserComponent::Update(float deltaTime)
 {
 	PlayFabClientAPI::Update();
+
+	if (m_UIDirty)
+	{
+		UIManager::GetInstance().UpdateUI();
+		m_UIDirty = false;
+	}
+	if (m_FoundMatch)
+	{
+		//construct GO
+		dae::GameObject* serverDetailHolder = new dae::GameObject();
+		dae::SceneManager::GetInstance().DontDestroyOnLoad(serverDetailHolder);
+		dae::MatchComponent* matchc = static_cast<dae::MatchComponent*>(serverDetailHolder->AddComponent<dae::MatchComponent>());
+		matchc->Init(m_Ipv4, m_Port);
+		dae::SceneManager::GetInstance().SwitchScene("Online1.json");
+		m_FoundMatch = false;
+	}
 
 	if (m_Poll)
 	{
@@ -118,6 +128,12 @@ void dae::ServerBrowserComponent::LoadPlayfab()
 	//request.CustomId = std::to_string(10000);
 
 	PlayFabClientAPI::LoginWithCustomID(request, OnLoginSuccess, PlayFabErrorCallBack);
+}
+
+void dae::ServerBrowserComponent::GoBack()
+{
+	UIManager::GetInstance().ClearUI();
+	SceneManager::GetInstance().SwitchScene("MainMenu.json");
 }
 
 void OnLoginSuccess(const LoginResult& result, void*)
@@ -158,7 +174,6 @@ void GetCurrentGamesCallBack(const CreateMatchmakingTicketResult& result, void*)
 }
 void OnTicketPoll(const GetMatchmakingTicketResult& result, void*)
 {
-	g_serverBrowser->ChangeServerText(result.Status);
 	if (result.Status == "Matched")
 	{
 		//match
@@ -170,9 +185,13 @@ void OnTicketPoll(const GetMatchmakingTicketResult& result, void*)
 
 		PlayFabMultiplayerAPI::GetMatch(request,GetMatchCallBack,PlayFabErrorCallBack);
 	}
+	else
+	{
+		std::cout << result.Status << '\n';
+		g_serverBrowser->SwtichText();
+	}
 }
 
-#include "MatchComponent.h"
 void GetMatchCallBack(const GetMatchResult& result, void*)
 {
 	//get match details
@@ -184,15 +203,8 @@ void GetMatchCallBack(const GetMatchResult& result, void*)
 		port = (uint16_t)ports.Num;
 	}
 
-
-	//construct GO
-	dae::GameObject* serverDetailHolder = new dae::GameObject();
-	dae::SceneManager::GetInstance().DontDestroyOnLoad(serverDetailHolder);
-	dae::MatchComponent* matchc = static_cast<dae::MatchComponent*>( serverDetailHolder->AddComponent<dae::MatchComponent>());
-	matchc->Init(details.IPV4Address,port);
-
 	//switch scene
-	dae::SceneManager::GetInstance().SwitchScene("Online1.json");
+	g_serverBrowser->FoundMatch(details.IPV4Address,port);
 }
-
+void CancelMatchCallBack(const CancelMatchmakingTicketResult&, void*) {}
 #endif

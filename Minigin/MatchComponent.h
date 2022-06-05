@@ -12,7 +12,7 @@ namespace dae
 		
 		}
 
-		~MatchComponent() override {};
+		~MatchComponent() override { std::cout << "Destroyed MatchComp\n"; };
 
 		void Init(const std::string& ip, uint16_t port) { m_Ipv4 = ip; m_Port = port; }
 		std::string getIp() const { return m_Ipv4; }

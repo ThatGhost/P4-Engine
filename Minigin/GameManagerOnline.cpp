@@ -63,11 +63,22 @@ void dae::GameManagerOnline::Update(float)
 void dae::GameManagerOnline::Start()
 {
 	MatchComponent* pMatch = static_cast<MatchComponent*>( SceneManager::GetInstance().FindComponent<MatchComponent>());
+
+	if (pMatch == nullptr)
+	{
+		std::cout << "NULLPTR\n";
+		return;
+	}
+	else
+	{
+		std::cout << "NOT NULLPTR\n";
+	}
+
 	if (!Connect(pMatch->getIp(), (uint16_t)pMatch->GetPort()))
 	{
 		std::cout << "Failed to connect to game\n";
 	}
-	SceneManager::GetInstance().DestroyOnLoad(pMatch->GetOwner());
+	pMatch->GetOwner()->Destroy();
 }
 void dae::GameManagerOnline::AddScore(int score)
 {

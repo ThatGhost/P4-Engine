@@ -8,7 +8,9 @@
 
 dae::Collider::Collider(dae::GameObject* gameobject) : Component(gameobject)
 {
+#if defined _DEBUG
 	EventManager::AddEvent("0BUTTON_START", std::bind(&dae::Collider::EnableDebug, this));
+#endif
 }
 
 dae::Collider::~Collider()
@@ -72,6 +74,7 @@ glm::vec2 dae::Collider::GetPosition()
 	m_RealPos = m_Position + owner->GetPosition().GetPosition();
 	return m_RealPos;
 }
+#if defined _DEBUG
 
 void dae::Collider::Update(float)
 {
@@ -96,3 +99,4 @@ void dae::Collider::EnableDebug()
 		if(m_Image != nullptr) m_DebugEnabled = !m_DebugEnabled;
 	}
 }
+#endif

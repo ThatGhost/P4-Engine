@@ -1,4 +1,52 @@
-﻿  GameManagerSolo.cpp
+﻿  MiniginPCH.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_opengl2.cpp
+  imgui_impl_sdl.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  Generating Code...
+  BurgerComponent.cpp
+  Collider.cpp
+  Component.cpp
+  DestroyComponent.cpp
+  EnemyComponent.cpp
+  EnemyEntry.cpp
+  EnemyPlayerComponent.cpp
+  EnemySpawner.cpp
+  EventManager.cpp
+  Font.cpp
+  FpsComponent.cpp
+  GameManager.cpp
+  GameManagerCoop.cpp
+  GameManagerOnline.cpp
+  GameManagerSolo.cpp
+  GameManagerVersus.cpp
+  GameObject.cpp
+  InputManager.cpp
+  Main.cpp
+  MainMenu.cpp
+  Generating Code...
+  Compiling...
+  MatchComponent.cpp
+  Minigin.cpp
+  OnlineEnemyController.cpp
+  OnlinePlayerController.cpp
+  PlayerController.cpp
+  RenderComponent.cpp
+  Renderer.cpp
+  ResourceManager.cpp
+  Scene.cpp
+  SceneConstructor.cpp
+  SceneManager.cpp
+  ServerBrowserComponent.cpp
+  SoundManager.cpp
+  TestComponent.cpp
+  Texture2D.cpp
+  Transform.cpp
+  UIManager.cpp
+  Generating Code...
   Minigin.vcxproj -> C:\School\P4\P4-Engine\Win32\Debug\Minigin.exe
   C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libFLAC-8.dll
   C:\School\P4\P4-Engine\3rdParty\SDL2_mixer-2.0.4\lib\x86\libmodplug-1.dll
@@ -76,5 +124,7 @@
   C:\School\P4\P4-Engine\Data\UI\Hello2.png
   C:\School\P4\P4-Engine\Data\UI\Logo.png
   C:\School\P4\P4-Engine\Data\UI\pepper.png
+  C:\School\P4\P4-Engine\Data\UI\ServerBg.png
+  C:\School\P4\P4-Engine\Data\UI\ServerIcon.png
   C:\School\P4\P4-Engine\Data\UI\WhaitingScreen.png
-  54 File(s) copied
+  56 File(s) copied

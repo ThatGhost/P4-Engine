@@ -6,16 +6,16 @@
 namespace dae
 {
 	class Texture2D;
-	class Collider :
-		public Component
+	class Collider : public Component
 	{
 	public:
 
 		Collider(dae::GameObject* gameobject);
 		~Collider() override;
-
+#if defined _DEBUG
 		virtual void Render() const override;
 		virtual void Update(float) override;
+#endif
 		void CheckCollisions(std::vector<Collider*>* colliders);
 
 		void SetDimensions(const glm::vec2& dimension) { m_Dimensions = dimension; }

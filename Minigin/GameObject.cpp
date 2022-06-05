@@ -20,7 +20,8 @@ void dae::GameObject::Update(float deltaTime)
 {
 	for (size_t i = 0; i < m_Components.size(); i++)
 	{
-		m_Components[i].get()->Update(deltaTime);
+		if(m_Components[i].get() != nullptr)
+			m_Components[i].get()->Update(deltaTime);
 	}
 	bool deleted{false};
 	for (auto child : m_Children)

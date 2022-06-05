@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "UIManager.h"
+#include "EventManager.h"
 
 #if _WIN64
 #define ENVIROMENT64
@@ -14,39 +14,48 @@ namespace dae
 	class ServerBrowserComponent : public Component
 	{
 	public:
-		ServerBrowserComponent(GameObject* owner) : Component(owner) {};
+		ServerBrowserComponent(GameObject* owner) : Component(owner) {
+			EventManager::AddEvent("0BUTTON_B", std::bind(&ServerBrowserComponent::GoBack, this));
+		};
 		~ServerBrowserComponent() override;
-		void ConstructContainer(const ServerDetails&);
 		void StartPolling(const std::string& ticketId) { m_TicketId = ticketId; m_Poll = true; }
 		void StopPolling() { m_Poll = false; }
-		void ChangeServerText(const std::string& text) { m_ServerText = text; UIManager::GetInstance().UpdateUI(); }
+		void SwtichText();
+		void FoundMatch(const std::string& ip, uint16_t port);
 
 		void Update(float) override;
 		void Start() override;
 	private:
-		std::vector<ContainerElement*> m_Containers{};
-		std::vector<UIElement*> m_Selectors{};
-		std::vector<ServerDetails> m_Servers;
+		const glm::vec2 m_Margin{80,100};
 
-		Texture2D* m_ServerBackGround{nullptr};
-		Texture2D* m_ServerIcon{nullptr};
-		Texture2D* m_ServerSelector{nullptr};
+		std::string m_ServerText{"Connecting To"};
+		std::string m_ServerText2{"PlayFab"};
 
-		const float m_TopDistance{70};
-		const glm::vec2 m_Margin{60,20};
-		const glm::vec2 m_BlockSize{400,70};
-		const glm::vec2 m_IconSize{50,50};
-		const glm::vec2 m_IconMargin{10,10};
+		UIElement* m_ServerElement1 = nullptr;
+		UIElement* m_ServerElement2 = nullptr;
 
-		const std::string m_BasePath{"..\\Data\\UI\\"};
-		std::string m_ServerText{"Server Browser"};
+		std::string m_SearchText{"Searching for"};
+		std::string m_SearchText2{"Match"};
+
+		UIElement* m_SearchElement1 = nullptr;
+		UIElement* m_SearchElement2 = nullptr;
+
+		bool m_UIDirty = false;
+		bool m_UngracefullDisconnect = true;
+		bool m_FoundMatch = false;
 
 		//PLAYFAB
 		void LoadPlayfab();
-		std::string m_TicketId;
+		std::string m_TicketId = "NULL";
 		bool m_Poll{false};
 		float m_PollTimer = 0;
 		const float m_PollTime = 6;
+
+		//Match
+		std::string m_Ipv4{"NULL"};
+		uint16_t m_Port;
+
+		void GoBack();
 	};
 
 	struct ServerDetails

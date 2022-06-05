@@ -78,7 +78,7 @@ namespace dae
 		void AddElement(std::shared_ptr<UIElement> element) { m_Elements.push_back(element); };
 		std::shared_ptr<UIElement> operator[](int i) noexcept
 		{
-			if (m_Elements.size() > i)
+			if ((int)m_Elements.size() > i)
 				return m_Elements[i];
 			else
 				return nullptr;

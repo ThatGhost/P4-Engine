@@ -8,10 +8,11 @@ namespace dae
 	class GameManager : public Component
 	{
 	public:
-		GameManager(GameObject* owner) : Component(owner) {}
+		GameManager(GameObject* owner);
 		virtual void AddScore(int) {}
 
 	protected:
+		void GoBack();
 		virtual void OnDie() {}
 		virtual void OnPepper() {}
 		virtual void OnBurgderDone() {}
